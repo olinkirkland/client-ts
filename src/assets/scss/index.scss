@@ -26,6 +26,12 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  border: 1px solid transparent;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 body {
@@ -47,20 +53,18 @@ button {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px 0px;
   transition: all 0.3s;
   color: var(--primary);
-  border: none;
   position: relative;
-  bottom: 0;
 
   display: flex;
   align-items: center;
   gap: 0.4rem;
 
   &:hover {
-    bottom: 0.2rem;
+    border: 1px solid var(--primary-muted);
   }
 
   &:active {
-    bottom: 0;
+    border: 1px solid var(--primary-muted);
     color: var(--primary-muted);
   }
 }
@@ -88,9 +92,16 @@ input[type='text'] {
     font-style: italic;
   }
 
-  &:focus {
-    outline: none;
+  &:hover {
     border: 1px solid var(--primary-muted);
+  }
+
+  &:focus {
+    border: 1px solid var(--primary-muted);
+  }
+
+  &:focus::placeholder {
+    color: transparent;
   }
 }
 

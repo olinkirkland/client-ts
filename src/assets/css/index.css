@@ -18,7 +18,10 @@ html {
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  border: 1px solid transparent; }
+  *:focus {
+    outline: none; }
 
 body {
   font-family: 'Outfit', sans-serif;
@@ -38,16 +41,14 @@ button {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px 0px;
   transition: all 0.3s;
   color: var(--primary);
-  border: none;
   position: relative;
-  bottom: 0;
   display: flex;
   align-items: center;
   gap: 0.4rem; }
   button:hover {
-    bottom: 0.2rem; }
+    border: 1px solid var(--primary-muted); }
   button:active {
-    bottom: 0;
+    border: 1px solid var(--primary-muted);
     color: var(--primary-muted); }
 
 pre {
@@ -69,9 +70,12 @@ input[type='text'] {
   input[type='text']::placeholder {
     color: var(--text-muted);
     font-style: italic; }
-  input[type='text']:focus {
-    outline: none;
+  input[type='text']:hover {
     border: 1px solid var(--primary-muted); }
+  input[type='text']:focus {
+    border: 1px solid var(--primary-muted); }
+  input[type='text']:focus::placeholder {
+    color: transparent; }
 
 .checkbox {
   cursor: pointer;

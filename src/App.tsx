@@ -11,9 +11,6 @@ export default function App() {
     initialized.current = true;
 
     Terminal.log('Initialized App');
-    for (let i = 0; i < 10; i++) {
-      Terminal.log(`Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias odit ipsa assumenda illum quod quae atque ut architecto nisi vero. ${i}`);
-    }
   }, []);
 
   return (

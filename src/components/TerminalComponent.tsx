@@ -29,6 +29,15 @@ export default function TerminalComponent() {
     terminalList.scrollTo(0, terminalList.scrollHeight);
   }
 
+  function applyCommand() {
+    const input: HTMLInputElement = document.querySelector('.terminal-input')!;
+    const cmd = input.value;
+    input.focus();
+    if (!cmd || cmd.length === 0) return;
+    input.value = '';
+    Terminal.command(cmd);
+  }
+
   return (
     <div className="v-group">
       <ul className="terminal-list">
@@ -39,8 +48,15 @@ export default function TerminalComponent() {
         ))}
       </ul>
       <div className="h-group center">
-        <input type="text" placeholder='Enter a command'/>
-        <button>
+        <input
+          className="terminal-input"
+          type="text"
+          placeholder="Enter a command"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') applyCommand();
+          }}
+        />
+        <button onClick={applyCommand}>
           <span>Send</span>
           <i className="fas fa-paper-plane"></i>
         </button>

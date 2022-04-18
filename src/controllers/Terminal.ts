@@ -1,7 +1,8 @@
 import EventEmitter from 'events';
 
 export enum TerminalEventType {
-  LOG = 'log'
+  LOG = 'log',
+  COMMAND = 'command'
 }
 
 export default class Terminal extends EventEmitter {
@@ -21,6 +22,11 @@ export default class Terminal extends EventEmitter {
     const log = new TerminalLog(...args);
     Terminal.logs.push(log);
     Terminal.instance.emit(TerminalEventType.LOG, log);
+  }
+
+  public static command(cmd: string): void {
+    Terminal.instance.emit(TerminalEventType.COMMAND, cmd);
+    Terminal.log(cmd);
   }
 }
 
