@@ -13,8 +13,7 @@ export default function TerminalComponent() {
     if (initialized.current) return;
 
     // Initialize terminal
-    const terminal = Terminal.instance;
-    terminal.on(TerminalEventType.LOG, (log) => {
+    Terminal.instance.on(TerminalEventType.LOG, (log) => {
       setLogs([...Terminal.logs]);
     });
   }, []);
@@ -59,6 +58,10 @@ export default function TerminalComponent() {
         <button onClick={applyCommand}>
           <span>Send</span>
           <i className="fas fa-paper-plane"></i>
+        </button>
+        <button onClick={Terminal.clear}>
+          <span>Clear</span>
+          <i className="fas fa-eraser"></i>
         </button>
       </div>
     </div>

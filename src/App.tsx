@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Terminal from './controllers/Terminal';
 import TerminalComponent from './components/TerminalComponent';
+import Multiplayer from './multiplayer/Multiplayer';
 
 export default function App() {
   let initialized = useRef(false);
@@ -11,6 +12,9 @@ export default function App() {
     initialized.current = true;
 
     Terminal.log('Initialized App');
+    console.log('Initialized App');
+
+    const multiplayer = new Multiplayer();
   }, []);
 
   return (

@@ -25,12 +25,21 @@ export default class Terminal extends EventEmitter {
   }
 
   public static command(cmd: string): void {
-    Terminal.instance.emit(TerminalEventType.COMMAND, cmd);
+    if (cmd === 'clear') {
+      Terminal.clear();
+      return;
+    }
 
     const log = new TerminalLog(cmd);
     log.cmd = true;
     Terminal.logs.push(log);
     Terminal.instance.emit(TerminalEventType.LOG, log);
+    Terminal.instance.emit(TerminalEventType.COMMAND, cmd);
+  }
+
+  public static clear() {
+    Terminal.logs = [];
+    Terminal.instance.emit(TerminalEventType.LOG);
   }
 }
 
