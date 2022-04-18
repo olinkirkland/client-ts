@@ -7,7 +7,17 @@ export default class Multiplayer {
   constructor() {
     this.socket = io();
 
-    Terminal.instance.on(TerminalEventType.COMMAND, (cmd) => {});
+    Terminal.instance.on(TerminalEventType.COMMAND, (cmd) => {
+      const arr = cmd.split(' ');
+      switch (arr[0]) {
+        case 'connect':
+          this.connect();
+          break;
+        case 'disconnect':
+          this.disconnect();
+          break;
+      }
+    });
   }
 
   // Connect to socket.io server

@@ -43,7 +43,7 @@ export default function TerminalComponent() {
       <ul className="terminal-list">
         {logs.map((log: TerminalLog, index: number) => (
           <li key={index}>
-            <pre>{log.message}</pre>
+            <pre className={`${log.cmd ? 'log-cmd' : ''}`}>{log.message}</pre>
           </li>
         ))}
       </ul>

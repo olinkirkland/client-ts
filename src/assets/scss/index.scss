@@ -171,5 +171,10 @@ li {
     border-left: 5px solid var(--primary-muted);
     display: inline-block;
     padding: 0 1rem;
+
+    .log-cmd {
+      font-style: italic;
+      color: var(--primary);
+    }
   }
 }
