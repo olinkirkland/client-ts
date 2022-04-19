@@ -11,15 +11,22 @@ export default function App() {
     if (initialized.current) document.location.reload();
     initialized.current = true;
 
-    Terminal.log('Initialized App');
-    console.log('Initialized App');
+    new Multiplayer();
 
-    const multiplayer = new Multiplayer();
+    Terminal.log('Initialized App');
   }, []);
 
   return (
-    <>
+    <div className="v-group">
       <TerminalComponent />
-    </>
+      <div className="panel v-group">
+        <h2 className="text-center">Quick Actions</h2>
+        <div className="h-group center">
+          <button>Connect</button>
+          <button>Disconnect</button>
+          <button>Status</button>
+        </div>
+      </div>
+    </div>
   );
 }

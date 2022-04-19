@@ -1,6 +1,6 @@
 {
-  "short_name": "Multiplayaer",
-  "name": "Multiplayer Engine",
+  "short_name": "multi",
+  "name": "multiplayer-name",
   "icons": [
     {
       "src": "favicon.ico",

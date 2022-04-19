@@ -1,33 +1,44 @@
 import { io, Socket } from 'socket.io-client';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
+const url: string = 'http://localhost:5000';
+
 export default class Multiplayer {
-  socket: Socket;
+  socket: Socket | undefined;
 
   constructor() {
-    this.socket = io('localhost:5000');
+    // const url: string = 'https://multiplayer-server-ts.herokuapp.com/';
 
-    this.addSocketListeners();
+    // fetch(url)
+    //   .then((response) => response.text().then((text) => console.log(text)))
+    //   .catch((error) => console.log(error));
+
     this.addTerminalListeners();
   }
 
   // Print status (connected or disconnected)
   private printStatus() {
-    this.socket.connected
+    this.socket && this.socket.connected
       ? Terminal.log('Connected to server')
       : Terminal.log('Not connected to server');
   }
 
   // Connect to socket.io server
   public connect() {
-    Terminal.log('Connecting to server...');
-    this.socket.connect();
+    if (this.socket) return Terminal.log('Already connected');
+    Terminal.log(`Connecting to ${url}...`);
+    this.socket = io(url, { query: { token: 'abc' } });
+    this.addSocketListeners();
   }
 
   // Disconnect from socket.io server
   public disconnect() {
-    Terminal.log('Disconnecting from server...');
-    this.socket.disconnect();
+    if (!this.socket || !this.socket.connected) {
+      Terminal.log('Not connected to server');
+      return;
+    }
+
+    this.socket?.disconnect();
   }
 
   // Join a room
@@ -42,13 +53,23 @@ export default class Multiplayer {
 
   // Socket listeners
   private addSocketListeners() {
-    this.socket.on('connect', () => {
-      Terminal.log('Connected to server');
+    this.socket?.on('connect', () => {
+      Terminal.log(`Connected to ${url}`);
     });
 
-    this.socket.on('disconnect', () => {
-      Terminal.log('Disconnected from server');
+    this.socket?.on('user-intro', (data) => {
+      Terminal.log('user-intro', data);
     });
+
+    this.socket?.on('disconnect', () => {
+      Terminal.log('Disconnected');
+      this.removeSocketListeners();
+      this.socket = undefined;
+    });
+  }
+
+  private removeSocketListeners() {
+    this.socket?.removeAllListeners();
   }
 
   // Terminal listeners trigger Multiplayer functions

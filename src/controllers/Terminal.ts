@@ -44,12 +44,12 @@ export default class Terminal extends EventEmitter {
 }
 
 export class TerminalLog {
-  public message: any[];
+  public message: string;
   public time: Date;
   public cmd: boolean = false;
 
   constructor(...args: any[]) {
-    this.message = args;
+    this.message = args.join(' ');
     this.time = new Date();
   }
 }
