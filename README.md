@@ -1,4 +1,2 @@
-# ReactJS Personal Portfolio
-
-Personal website of Olin Kirkland.
-Reachable at https://olinkirk.land
+# client-ts
+client-side code for multiplayer engine
