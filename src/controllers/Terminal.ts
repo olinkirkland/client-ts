@@ -49,7 +49,13 @@ export class TerminalLog {
   public cmd: boolean = false;
 
   constructor(...args: any[]) {
-    this.message = args.join(' ');
+    this.message = args
+      .map((u) =>
+        typeof u === 'string' || typeof u === 'number' || typeof u === 'boolean'
+          ? u
+          : JSON.stringify(u)
+      )
+      .join(' ');
     this.time = new Date();
   }
 }
