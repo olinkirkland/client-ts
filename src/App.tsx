@@ -22,9 +22,9 @@ export default function App() {
       <div className="panel v-group">
         <h2 className="text-center">Quick Actions</h2>
         <div className="h-group center">
-          <button>Connect</button>
-          <button>Disconnect</button>
-          <button>Status</button>
+          <button onClick={() => {Terminal.command('connect');}}>Connect</button>
+          <button onClick={() => {Terminal.command('disconnect');}}>Disconnect</button>
+          <button onClick={() => {Terminal.command('status');}}>Status</button>
         </div>
       </div>
     </div>
