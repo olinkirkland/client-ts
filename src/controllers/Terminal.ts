@@ -2,7 +2,9 @@ import EventEmitter from 'events';
 
 export enum TerminalEventType {
   LOG = 'log',
-  COMMAND = 'command'
+  COMMAND = 'command',
+  SHOW = 'show',
+  HIDE = 'hide'
 }
 
 export default class Terminal extends EventEmitter {
@@ -16,6 +18,14 @@ export default class Terminal extends EventEmitter {
 
   public static get instance() {
     return this._instance || (this._instance = new this());
+  }
+
+  public static show() {
+    Terminal.instance.emit(TerminalEventType.SHOW);
+  }
+
+  public static hide() {
+    Terminal.instance.emit(TerminalEventType.HIDE);
   }
 
   public static log(...args: any[]): void {

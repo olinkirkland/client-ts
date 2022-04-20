@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import Platform from './components/platform/Platform';
 import TerminalComponent from './components/TerminalComponent';
-import Terminal from './controllers/Terminal';
+import Terminal, { TerminalEventType } from './controllers/Terminal';
 import Multiplayer from './multiplayer/Multiplayer';
 
 export default function App() {
   let initialized = useRef(false);
   const [status, setStatus] = useState({ connected: false, id: '' });
+  const [overlay, setOverlay] = useState(false);
 
   useEffect(() => {
     // Reload if already initialized
@@ -15,39 +17,17 @@ export default function App() {
     const multiplayer = new Multiplayer();
     multiplayer.setStatus = setStatus;
 
+    Terminal.instance.on(TerminalEventType.SHOW, () => setOverlay(true));
+    Terminal.instance.on(TerminalEventType.HIDE, () => setOverlay(false));
+
     Terminal.log('Initialized App');
   }, []);
 
   return (
-    <div className="v-group">
-      <TerminalComponent />
-      <div className="panel v-group">
-        <h2 className="text-center">Quick Actions</h2>
-        {/* <div className="h-group center">
-          <Checkbox
-            text="Chat mode"
-            value={true}
-            checked={(b: boolean) => {
-              console.log(b);
-            }}
-          />
-        </div> */}
-        <div className="h-group center">
-          <button
-            onClick={() => {
-              Terminal.command('connect');
-            }}
-          >
-            Connect
-          </button>
-          <button
-            onClick={() => {
-              Terminal.command('disconnect');
-            }}
-          >
-            Disconnect
-          </button>
-        </div>
+    <div className="app">
+      <Platform />
+      <div className={overlay ? 'overlay' : 'overlay hidden'}>
+        <TerminalComponent />
       </div>
     </div>
   );

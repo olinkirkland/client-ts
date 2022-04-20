@@ -20,10 +20,10 @@ export default function TerminalComponent() {
 
   useEffect(() => {
     if (initialized.current) return;
-    scrollToBottomTerminalList();
+    scrollToBottom();
   }, [logs]);
 
-  function scrollToBottomTerminalList() {
+  function scrollToBottom() {
     const terminalList = document.querySelector('.terminal-list')!;
     terminalList.scrollTo(0, terminalList.scrollHeight);
   }
@@ -62,6 +62,10 @@ export default function TerminalComponent() {
         <button onClick={Terminal.clear}>
           <span>Clear</span>
           <i className="fas fa-eraser"></i>
+        </button>
+        <button onClick={() => Terminal.hide()}>
+          <span>Hide</span>
+          <i className="fas fa-eye-slash"></i>
         </button>
       </div>
     </div>
