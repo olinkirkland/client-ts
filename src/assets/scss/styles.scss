@@ -40,6 +40,7 @@
 
 nav {
   display: flex;
+  align-items: center;
   padding: 1.6rem;
   background-color: var(--dark);
 
@@ -66,12 +67,25 @@ nav {
     }
 
     // Vertical divider dashed line
-    &:not(:last-child):after {
+    &:not(:last-of-type):after {
       content: '';
       display: block;
       height: 100%;
       margin: 0 1rem;
       border-left: 1px dashed var(--text-muted);
+    }
+  }
+
+  .nav-user-card {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    img {
+      width: 4rem;
+      transform: rotateZ(5deg);
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px;
+      background-color: white;
     }
   }
 }

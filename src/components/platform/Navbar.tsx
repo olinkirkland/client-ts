@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Terminal from '../../controllers/Terminal';
+import NavUserCard from './NavUserCard';
 export default function Navbar() {
   useEffect(() => {
     Terminal.log('Initialized Navbar');
@@ -23,6 +24,7 @@ export default function Navbar() {
       >
         <span>Terminal</span>
       </button>
+      <NavUserCard />
     </nav>
   );
 }

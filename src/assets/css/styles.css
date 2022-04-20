@@ -27,6 +27,7 @@
 
 nav {
   display: flex;
+  align-items: center;
   padding: 1.6rem;
   background-color: var(--dark); }
   nav .logo {
@@ -44,12 +45,22 @@ nav {
     nav button:hover {
       opacity: 1;
       box-shadow: none; }
-    nav button:not(:last-child):after {
+    nav button:not(:last-of-type):after {
       content: '';
       display: block;
       height: 100%;
       margin: 0 1rem;
       border-left: 1px dashed var(--text-muted); }
+  nav .nav-user-card {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem; }
+    nav .nav-user-card img {
+      width: 4rem;
+      transform: rotateZ(5deg);
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px;
+      background-color: white; }
 
 .home {
   height: 100%; }
