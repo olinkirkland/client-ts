@@ -8,16 +8,20 @@ export default function Navbar() {
   return (
     <nav>
       <h1 className="logo">Don't Fall!</h1>
-      <button>Play</button>
-      <button>Host</button>
-      <button>Join</button>
-      <button>Customize</button>
+      <button>
+        <i className="fas fa-gamepad" />
+        <span>Play</span>
+      </button>
+      <button>
+        <i className="fas fa-paint-brush" />
+        <span>Customize</span>
+      </button>
       <button
         onClick={() => {
           Terminal.show();
         }}
       >
-        Terminal
+        <span>Terminal</span>
       </button>
     </nav>
   );

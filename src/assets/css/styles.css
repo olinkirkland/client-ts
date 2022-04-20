@@ -27,16 +27,16 @@
 
 nav {
   display: flex;
-  gap: 2.4rem;
   padding: 1.6rem;
   background-color: var(--dark); }
+  nav .logo {
+    margin-right: 2.4rem; }
   nav button {
     background: none;
     box-shadow: none;
     border-radius: 0;
     color: var(--text);
     padding: 0;
-    padding-left: 2rem;
     font-size: 1.2rem;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -44,11 +44,12 @@ nav {
     nav button:hover {
       opacity: 1;
       box-shadow: none; }
-    nav button:after:not(:last-child) {
+    nav button:not(:last-child):after {
       content: '';
       display: block;
       height: 100%;
-      border: 1px dashed var(--text-muted); }
+      margin: 0 1rem;
+      border-left: 1px dashed var(--text-muted); }
 
 .home {
   height: 100%; }
