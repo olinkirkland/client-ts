@@ -7,6 +7,9 @@ const url: string = 'http://84.166.31.174:5000/';
 export default class Multiplayer {
   socket: Socket | undefined;
 
+  // Callbacks
+  setStatus?: Function;
+
   constructor() {
     // const url: string = 'https://multiplayer-server-ts.herokuapp.com/';
 
@@ -17,18 +20,11 @@ export default class Multiplayer {
     this.addTerminalListeners();
   }
 
-  // Print status (connected or disconnected)
-  private printStatus() {
-    this.socket && this.socket.connected
-      ? Terminal.log(`Connected to ${url}`)
-      : Terminal.log('Not connected to a server');
-  }
-
   // Connect to socket.io server
   public connect() {
     if (this.socket) return Terminal.log('Cannot connect; Already connected');
     Terminal.log(`Connecting to ${url}...`);
-    this.socket = io(url, { query: { token: 'abc' } });
+    this.socket = io(url, { query: { token: 'anon' } });
     this.addSocketListeners();
   }
 
@@ -59,10 +55,10 @@ export default class Multiplayer {
   // Socket listeners
   private addSocketListeners() {
     this.socket?.on('connect', () => {
-      Terminal.log(`Connected to ${url}`);
+      Terminal.log(`Connected to ${url} as ${this.socket?.id}`);
     });
 
-    this.socket?.on('user-intro', (data) => {
+    this.socket?.on('me', (data) => {
       Terminal.log('user-intro', data);
     });
 
@@ -72,6 +68,10 @@ export default class Multiplayer {
 
     this.socket?.on('force-reload', (data) => {
       document.location.reload();
+    });
+
+    this.socket?.on('rooms', (data) => {
+      Terminal.log('rooms', data);
     });
 
     this.socket?.on('disconnect', () => {
@@ -98,9 +98,6 @@ export default class Multiplayer {
         case 'disconnect':
           this.disconnect();
           break;
-        case 'status':
-          this.printStatus();
-          break;
         case 'chat':
           this.chat(arr.join(' '));
           break;
@@ -113,4 +110,10 @@ export default class Multiplayer {
       }
     });
   }
+}
+
+export class MultiplayerStatus {
+  connected?: boolean;
+  id?: string;
+  rooms?: string[];
 }
