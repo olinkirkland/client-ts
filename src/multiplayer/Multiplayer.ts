@@ -22,7 +22,8 @@ export default class Multiplayer {
 
   // Connect to socket.io server
   public connect() {
-    if (this.socket) return Terminal.log('Cannot connect; Already connected');
+    if (this.socket)
+      return Terminal.log('❌ Cannot connect; Already connected');
     Terminal.log(`Connecting to ${url}...`);
     this.socket = io(url, { query: { token: 'anon' } });
     this.addSocketListeners();
@@ -31,7 +32,7 @@ export default class Multiplayer {
   // Disconnect from socket.io server
   public disconnect() {
     if (!this.socket || !this.socket.connected) {
-      Terminal.log('Cannot disconnect; Connect to a server first');
+      Terminal.log('❌ Cannot disconnect; Connect to a server first');
       return;
     }
 
@@ -55,7 +56,7 @@ export default class Multiplayer {
   // Socket listeners
   private addSocketListeners() {
     this.socket?.on('connect', () => {
-      Terminal.log(`Connected to ${url} as ${this.socket?.id}`);
+      Terminal.log(`✔️ Connected to ${url} as ${this.socket?.id}`);
     });
 
     this.socket?.on('me', (data) => {
@@ -63,7 +64,7 @@ export default class Multiplayer {
     });
 
     this.socket?.on('chat', (data) => {
-      Terminal.log('>', data);
+      Terminal.log('💬', data);
     });
 
     this.socket?.on('force-reload', (data) => {
@@ -75,7 +76,7 @@ export default class Multiplayer {
     });
 
     this.socket?.on('disconnect', () => {
-      Terminal.log('Disconnected');
+      Terminal.log('✔️ Disconnected');
       this.removeSocketListeners();
       this.socket = undefined;
     });

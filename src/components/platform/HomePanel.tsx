@@ -19,7 +19,7 @@ export default function HomePanel({
   const imgEl = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    Terminal.log(`✔️ Home Panel "${titleText}"`);
+    Terminal.log(`🧱 Home Panel "${titleText}"`);
   }, []);
 
   const [offset, setOffset] = useState({ x: 0, y: 0 });
