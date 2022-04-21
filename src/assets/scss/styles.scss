@@ -138,11 +138,13 @@ nav {
   }
 
   img {
-    object-fit: cover;
-    object-position: left;
-    vertical-align: bottom;
+    object-fit: fill;
     width: 100%;
     height: 100%;
+    transform: scale(1.2);
+    &.reset {
+      transition: all 0.5s;
+    }
   }
 
   .home-panel-content {

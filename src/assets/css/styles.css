@@ -97,11 +97,12 @@ nav {
     grid-column: span 2;
     grid-row: span 2; }
   .home-panel img {
-    object-fit: cover;
-    object-position: left;
-    vertical-align: bottom;
+    object-fit: fill;
     width: 100%;
-    height: 100%; }
+    height: 100%;
+    transform: scale(1.2); }
+    .home-panel img.reset {
+      transition: all 0.5s; }
   .home-panel .home-panel-content {
     position: absolute;
     display: flex;
