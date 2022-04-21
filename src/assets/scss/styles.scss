@@ -41,9 +41,6 @@
 }
 
 nav {
-  // Nav always at top
-  position: sticky;
-  top: 0;
   width: 100%;
   z-index: 9999;
 
@@ -104,19 +101,24 @@ nav {
 .home {
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 2rem;
   flex: 1;
 
-  .home-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    height: 100%;
-    padding: 2rem;
-    max-width: 120rem;
+  .home-container {
+    display: flex;
     background-color: white;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 5px 0px;
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      height: fit-content;
+      padding: 2rem;
+      max-width: 128rem;
+    }
   }
 }
 
@@ -132,6 +134,7 @@ nav {
 
   &.big {
     grid-column: span 2;
+    grid-row: span 2;
   }
 
   img {

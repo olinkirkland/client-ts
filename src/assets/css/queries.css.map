@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA;6BAC6B;AAE7B;sBACsB;AAEtB,wCAAwC;AACxC,oBAAoB;AACpB,wCAAwC;AAExC,uBAAuB;AACvB,wBAAyB;EAGnB,gCAAW;IACT,qBAAqB,EAAE,cAAc;;EAK3C,WAAY;IACV,YAAY,EAAE,CAAC;IACf,eAAM;MACJ,YAAY,EAAE,CAAC",
+"sources": ["../scss/queries.scss"],
+"names": [],
+"file": "queries.css"
+}

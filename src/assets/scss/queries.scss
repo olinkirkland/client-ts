@@ -1,0 +1,27 @@
+/* rem and em do NOT depend on HTML font-size in media queries 
+instead, 1rem = 1em = 16px */
+
+/* rem has some bugs in some browsers when used in media
+ queries, so use em */
+
+/**************************************/
+/* M -- BELOW 992 */
+/**************************************/
+
+/* 992px / 16px = 62 */
+@media (max-width: 62em) {
+  .home {
+    .home-container {
+      .home-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+
+  .home-panel {
+    aspect-ratio: 2;
+    &.big {
+      aspect-ratio: 4;
+    }
+  }
+}
