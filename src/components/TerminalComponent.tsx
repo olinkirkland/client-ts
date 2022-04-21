@@ -38,7 +38,7 @@ export default function TerminalComponent() {
   }
 
   return (
-    <div className="v-group">
+    <div className="terminal">
       <ul className="terminal-list">
         {logs.map((log: TerminalLog, index: number) => (
           <li className={`${log.cmd ? 'log-cmd' : ''}`} key={index}>

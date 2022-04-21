@@ -3,7 +3,7 @@ import Terminal from '../../controllers/Terminal';
 import NavUserCard from './NavUserCard';
 export default function Navbar() {
   useEffect(() => {
-    Terminal.log('Initialized Navbar');
+    Terminal.log('✔️ Navbar');
   }, []);
 
   return (

@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import Terminal from '../../controllers/Terminal';
-import Footer from './Footer';
+import Taskbar from './Taskbar';
 import Home from './Home';
 import Navbar from './Navbar';
 export default function Platform() {
   useEffect(() => {
-    Terminal.log('Initialized Platform');
+    Terminal.log('✔️ Platform');
   }, []);
 
   return (
     <div className="platform">
       <Navbar />
       <Home />
-      <Footer />
+      <Taskbar />
     </div>
   );
 }
