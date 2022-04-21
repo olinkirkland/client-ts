@@ -71,7 +71,8 @@ nav {
 .home {
   display: flex;
   justify-content: center;
-  padding: 2rem; }
+  padding: 2rem;
+  flex: 1; }
   .home .home-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -118,8 +119,6 @@ nav {
       align-self: center; }
 
 .taskbar {
-  position: fixed;
-  bottom: 0;
   width: 100%;
   display: flex;
   padding: 1.6rem;
@@ -143,7 +142,6 @@ nav {
     padding: 2rem;
     margin-bottom: 2rem;
     flex: 1;
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

@@ -105,6 +105,7 @@ nav {
   display: flex;
   justify-content: center;
   padding: 2rem;
+  flex: 1;
 
   .home-grid {
     display: grid;
@@ -168,8 +169,6 @@ nav {
 // Taskbar
 
 .taskbar {
-  position: fixed;
-  bottom: 0;
   width: 100%;
 
   display: flex;
@@ -199,7 +198,6 @@ nav {
     padding: 2rem;
     margin-bottom: 2rem;
     flex: 1;
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
