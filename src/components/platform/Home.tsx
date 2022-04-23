@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
+import { usePopupManager } from 'react-popup-manager';
 import Terminal from '../../controllers/Terminal';
+import PopupPrompt from '../popups/PopupInfo';
 import HomePanel from './HomePanel';
 
 export default function Navbar() {
@@ -7,13 +9,15 @@ export default function Navbar() {
     Terminal.log('🧱 Home');
   }, []);
 
+  const popupManager = usePopupManager();
+
   return (
     <div className="home">
       <div className="home-container">
         <div className="home-grid">
           <HomePanel
             onClick={() => {
-              Terminal.log('🖱️ Clicked a HomePanel');
+              popupManager.open(PopupPrompt, {});
             }}
             titleText="Don't Fall Quick Play"
             buttonText="Play Now"

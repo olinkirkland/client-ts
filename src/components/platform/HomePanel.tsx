@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import Terminal from '../../controllers/Terminal';
 
-type Props = {
+type HomePanelProps = {
   onClick: Function;
   titleText: string;
   buttonText: string;
@@ -15,7 +15,7 @@ export default function HomePanel({
   buttonText,
   image,
   big = false
-}: Props) {
+}: HomePanelProps) {
   const imgEl = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
