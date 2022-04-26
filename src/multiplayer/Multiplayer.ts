@@ -1,8 +1,8 @@
 import { io, Socket } from 'socket.io-client';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
-// const url: string = 'http://localhost:5000';
-const url: string = 'http://84.166.31.174:5000/';
+const url: string = 'http://localhost:8000';
+// const url: string = 'http://84.166.31.174:5000/';
 
 export default class Multiplayer {
   socket: Socket | undefined;
@@ -25,7 +25,13 @@ export default class Multiplayer {
     if (this.socket)
       return Terminal.log('❌ Cannot connect; Already connected');
     Terminal.log(`Connecting to ${url}...`);
-    this.socket = io(url, { query: { token: 'anon' } });
+    this.socket = io(url, {
+      query: {
+        userID: '6266786fb7b9cadee0dc53d1', //! CHANGE ME!!! Should be like user.userID
+        online: true,
+        username: 'freezingBetteanne411', //! CHANGE ME!!! Should be like user.username
+      },
+    });
     this.addSocketListeners();
   }
 
