@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { usePopupManager } from 'react-popup-manager';
 import Terminal from '../../controllers/Terminal';
-import PopupPrompt from '../popups/PopupInfo';
+import { PromptDialog } from '../popups/PromptDialog';
 import HomePanel from './HomePanel';
 
 export default function Navbar() {
@@ -17,7 +17,12 @@ export default function Navbar() {
         <div className="home-grid">
           <HomePanel
             onClick={() => {
-              popupManager.open(PopupPrompt, {});
+              popupManager.open(PromptDialog, {
+                message: 'Are you sure?',
+                ok: 'Yes',
+                cancel: 'No',
+                onClose: (wasSure) => console.log('was sure? ', wasSure)
+              });
             }}
             titleText="Don't Fall Quick Play"
             buttonText="Play Now"
