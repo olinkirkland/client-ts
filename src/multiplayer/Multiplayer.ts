@@ -3,6 +3,7 @@ import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
 const url: string = 'http://localhost:8000';
 // const url: string = 'http://84.166.31.174:5000/';
+let room: string = '';
 
 export default class Multiplayer {
   socket: Socket | undefined;
@@ -47,7 +48,9 @@ export default class Multiplayer {
 
   // Join a room
   private joinRoom(roomId: string) {
+    room = roomId;
     Terminal.log(`Joining room ${roomId}...`);
+    this.socket?.emit('join-room', roomId);
   }
 
   // Leave a room
@@ -56,7 +59,11 @@ export default class Multiplayer {
   }
 
   private chat(message: string) {
-    this.socket?.emit('chat', message);
+    //! room === ''
+    //!   ? this.socket?.emit('chat', message)
+    //!   : this.socket?.to(room).emit('chat', message);
+
+    this.socket?.emit('chat', message); //! REPLACE ME
   }
 
   // Socket listeners
@@ -109,10 +116,10 @@ export default class Multiplayer {
           this.chat(arr.join(' '));
           break;
         case 'joinRoom':
-          this.joinRoom(arr[1]);
+          this.joinRoom(arr[0]);
           break;
         case 'leaveRoom':
-          this.leaveRoom(arr[1]);
+          this.leaveRoom(arr[0]);
           break;
       }
     });
