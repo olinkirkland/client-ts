@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Terminal from '../../controllers/Terminal';
+import NavAnonCard from './NavAnonCard';
 import NavUserCard from './NavUserCard';
 export default function Navbar() {
   useEffect(() => {
@@ -33,7 +34,9 @@ export default function Navbar() {
           </button>
         </li>
       </ul>
-      <NavUserCard />
+
+      <NavAnonCard />
+      {/* <NavUserCard /> */}
     </nav>
   );
 }

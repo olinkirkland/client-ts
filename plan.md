@@ -79,3 +79,12 @@ What messages does a GameSession accept from all connected users?
 When a user goes offline, the GameSession will close if users.length == 0
 
 New users can be added to a GameSession at any time, even when a game is in progress. However, they will be locked into the spectator role if the GameSession is in progress.
+
+// onClick={() => {
+//   console.log('clicked!');
+//   axios
+//     .get('https://dontfall-backend.herokuapp.com/testcors')
+//     .then((res) => {
+//       console.log(res);
+//     });
+// }}

@@ -77,12 +77,23 @@ nav {
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 0.4rem;
     img {
       width: 4rem;
       transform: rotateZ(5deg);
       box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px;
       background-color: white;
+    }
+    button {
+      background-color: transparent;
+      color: $text-muted;
+      text-transform: none;
+      font-size: 1.6rem;
+      font-weight: 500;
+
+      &:hover {
+        color: $text;
+      }
     }
   }
 }
@@ -129,7 +140,7 @@ nav {
   }
 
   img {
-    object-fit: fill;
+    object-fit: cover;
     width: 100%;
     height: 100%;
     transform: scale(1.2);
