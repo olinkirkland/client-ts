@@ -46,7 +46,7 @@ export default function TerminalComponent() {
           </li>
         ))}
       </ul>
-      <div className="h-group center">
+      <div className="terminal-controls">
         <input
           className="terminal-input"
           type="text"
@@ -55,18 +55,20 @@ export default function TerminalComponent() {
             if (e.key === 'Enter') applyCommand();
           }}
         />
-        <button onClick={applyCommand}>
-          <span>Send</span>
-          <i className="fas fa-paper-plane"></i>
-        </button>
-        <button onClick={Terminal.clear}>
-          <span>Clear</span>
-          <i className="fas fa-eraser"></i>
-        </button>
-        <button onClick={() => Terminal.hide()}>
-          <span>Hide</span>
-          <i className="fas fa-eye-slash"></i>
-        </button>
+        <div className="h-group center">
+          <button onClick={applyCommand}>
+            <span>Send</span>
+            <i className="fas fa-paper-plane"></i>
+          </button>
+          <button onClick={Terminal.clear}>
+            <span>Clear</span>
+            <i className="fas fa-eraser"></i>
+          </button>
+          <button onClick={() => Terminal.hide()}>
+            <span>Hide</span>
+            <i className="fas fa-eye-slash"></i>
+          </button>
+        </div>
       </div>
     </div>
   );

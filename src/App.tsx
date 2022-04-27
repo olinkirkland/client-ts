@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Platform from './components/platform/Platform';
 import TerminalComponent from './components/TerminalComponent';
 import Terminal, { TerminalEventType } from './controllers/Terminal';
-import Multiplayer from './multiplayer/Multiplayer';
+import Multiplayer from './connection/Multiplayer';
 
 export default function App() {
   let initialized = useRef(false);

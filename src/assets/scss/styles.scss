@@ -35,32 +35,41 @@ nav {
     margin-right: 2.4rem;
   }
 
-  button {
-    background: none;
-    box-shadow: none;
-    border-radius: 0;
-    color: $text;
-    padding: 0;
+  ul {
+    display: flex;
+    align-items: center;
 
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    li {
+      // Vertical divider dashed line
+      display: flex;
+      &:not(:last-of-type):after {
+        content: '';
+        display: block;
+        height: 2rem;
+        width: 1px;
+        margin: 0 2rem;
+        border-right: 1px dashed $text-muted;
+      }
 
-    opacity: 0.6;
+      button {
+        background: none;
+        box-shadow: none;
+        border-radius: 0;
+        color: $text;
+        padding: 0;
 
-    &:hover {
-      opacity: 1;
-      box-shadow: none;
-      background: none;
-    }
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
 
-    // Vertical divider dashed line
-    &:not(:last-of-type):after {
-      content: '';
-      display: block;
-      height: 100%;
-      margin: 0 1rem;
-      border-left: 1px dashed $text-muted;
+        opacity: 0.6;
+
+        &:hover {
+          opacity: 1;
+          box-shadow: none;
+          background: none;
+        }
+      }
     }
   }
 
@@ -217,5 +226,12 @@ nav {
         }
       }
     }
+  }
+
+  .terminal-controls {
+    display: flex;
+   justify-content: center;
+    align-items: center;
+    gap: 1rem;
   }
 }

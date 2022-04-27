@@ -30,8 +30,8 @@ export default class Multiplayer {
       query: {
         userID: '6266786fb7b9cadee0dc53d1', //! CHANGE ME!!! Should be like user.userID
         online: true,
-        username: 'freezingBetteanne411', //! CHANGE ME!!! Should be like user.username
-      },
+        username: 'freezingBetteanne411' //! CHANGE ME!!! Should be like user.username
+      }
     });
     this.addSocketListeners();
   }
