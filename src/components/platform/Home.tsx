@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { usePopupManager } from 'react-popup-manager';
 import Terminal from '../../controllers/Terminal';
+import { PopupError } from '../popups/PopupError';
 import { PopupInput } from '../popups/PopupInput';
 import { PopupPrompt } from '../popups/PopupPrompt';
 import HomePanel from './HomePanel';
@@ -66,7 +67,10 @@ export default function Navbar() {
           />
           <HomePanel
             onClick={() => {
-              Terminal.log('🖱️ Clicked a HomePanel');
+              popupManager.open(PopupError, {
+                title: 'Error!',
+                message: 'Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.'
+              });
             }}
             titleText="Host a public or private game"
             buttonText="Host a game"
