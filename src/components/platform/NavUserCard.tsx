@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import Terminal from '../../controllers/Terminal';
 export default function NavUserCard() {

@@ -77,19 +77,58 @@ nav {
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 1.2rem;
+
+    .profile-button {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-right: 2rem;
+      padding: 1rem;
+      cursor: pointer;
+      background-color: #00000010;
+      border-radius: 5px;
+      transition: all 0.3s;
+
+      h2 {
+        font-weight: 500;
+        text-transform: none;
+        font-size: 1.6rem;
+      }
+
+      &:hover {
+        background-color: #00000020;
+      }
+
+      &:active {
+        background-color: #00000040;
+      }
+    }
+
     img {
-      width: 4rem;
+      width: 2.8rem;
       transform: rotateZ(5deg);
-      box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 3px;
       background-color: white;
     }
     button {
+      padding: 0;
       background-color: transparent;
       color: $text-muted;
       text-transform: none;
       font-size: 1.6rem;
       font-weight: 500;
+
+      &.featured {
+        background-color: $primary-muted;
+        color: white;
+        padding: 0.4rem 1.2rem;
+
+        &:hover {
+          color: white;
+          background-color: $primary;
+        }
+      }
 
       &:hover {
         color: $text;
