@@ -1,27 +1,10 @@
-// Variables
-
-:root {
-  --background: #313131;
-  --text: #313131;
-  --text-muted: #31313160;
-  --text-inverse: #ffffff;
-  --text-inverse-muted: #ffffff60;
-  --primary: #339af0;
-  --primary-muted: #339af020;
-
-  --panel: #f0ecec;
-
-  --dark: #00000010;
-  --darker: #00000020;
-  --light: #ffffff10;
-  --lighter: #ffffff20;
-}
+@import 'colors';
 
 html {
   /* Percentage of user's browser font-size setting */
   font-size: 62.5%;
   scroll-behavior: smooth;
-  background-color: var(--background);
+  background-color: $background;
 }
 
 * {
@@ -37,7 +20,7 @@ html {
 body {
   font-family: 'Outfit', sans-serif;
   font-size: 1.6rem;
-  color: var(--text);
+  color: $text;
 }
 
 h1 {
@@ -81,8 +64,13 @@ button {
   }
 }
 
+::selection,
+::-moz-selection {
+  background: $primary-muted;
+}
+
 pre {
-  color: var(--text);
+  color: $text;
   font-family: 'Inconsolata', monospace !important;
   white-space: pre-wrap;
   font-size: 1.2rem;
@@ -93,24 +81,24 @@ input[type='text'] {
   font-family: 'Outfit', serif;
   height: 3.2rem;
   padding: 0 1.2rem;
-  border: 1px solid var(--text-muted);
-  background-color: var(--lighter);
+  border: 1px solid $text-muted;
+  background-color: $lighter;
   border-radius: 5px;
   transition: all 0.3s;
-  color: var(--text);
+  color: $text;
 
   &::placeholder {
     opacity: 1;
-    color: var(--text-muted);
+    color: $text-muted;
     font-style: italic;
   }
 
   &:hover {
-    border: 1px solid var(--primary);
+    border: 1px solid $primary;
   }
 
   &:focus {
-    border: 1px solid var(--primary);
+    border: 1px solid $primary;
   }
 
   &:focus::placeholder {
@@ -134,12 +122,12 @@ input[type='text'] {
     height: 1.6rem;
     color: white;
     border-radius: 3px;
-    background-color: var(--darker);
+    background-color: $darker;
     font-size: 1rem;
   }
 
   .icon-frame.checked {
-    background-color: var(--primary);
+    background-color: $primary;
   }
 
   &:hover {
@@ -165,7 +153,7 @@ li {
 .panel {
   padding: 2rem;
   // background-color: var(--dark);
-  border: 1px dashed var(--darker);
+  border: 1px dashed $darker;
 }
 
 .text-center {
@@ -179,29 +167,9 @@ li {
 
 .fa-solid {
   font-size: 1.6rem;
-  color: var(--primary);
+  color: $primary;
 }
 
 .hidden {
   display: none !important;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .popup {
-    background-color: var(--panel);
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 5px 0px;
-    padding: 2rem;
-    border-radius: 5px;
-  }
 }

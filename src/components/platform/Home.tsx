@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { usePopupManager } from 'react-popup-manager';
 import Terminal from '../../controllers/Terminal';
-import { PromptDialog } from '../popups/PromptDialog';
+import { PopupInput } from '../popups/PopupInput';
+import { PopupPrompt } from '../popups/PopupPrompt';
 import HomePanel from './HomePanel';
 
 export default function Navbar() {
@@ -17,11 +18,17 @@ export default function Navbar() {
         <div className="home-grid">
           <HomePanel
             onClick={() => {
-              popupManager.open(PromptDialog, {
-                message: 'Are you sure?',
-                ok: 'Yes',
+              popupManager.open(PopupPrompt, {
+                title: 'Are you sure?',
+                message: 'Lorem ipsum dolor sit amet.',
+                confirm: 'Yes',
                 cancel: 'No',
-                onClose: (wasSure) => console.log('was sure? ', wasSure)
+                onConfirm: () => {
+                  console.log('confirm');
+                },
+                onCancel: () => {
+                  console.log('cancel');
+                }
               });
             }}
             titleText="Don't Fall Quick Play"
@@ -39,7 +46,19 @@ export default function Navbar() {
           />
           <HomePanel
             onClick={() => {
-              Terminal.log('🖱️ Clicked a HomePanel');
+              popupManager.open(PopupInput, {
+                title: 'Choose your name',
+                message: 'Enter your name below.',
+                confirm: 'Ok',
+                cancel: 'Cancel',
+                placeholder: 'John Smith',
+                onConfirm: (text: string) => {
+                  console.log(text);
+                },
+                onCancel: () => {
+                  console.log('cancel');
+                }
+              });
             }}
             titleText="Customize avatar"
             buttonText="Customize"
