@@ -15,19 +15,13 @@ export class PopupError extends React.Component<PopupErrorProps> {
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">
           <div className="popup-header popup-error">
-            <span>❌ {title}</span>
+            <span>{title}</span>
+            <button className="button-close" onClick={onClose}>
+              <i className="fas fa-times" />
+            </button>
           </div>
           <div className="popup-content">
             <p>{message}</p>
-          </div>
-          <div className="popup-taskbar">
-            <button
-              onClick={() => {
-                onClose!();
-              }}
-            >
-              Ok
-            </button>
           </div>
         </div>
       </Modal>

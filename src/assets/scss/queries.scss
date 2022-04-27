@@ -25,3 +25,42 @@ instead, 1rem = 1em = 16px */
     }
   }
 }
+
+/* 600px / 16px = 40 */
+@media (max-width: 40em) {
+  button {
+    padding: 1rem 2rem;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      span {
+        display: none;
+      }
+    }
+  }
+
+  .home {
+    .home-panel-content > p.title {
+      display: none;
+    }
+    .home-container {
+      .home-grid {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  }
+
+  .home-panel {
+    aspect-ratio: 3;
+    &.big {
+      aspect-ratio: 3;
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+  }
+}

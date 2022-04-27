@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { usePopupManager } from 'react-popup-manager';
 import Terminal from '../../controllers/Terminal';
+import { PopupBook, SectionType } from '../popups/PopupBook';
 import { PopupError } from '../popups/PopupError';
 import { PopupInput } from '../popups/PopupInput';
 import { PopupPrompt } from '../popups/PopupPrompt';
@@ -39,7 +40,20 @@ export default function Navbar() {
           />
           <HomePanel
             onClick={() => {
-              Terminal.log('🖱️ Clicked a HomePanel');
+              popupManager.open(PopupBook, {
+                title: 'How to Play',
+                sections: [
+                  { type: SectionType.TITLE, data: 'Foo bar' },
+                  {
+                    type: SectionType.BODY,
+                    data: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia omnis eum distinctio culpa rem asperiores a optio perferendis numquam obcaecati?'
+                  },
+                  {
+                    type: SectionType.IMAGE,
+                    data: 'https://i.imgur.com/CxeYuCs.png'
+                  }
+                ]
+              });
             }}
             titleText="Game Rules"
             buttonText="Learn how to play"
@@ -69,7 +83,8 @@ export default function Navbar() {
             onClick={() => {
               popupManager.open(PopupError, {
                 title: 'Error!',
-                message: 'Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.'
+                message:
+                  'Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.'
               });
             }}
             titleText="Host a public or private game"
@@ -77,9 +92,7 @@ export default function Navbar() {
             image="assets/images/abstract-4.png"
           />
           <HomePanel
-            onClick={() => {
-              Terminal.log('🖱️ Clicked a HomePanel');
-            }}
+            onClick={() => {}}
             titleText="View open games"
             buttonText="Open games"
             image="assets/images/abstract-5.png"

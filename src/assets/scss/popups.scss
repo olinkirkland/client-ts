@@ -20,6 +20,7 @@
 
     .popup-header {
       display: flex;
+      justify-content: space-between;
       gap: 0.4rem;
       padding: 1rem 2rem;
       background-color: $primary-muted;
@@ -34,9 +35,31 @@
     .popup-content {
       padding: 2rem 2rem;
       max-width: 40rem;
+      max-height: 40rem;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 1rem;
+
+      ul.popup-book {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        // Title
+        h2 {
+        }
+
+        // Body
+        p {
+        }
+
+        // Image
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
     }
 
     .popup-taskbar {
