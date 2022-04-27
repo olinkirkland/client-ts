@@ -15,8 +15,12 @@
   .popup {
     background-color: $panel;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 5px 0px;
+    max-height: 80vh;
+    margin: 2rem;
     border-radius: 5px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
     .popup-header {
       display: flex;
@@ -34,8 +38,8 @@
 
     .popup-content {
       padding: 2rem 2rem;
-      max-width: 40rem;
-      max-height: 40rem;
+      max-width: 100%;
+      flex: 1;
       overflow-y: auto;
       display: flex;
       flex-direction: column;

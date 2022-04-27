@@ -80,4 +80,11 @@ instead, 1rem = 1em = 16px */
     flex-direction: column;
     gap: 1rem;
   }
+
+  .modal .popup {
+    height: 100%;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+  }
 }
