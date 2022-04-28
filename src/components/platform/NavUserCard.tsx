@@ -4,6 +4,7 @@ import Connection from '../../connection/Connection';
 import { PopupLogin } from '../popups/PopupLogin';
 import { PopupMyAccount } from '../popups/PopupMyAccount';
 import { PopupPrompt } from '../popups/PopupPrompt';
+import { PopupRegister } from '../popups/PopupRegister';
 export default function NavAnonCard() {
   const popupManager = usePopupManager();
   const connection = Connection.instance;
@@ -42,7 +43,10 @@ export default function NavAnonCard() {
         )}
 
         {isGuest && (
-          <button className="user-card-button featured">
+          <button
+            className="user-card-button featured"
+            onClick={() => popupManager.open(PopupRegister)}
+          >
             <span>Sign Up</span>
           </button>
         )}
@@ -55,7 +59,7 @@ export default function NavAnonCard() {
                 title: 'Log out',
                 message: 'Are you sure you want to log out?',
                 confirm: 'Yes, log me out',
-                cancel: 'Cancel',
+                cancel: 'No',
                 onConfirm: () => {
                   connection.logout();
                 },

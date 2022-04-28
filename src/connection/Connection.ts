@@ -118,7 +118,19 @@ export default class Connection extends EventEmitter {
   }
 
   public register(email: string, password: string) {
-    Terminal.log('🔑', `Registering ${email} / ${password}`);
+    Terminal.log('🔑', `Registering ${email} / ${password}`, '...');
+    axios
+      .post(url + 'users/registration', { email: email, password: password })
+      .then((res) => {
+        Terminal.log('👀', res);
+        Terminal.log('✔️ Registered');
+
+        this.connect();
+      })
+      .catch((err) => {
+        Terminal.log('❌', 'Registration failed');
+        return;
+      });
   }
 
   public changeUsername(username: string) {
