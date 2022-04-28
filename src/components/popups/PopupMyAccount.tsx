@@ -24,7 +24,8 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
             {me.isGuest && (
               <>
                 <p className="alert warn">
-                  😢 This is a guest account. You are not registered.
+                  😢 This is a guest account. Register an account to earn
+                  experience points and unlock rewards.
                 </p>
               </>
             )}

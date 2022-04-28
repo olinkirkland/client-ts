@@ -1,6 +1,8 @@
 import axios from 'axios';
 import EventEmitter from 'events';
+import { usePopupManager } from 'react-popup-manager';
 import { io, Socket } from 'socket.io-client';
+import { PopupLoading } from '../components/popups/PopupLoading';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
 const url: string = 'https://dontfall-backend.herokuapp.com/';
@@ -20,6 +22,9 @@ export default class Connection extends EventEmitter {
   private constructor() {
     // Private constructor to enforce singleton
     super();
+
+    // Open loading popup
+    // usePopupManager().open(PopupLoading);
 
     // Get stored login credentials
     let loginCredentials = { email: null, password: null };

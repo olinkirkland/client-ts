@@ -57,7 +57,7 @@ button {
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 99px;
-  background-color: #00000080;
+  background-color: #00000070;
 
   transition: all 0.3s;
 
@@ -69,11 +69,11 @@ button {
   gap: 0.4rem;
 
   &:hover {
-    background-color: #00000060;
+    background-color: #00000090;
   }
 
   &:active {
-    background-color: #00000080;
+    background-color: #00000095;
   }
 
   &.button-close {
