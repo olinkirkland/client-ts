@@ -97,7 +97,15 @@ pre {
   line-height: 2rem;
 }
 
-input[type='text'] {
+div.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: $text-muted;
+}
+
+input[type='text'],
+input[type='password'] {
   font-family: 'Outfit', serif;
   height: 3.2rem;
   padding: 0 1.2rem;

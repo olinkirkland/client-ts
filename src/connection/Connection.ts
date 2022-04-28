@@ -1,8 +1,6 @@
 import axios from 'axios';
 import EventEmitter from 'events';
-import { usePopupManager } from 'react-popup-manager';
 import { io, Socket } from 'socket.io-client';
-import { PopupLoading } from '../components/popups/PopupLoading';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
 const url: string = 'https://dontfall-backend.herokuapp.com/';
@@ -14,7 +12,6 @@ export default class Connection extends EventEmitter {
 
   // Data
   public me?: MyUserData;
-  private token?: string;
 
   // Callbacks
   setStatus?: Function;
@@ -43,13 +40,17 @@ export default class Connection extends EventEmitter {
   }
 
   public login(email: string | null, password: string | null) {
-    // Disconnect the socket server first
-    // if (this.socket && this.socket.connected) this.disconnect();
+    if ((email || password) && !(email && password))
+      return Terminal.log(
+        '⚠️',
+        'Both an email and a password are required to login'
+      );
 
     Terminal.log(
       '🔑',
       'Logging in',
-      email && password ? `${email} / ${password}` : 'without credentials'
+      email && password ? `${email} / ${password}` : 'without credentials',
+      '...'
     );
 
     axios
@@ -61,7 +62,18 @@ export default class Connection extends EventEmitter {
         { withCredentials: true }
       )
       .then((res) => {
+        // Terminal.log('✨', res);
         const data = res.data;
+        if (!data.id) {
+          Terminal.log('❌', 'Login failed');
+          return;
+        }
+
+        // Disconnect the socket server first
+        if (this.socket && this.socket.connected) this.disconnect();
+
+        Terminal.log('✔️ Logged in as', data.id);
+
         // Populate my user data
         this.me = {
           id: data.id,
@@ -73,10 +85,25 @@ export default class Connection extends EventEmitter {
           isGuest: data.isGuest
         };
 
-        // Establish a connection with the socket server using my token
+        if (!this.me.isGuest) {
+          // Save login data
+          // localStorage.setItem(
+          //   'login',
+          //   JSON.stringify({
+          //     email: email,
+          //     password: password
+          //   })
+          // );
+
+          Terminal.log('🔑', 'Login credentials saved to local storage');
+        }
+
         this.connect();
       })
-      .catch((err) => Terminal.log('⚠️', err));
+      .catch((err) => {
+        Terminal.log('❌', 'Login failed');
+        return;
+      });
   }
 
   public logout() {
@@ -111,8 +138,8 @@ export default class Connection extends EventEmitter {
   // Connect to socket.io server
   public connect() {
     if (this.socket)
-      return Terminal.log('❌ Cannot connect; Already connected');
-    Terminal.log(`Connecting to ${url} for user ${this.me!.id}...`);
+      return Terminal.log('❌', 'Cannot connect; Already connected');
+    Terminal.log(`Connecting to ${url} as ${this.me!.id}`, '...');
 
     // TODO remove online:true; remove it from BE first, it's unnecessary
     this.socket = io(url, {
@@ -127,7 +154,7 @@ export default class Connection extends EventEmitter {
   // Disconnect from socket.io server
   public disconnect() {
     if (!this.socket || !this.socket.connected) {
-      Terminal.log('❌ Cannot disconnect; Connect to a server first');
+      Terminal.log('❌', 'Cannot disconnect; Connect to a server first');
       return;
     }
 
@@ -156,7 +183,8 @@ export default class Connection extends EventEmitter {
   // Socket listeners
   private addSocketListeners() {
     this.socket?.on('connect', () => {
-      Terminal.log(`✔️ Connected to ${url} with user id ${this.me!.id}`);
+      Terminal.log(`✔️ Connected to ${url} as ${this.me!.id}`);
+      this.emit('connect');
     });
 
     this.socket?.on('me', (data) => {

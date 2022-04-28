@@ -1,18 +1,71 @@
-import { useEffect } from 'react';
-import Terminal from '../../controllers/Terminal';
-export default function NavUserCard() {
+import { useEffect, useState } from 'react';
+import { usePopupManager } from 'react-popup-manager';
+import Connection from '../../connection/Connection';
+import { PopupLogin } from '../popups/PopupLogin';
+import { PopupMyAccount } from '../popups/PopupMyAccount';
+import { PopupPrompt } from '../popups/PopupPrompt';
+export default function NavAnonCard() {
+  const popupManager = usePopupManager();
+  const connection = Connection.instance;
+  const [username, setUsername] = useState<string>('');
+  const [isGuest, setIsGuest] = useState<boolean>(true);
+
   useEffect(() => {
-    Terminal.log('🧱 NavUserCard');
+    connection.on('connect', () => {
+      setUsername(connection.me!.username!);
+      setIsGuest(connection.me!.isGuest === true);
+    });
   }, []);
 
   return (
     <>
       <div className="nav-user-card">
-        <img
-          src={`https://avatars.dicebear.com/api/big-smile/beagle.svg`}
-          alt=""
-        />
-        <button>Mr. Beagle Bot</button>
+        <div
+          className="profile-button"
+          onClick={() => popupManager.open(PopupMyAccount)}
+        >
+          {username && (
+            <img
+              src={`https://avatars.dicebear.com/api/identicon/${username}.svg`}
+              alt=""
+            />
+          )}
+          <h2>{username}</h2>
+        </div>
+        {isGuest && (
+          <button
+            className="user-card-button"
+            onClick={() => popupManager.open(PopupLogin)}
+          >
+            <span>Login</span>
+          </button>
+        )}
+
+        {isGuest && (
+          <button className="user-card-button featured">
+            <span>Sign Up</span>
+          </button>
+        )}
+
+        {!isGuest && (
+          <button
+            className="user-card-button"
+            onClick={() =>
+              popupManager.open(PopupPrompt, {
+                title: 'Log out',
+                message: 'Are you sure you want to log out?',
+                confirm: 'Yes, log me out',
+                cancel: 'Cancel',
+                onConfirm: () => {
+                  connection.logout();
+                },
+                onCancel: () => {}
+              })
+            }
+          >
+            <span>Logout</span>
+          </button>
+        )}
       </div>
     </>
   );

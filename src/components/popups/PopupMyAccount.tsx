@@ -11,6 +11,7 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
     const { isOpen, onClose } = this.props;
     const me = Connection.instance.me!;
 
+    if (!me) return <></>;
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">

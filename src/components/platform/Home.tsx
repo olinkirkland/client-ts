@@ -9,7 +9,6 @@ import HomePanel from './HomePanel';
 
 export default function Navbar() {
   useEffect(() => {
-    Terminal.log('🧱 Home');
   }, []);
 
   const popupManager = usePopupManager();

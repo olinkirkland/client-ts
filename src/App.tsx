@@ -17,8 +17,6 @@ export default function App() {
     Terminal.instance.on(TerminalEventType.SHOW, () => setOverlay(true));
     Terminal.instance.on(TerminalEventType.HIDE, () => setOverlay(false));
 
-    Terminal.log('🧱 App');
-
     // Start connection
     const connection = Connection.instance;
     connection.setStatus = setStatus;

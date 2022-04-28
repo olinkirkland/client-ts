@@ -18,9 +18,7 @@ export default function HomePanel({
 }: HomePanelProps) {
   const imgEl = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
-    Terminal.log(`🧱 Home Panel "${titleText}"`);
-  }, []);
+  useEffect(() => {}, []);
 
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 

@@ -5,7 +5,6 @@ import Navbar from './Navbar';
 import Taskbar from './Taskbar';
 export default function Platform() {
   useEffect(() => {
-    Terminal.log('🧱 Platform');
   }, []);
 
   return (
