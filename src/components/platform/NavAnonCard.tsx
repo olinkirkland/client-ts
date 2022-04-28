@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
+import { PopupManager, usePopupManager } from 'react-popup-manager';
 import Terminal from '../../controllers/Terminal';
+import { PopupMyAccount } from '../popups/PopupMyAccount';
 export default function NavAnonCard() {
+  const popupManager = usePopupManager();
+
   useEffect(() => {
     Terminal.log('🧱 NavAnonCard');
   }, []);
@@ -8,7 +12,10 @@ export default function NavAnonCard() {
   return (
     <>
       <div className="nav-user-card">
-        <div className="profile-button">
+        <div
+          className="profile-button"
+          onClick={() => popupManager.open(PopupMyAccount)}
+        >
           <img
             src={`https://avatars.dicebear.com/api/identicon/beagle.svg`}
             alt=""

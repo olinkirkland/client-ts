@@ -91,6 +91,7 @@ nav {
       background-color: #00000010;
       border-radius: 5px;
       transition: all 0.3s;
+      color: $text-muted;
 
       h2 {
         font-weight: 500;
@@ -211,6 +212,26 @@ nav {
     button {
       position: absolute;
       align-self: center;
+    }
+  }
+}
+
+// My Profile Popup
+ul.profile-data {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    border-radius: 5px;
+    border: 1px solid #00000010;
+    padding: 1rem;
+    span {
+      &:first-of-type {
+        color: $text-muted;
+      }
     }
   }
 }
