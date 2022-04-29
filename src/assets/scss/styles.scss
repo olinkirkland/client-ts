@@ -127,13 +127,17 @@ nav {
       font-weight: 500;
 
       &.featured {
-        background-color: $primary-muted;
+        background-color: $primary;
         color: white;
         padding: 0.4rem 1.2rem;
+        position: relative;
+        bottom: 0;
 
         &:hover {
           color: white;
           background-color: $primary;
+          bottom: 0.2rem;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px;
         }
       }
 
