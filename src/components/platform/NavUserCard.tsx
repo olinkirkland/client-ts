@@ -26,11 +26,15 @@ export default function NavAnonCard() {
         >
           {username && (
             <img
+              className="avatar"
               src={`https://avatars.dicebear.com/api/identicon/${username}.svg`}
               alt=""
             />
           )}
-          <h2>{username}</h2>
+          {isGuest && (
+            <img className="guest-badge" src="assets/icons/acorn.png" alt="" />
+          )}
+          <h2 className={isGuest ? 'guest' : ''}>{username}</h2>
         </div>
         {isGuest && (
           <button
