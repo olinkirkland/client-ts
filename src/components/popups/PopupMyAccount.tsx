@@ -3,6 +3,7 @@ import React from 'react';
 import { PopupProps } from 'react-popup-manager';
 import { rootElement } from '../../index';
 import Connection from '../../connection/Connection';
+import { experienceNeededFromLevel } from '../../Util';
 
 interface PopupMyAccountProps extends PopupProps {}
 
@@ -53,7 +54,13 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
               </li>
               <li>
                 <span>Experience</span>
-                <span>{me.experience}</span>
+                <span>{`${me.experience}/${experienceNeededFromLevel(
+                  me.level!
+                )}`}</span>
+              </li>
+              <li>
+                <span>Avatar</span>
+                <span>{me.avatar}</span>
               </li>
             </ul>
           </div>
