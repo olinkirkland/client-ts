@@ -39,7 +39,17 @@ export default class Connection extends EventEmitter {
     this.addTerminalListeners();
   }
 
+  private error(title: string, message: string) {
+    Terminal.log('❌', title);
+    PopupMediator.open(PopupError, {
+      title: title,
+      message: message
+    });
+  }
+
   public login(email: string | null, password: string | null) {
+    PopupMediator.open(PopupLoading);
+
     if ((email || password) && !(email && password))
       return Terminal.log(
         '⚠️',
@@ -53,8 +63,6 @@ export default class Connection extends EventEmitter {
       '...'
     );
 
-    PopupMediator.open(PopupLoading);
-
     axios
       .post(
         url + 'users/login',
@@ -64,14 +72,9 @@ export default class Connection extends EventEmitter {
         { withCredentials: true }
       )
       .then((res) => {
-        // Terminal.log('✨', res);
         const data = res.data;
         if (!data.id) {
-          Terminal.log('❌', 'Login failed');
-          PopupMediator.open(PopupError, {
-            title: 'Login failed',
-            message: 'Invalid email or password'
-          });
+          this.error('Login failed', 'Invalid username or password.');
           return;
         }
 
@@ -107,7 +110,7 @@ export default class Connection extends EventEmitter {
         this.connect();
       })
       .catch((err) => {
-        Terminal.log('❌', 'Login failed');
+        this.error('Login failed', 'Invalid username or password.');
         return;
       });
   }
@@ -124,6 +127,8 @@ export default class Connection extends EventEmitter {
   }
 
   public register(email: string, password: string) {
+    PopupMediator.open(PopupLoading);
+
     Terminal.log('🔑', `Registering ${email} / ${password}`, '...');
     axios
       .post(url + 'users/registration', { email: email, password: password })
@@ -134,7 +139,11 @@ export default class Connection extends EventEmitter {
         this.connect();
       })
       .catch((err) => {
-        Terminal.log('❌', 'Registration failed');
+        console.log(err);
+        this.error(
+          'Registration failed',
+          'Could not register an account with the provided email and password.'
+        );
         return;
       });
   }

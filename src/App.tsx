@@ -25,7 +25,7 @@ export default function App() {
     // Popup Mediator
     const popupMediator = PopupMediator.instance;
     popupMediator.on(PopupMediatorEventType.OPEN, openPopup);
-    popupMediator.on(PopupMediatorEventType.CLOSE, closePopups);
+    popupMediator.on(PopupMediatorEventType.CLOSE, popupManager.closeAll);
     popupManager.open(PopupLoading);
 
     // Terminal
@@ -37,18 +37,17 @@ export default function App() {
     connection.setIsConnected = setIsConnected;
   }, []);
 
+  useEffect(() => {
+    console.log('isConnected', isConnected);
+  }, [isConnected]);
+
   function openPopup<T>(props: {
     componentClass: React.ComponentType<T>;
     popupProps?: OpenPopupOptions<T>;
   }) {
-    garbageCollectModals();
-    setTimeout(() => {
-      popupManager.open(props.componentClass, props.popupProps);
-    }, 100);
-  }
-
-  function closePopups() {
     popupManager.closeAll();
+    popupManager.open(props.componentClass, props.popupProps);
+    garbageCollectModals();
   }
 
   return (

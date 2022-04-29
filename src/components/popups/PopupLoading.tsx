@@ -9,11 +9,7 @@ export class PopupLoading extends React.Component<PopupLoadingProps> {
   render() {
     const { isOpen, onClose } = this.props;
     return (
-      <Modal
-        isOpen={isOpen!}
-        appElement={rootElement!}
-        className="modal opaque"
-      >
+      <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup popup-fit">
           <div className="popup-header popup-loading">
             <span>⏳</span>
