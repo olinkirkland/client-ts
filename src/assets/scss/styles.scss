@@ -94,6 +94,7 @@ nav {
       color: $text-muted;
 
       h2 {
+        margin-left: 4.8rem;
         font-weight: 500;
         text-transform: none;
         font-size: 1.6rem;
@@ -109,11 +110,14 @@ nav {
     }
 
     img {
-      width: 2.8rem;
+      width: 4rem;
+      position: absolute;
+      border: 0.4rem solid white;
       transform: rotateZ(5deg);
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 3px;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px;
       background-color: white;
     }
+
     button {
       padding: 0;
       background-color: transparent;

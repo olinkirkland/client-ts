@@ -7,7 +7,7 @@ interface PopupLoadingProps extends PopupProps {}
 
 export class PopupLoading extends React.Component<PopupLoadingProps> {
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen } = this.props;
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup popup-fit">

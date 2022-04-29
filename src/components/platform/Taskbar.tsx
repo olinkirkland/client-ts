@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import Terminal from '../../controllers/Terminal';
 export default function Taskbar() {
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
-  return <div className='taskbar'>taskbar</div>;
+  return <div className="taskbar">
+    {/* <GoldTile /> */}
+    
+  </div>;
 }
