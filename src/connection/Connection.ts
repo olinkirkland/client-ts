@@ -87,6 +87,7 @@ export default class Connection extends EventEmitter {
         this.me = {
           id: data.id,
           email: data.email,
+          gold: data.gold,
           username: data.username,
           avatar: data.avatar,
           level: data.level,
