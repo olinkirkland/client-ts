@@ -131,15 +131,18 @@ export default class Connection extends EventEmitter {
 
     Terminal.log('🔑', `Registering ${email} / ${password}`, '...');
     axios
-      .post(url + 'users/registration', { email: email, password: password })
+      .post(
+        url + 'users/registration',
+        { email: email, password: password, userID: this.me!.id },
+        { withCredentials: true }
+      )
       .then((res) => {
-        Terminal.log('👀', res);
+        // Terminal.log('👀', res);
         Terminal.log('✔️ Registered');
-
-        this.connect();
+        PopupMediator.close();
       })
       .catch((err) => {
-        console.log(err);
+        Terminal.log(err);
         this.error(
           'Registration failed',
           'Could not register an account with the provided email and password.'

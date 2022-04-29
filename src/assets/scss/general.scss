@@ -91,6 +91,7 @@ button {
 }
 
 pre {
+  user-select: text;
   color: $text;
   font-family: 'Inconsolata', monospace !important;
   white-space: pre-wrap;
