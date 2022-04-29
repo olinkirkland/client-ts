@@ -47,7 +47,11 @@ export default class Connection extends EventEmitter {
     });
   }
 
-  public login(email: string | null, password: string | null) {
+  public login(
+    email: string | null,
+    password: string | null,
+    staySignedIn: boolean = false
+  ) {
     PopupMediator.open(PopupLoading);
 
     if ((email || password) && !(email && password))
@@ -95,18 +99,18 @@ export default class Connection extends EventEmitter {
           isGuest: data.isGuest
         };
 
-        // if (rememberLogin && !this.me.isGuest) {
-        //   // Save login data
-        //   localStorage.setItem(
-        //     'login',
-        //     JSON.stringify({
-        //       email: email,
-        //       password: password
-        //     })
-        //   );
+        if (staySignedIn && !this.me.isGuest) {
+          // Save login data
+          localStorage.setItem(
+            'login',
+            JSON.stringify({
+              email: email,
+              password: password
+            })
+          );
 
-        //   Terminal.log('🔑', 'Login credentials saved to local storage');
-        // }
+          Terminal.log('🔑', 'Login credentials saved to local storage');
+        }
 
         this.connect();
       })

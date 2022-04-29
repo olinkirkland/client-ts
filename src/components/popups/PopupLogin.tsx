@@ -3,10 +3,12 @@ import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
 import Connection from '../../connection/Connection';
 import { rootElement } from '../../index';
+import Checkbox from '../Checkbox';
 
 type State = {
   email: string;
   password: string;
+  staySignedIn: boolean;
 };
 
 interface PopupLoginProps extends PopupProps {}
@@ -14,7 +16,8 @@ interface PopupLoginProps extends PopupProps {}
 export class PopupLogin extends React.Component<PopupLoginProps> {
   public readonly state: State = {
     email: '',
-    password: ''
+    password: '',
+    staySignedIn: true
   };
 
   render() {
@@ -54,18 +57,34 @@ export class PopupLogin extends React.Component<PopupLoginProps> {
                 }}
               />
             </div>
+            <hgroup>
+              <Checkbox
+                text="Stay signed in"
+                value={true}
+                checked={(value: boolean) => {
+                  this.setState((state, props) => ({
+                    staySignedIn: value
+                  }));
+                }}
+              />
+            </hgroup>
           </div>
           <div className="popup-taskbar">
+            <button>
+              <span>Forgot password?</span>
+            </button>
             <button
               onClick={() => {
                 Connection.instance.login(
                   this.state.email,
-                  this.state.password
+                  this.state.password,
+                  this.state.staySignedIn
                 );
                 onClose!();
               }}
             >
-              Login
+              <i className="fas fa-sign-in-alt" />
+              <span>Login</span>
             </button>
           </div>
         </div>
