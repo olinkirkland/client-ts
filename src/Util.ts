@@ -7,3 +7,8 @@ export function garbageCollectModals() {
     }
   }, 1000);
 }
+
+export function numberComma(n: number): string {
+  // Add a comma to a number (e.g. 1234567 -> 1,234,567)
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
