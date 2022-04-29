@@ -9,6 +9,12 @@ export function garbageCollectModals() {
 }
 
 export function numberComma(n: number): string {
+  if (!n) n = 0;
   // Add a comma to a number (e.g. 1234567 -> 1,234,567)
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+export function experienceNeededFromLevel(level: number): number {
+  // 100 + (x/7)^2
+  return 100 + Math.pow(level / 7, 2);
 }
