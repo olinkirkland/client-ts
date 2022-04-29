@@ -10,12 +10,12 @@ export default function Taskbar() {
   return (
     <div className="taskbar">
       <button className="taskbar-tile">
-        <img className="" src="assets/icons/coin.png" alt="" />
-        <span>{numberComma(gold)}</span>
+        <span>{`Level ${level}`}</span>
+        <ProgressBar percent={experience / experienceToNextLevel} />
       </button>
       <button className="taskbar-tile">
-        <span>{level}</span>
-        <ProgressBar percent={experience / experienceToNextLevel} />
+        <img className="" src="assets/icons/coin.png" alt="" />
+        <span>{numberComma(gold)}</span>
       </button>
     </div>
   );
