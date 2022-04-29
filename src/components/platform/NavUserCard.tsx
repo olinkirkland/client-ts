@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { usePopupManager } from 'react-popup-manager';
 import Connection from '../../connection/Connection';
+import PopupMediator from '../../controllers/PopupMediator';
 import { PopupLogin } from '../popups/PopupLogin';
 import { PopupMyAccount } from '../popups/PopupMyAccount';
 import { PopupPrompt } from '../popups/PopupPrompt';
 import { PopupRegister } from '../popups/PopupRegister';
 export default function NavAnonCard() {
-  const popupManager = usePopupManager();
   const connection = Connection.instance;
   const [username, setUsername] = useState<string>('');
   const [isGuest, setIsGuest] = useState<boolean>(true);
@@ -23,7 +22,7 @@ export default function NavAnonCard() {
       <div className="nav-user-card">
         <div
           className="profile-button"
-          onClick={() => popupManager.open(PopupMyAccount)}
+          onClick={() => PopupMediator.open(PopupMyAccount)}
         >
           {username && (
             <img
@@ -36,7 +35,7 @@ export default function NavAnonCard() {
         {isGuest && (
           <button
             className="user-card-button"
-            onClick={() => popupManager.open(PopupLogin)}
+            onClick={() => PopupMediator.open(PopupLogin)}
           >
             <span>Login</span>
           </button>
@@ -45,7 +44,7 @@ export default function NavAnonCard() {
         {isGuest && (
           <button
             className="user-card-button featured"
-            onClick={() => popupManager.open(PopupRegister)}
+            onClick={() => PopupMediator.open(PopupRegister)}
           >
             <span>Sign Up</span>
           </button>
@@ -55,7 +54,7 @@ export default function NavAnonCard() {
           <button
             className="user-card-button"
             onClick={() =>
-              popupManager.open(PopupPrompt, {
+              PopupMediator.open(PopupPrompt, {
                 title: 'Log out',
                 message: 'Are you sure you want to log out?',
                 confirm: 'Yes, log me out',

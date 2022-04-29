@@ -1,6 +1,9 @@
 import axios from 'axios';
 import EventEmitter from 'events';
 import { io, Socket } from 'socket.io-client';
+import { PopupError } from '../components/popups/PopupError';
+import { PopupLoading } from '../components/popups/PopupLoading';
+import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
 const url: string = 'https://dontfall-backend.herokuapp.com/';
@@ -14,14 +17,11 @@ export default class Connection extends EventEmitter {
   public me?: MyUserData;
 
   // Callbacks
-  setStatus?: Function;
+  setIsConnected!: Function;
 
   private constructor() {
     // Private constructor to enforce singleton
     super();
-
-    // Open loading popup
-    // usePopupManager().open(PopupLoading);
 
     // Get stored login credentials
     let loginCredentials = { email: null, password: null };
@@ -49,9 +49,11 @@ export default class Connection extends EventEmitter {
     Terminal.log(
       '🔑',
       'Logging in',
-      email && password ? `${email} / ${password}` : 'without credentials',
+      email && password ? `${email} / ${password}` : 'anonymously',
       '...'
     );
+
+    PopupMediator.open(PopupLoading);
 
     axios
       .post(
@@ -66,6 +68,10 @@ export default class Connection extends EventEmitter {
         const data = res.data;
         if (!data.id) {
           Terminal.log('❌', 'Login failed');
+          PopupMediator.open(PopupError, {
+            title: 'Login failed',
+            message: 'Invalid email or password'
+          });
           return;
         }
 
@@ -85,18 +91,18 @@ export default class Connection extends EventEmitter {
           isGuest: data.isGuest
         };
 
-        if (!this.me.isGuest) {
-          // Save login data
-          // localStorage.setItem(
-          //   'login',
-          //   JSON.stringify({
-          //     email: email,
-          //     password: password
-          //   })
-          // );
+        // if (rememberLogin && !this.me.isGuest) {
+        //   // Save login data
+        //   localStorage.setItem(
+        //     'login',
+        //     JSON.stringify({
+        //       email: email,
+        //       password: password
+        //     })
+        //   );
 
-          Terminal.log('🔑', 'Login credentials saved to local storage');
-        }
+        //   Terminal.log('🔑', 'Login credentials saved to local storage');
+        // }
 
         this.connect();
       })
@@ -197,6 +203,10 @@ export default class Connection extends EventEmitter {
     this.socket?.on('connect', () => {
       Terminal.log(`✔️ Connected to ${url} as ${this.me!.id}`);
       this.emit('connect');
+      setTimeout(() => {
+        this.setIsConnected(true);
+        PopupMediator.close();
+      }, 500);
     });
 
     this.socket?.on('me', (data) => {
@@ -217,6 +227,7 @@ export default class Connection extends EventEmitter {
 
     this.socket?.on('disconnect', () => {
       Terminal.log('✔️ Disconnected');
+      this.setIsConnected(false);
       this.removeSocketListeners();
       this.socket = undefined;
     });

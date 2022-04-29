@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { usePopupManager } from 'react-popup-manager';
-import Terminal from '../../controllers/Terminal';
+import PopupMediator from '../../controllers/PopupMediator';
 import { PopupBook, SectionType } from '../popups/PopupBook';
 import { PopupError } from '../popups/PopupError';
 import { PopupInput } from '../popups/PopupInput';
@@ -8,10 +7,7 @@ import { PopupPrompt } from '../popups/PopupPrompt';
 import HomePanel from './HomePanel';
 
 export default function Navbar() {
-  useEffect(() => {
-  }, []);
-
-  const popupManager = usePopupManager();
+  useEffect(() => {}, []);
 
   return (
     <div className="home">
@@ -19,7 +15,7 @@ export default function Navbar() {
         <div className="home-grid">
           <HomePanel
             onClick={() => {
-              popupManager.open(PopupPrompt, {
+              PopupMediator.open(PopupPrompt, {
                 title: 'Are you sure?',
                 message: 'Lorem ipsum dolor sit amet.',
                 confirm: 'Yes',
@@ -39,7 +35,7 @@ export default function Navbar() {
           />
           <HomePanel
             onClick={() => {
-              popupManager.open(PopupBook, {
+              PopupMediator.open(PopupBook, {
                 title: 'How to Play',
                 sections: [
                   { type: SectionType.TITLE, data: 'Foo bar' },
@@ -60,7 +56,7 @@ export default function Navbar() {
           />
           <HomePanel
             onClick={() => {
-              popupManager.open(PopupInput, {
+              PopupMediator.open(PopupInput, {
                 title: 'Choose your name',
                 message: 'Enter your name below.',
                 confirm: 'Ok',
@@ -80,7 +76,7 @@ export default function Navbar() {
           />
           <HomePanel
             onClick={() => {
-              popupManager.open(PopupError, {
+              PopupMediator.open(PopupError, {
                 title: 'Error!',
                 message:
                   'Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.'

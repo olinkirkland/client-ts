@@ -33,9 +33,8 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
           </div>
           <div className="popup-content">
             <p>
-              In order to create your account, provide a valid Email and a
-              password. You will be able to change your username once your
-              account is created.
+              Enter a valid Email and password. You can change your username
+              once your account is created.
             </p>
 
             <div className="input-group">

@@ -1,8 +1,8 @@
-import Modal from 'react-modal';
 import React from 'react';
+import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import { rootElement } from '../../index';
 import Connection from '../../connection/Connection';
+import { rootElement } from '../../index';
 
 type State = {
   email: string;
@@ -19,6 +19,7 @@ export class PopupLogin extends React.Component<PopupLoginProps> {
 
   render() {
     const { isOpen, onClose } = this.props;
+
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">

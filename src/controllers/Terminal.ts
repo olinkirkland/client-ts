@@ -29,6 +29,8 @@ export default class Terminal extends EventEmitter {
   }
 
   public static log(...args: any[]): void {
+    console.log(...args);
+
     const log = new TerminalLog(...args);
     Terminal.logs.push(log);
     Terminal.instance.emit(TerminalEventType.LOG, log);

@@ -4,8 +4,8 @@ import { PopupProvider } from 'react-popup-manager';
 import App from './App';
 import './assets/css/general.css';
 import './assets/css/popups.css';
-import './assets/css/styles.css';
 import './assets/css/queries.css';
+import './assets/css/styles.css';
 
 export const rootElement = document.getElementById('root');
 
