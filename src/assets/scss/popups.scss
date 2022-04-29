@@ -78,6 +78,17 @@
       }
     }
 
+    .guest-badge {
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .avatar {
+      width: 8rem;
+      background-color: white;
+      border-radius: 5px;
+    }
+
     .popup-taskbar {
       display: flex;
       align-items: center;

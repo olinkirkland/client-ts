@@ -14,14 +14,20 @@ export default function Taskbar() {
 
   useEffect(() => {
     connection.on('connect', () => {
-      setGold(connection.me!.gold!);
-      setLevel(connection.me!.level!);
-      setExperience(connection.me!.experience!);
-      setExperienceToNextLevel(
-        experienceNeededForNextLevel(connection.me!.level!)
-      );
+      update();
     });
+
+    connection.on('update-me', update);
   }, []);
+
+  function update() {
+    setGold(connection.me!.gold!);
+    setLevel(connection.me!.level!);
+    setExperience(connection.me!.experience!);
+    setExperienceToNextLevel(
+      experienceNeededForNextLevel(connection.me!.level!)
+    );
+  }
 
   return (
     <div className="taskbar">

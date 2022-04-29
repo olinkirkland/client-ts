@@ -4,7 +4,6 @@ html {
   /* Percentage of user's browser font-size setting */
   font-size: 62.5%;
   scroll-behavior: smooth;
-  background-color: $background;
 }
 
 * {
@@ -39,7 +38,10 @@ p {
   font-size: 1.6rem;
 }
 
-p.alert {
+div.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   padding: 1rem 1rem;
   border-radius: 5px;
   &.warn {

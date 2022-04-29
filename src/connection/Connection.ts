@@ -88,12 +88,13 @@ export default class Connection extends EventEmitter {
         Terminal.log('✔️ Logged in as', data.id);
 
         // Populate my user data
+        Terminal.log('👀', JSON.stringify(data, null, 2));
         this.me = {
           id: data.id,
           email: data.email,
           gold: data.gold,
           username: data.username,
-          avatar: data.avatar,
+          avatar: data.currentAvatar,
           level: data.level,
           experience: data.experience,
           isGuest: data.isGuest
@@ -129,6 +130,18 @@ export default class Connection extends EventEmitter {
     // Reset my user data & login to anonymous user
     this.me = undefined;
     this.login(null, null);
+  }
+
+  public cheat(type: string, value: number): void {
+    Terminal.log('⭐', 'Cheating', value, type, '...');
+    axios
+      .post(
+        `${url}cheat/?${type}=${value}`,
+        { userID: this.me?.id },
+        { withCredentials: true }
+      )
+      .then((res) => Terminal.log('✔️', res.data))
+      .catch((err) => Terminal.log('⚠️', err));
   }
 
   public register(email: string, password: string) {
@@ -269,6 +282,9 @@ export default class Connection extends EventEmitter {
           break;
         case 'logout':
           this.logout();
+          break;
+        case 'cheat':
+          this.cheat(arr[0], parseInt(arr[1]));
           break;
         case 'connect':
           this.connect();

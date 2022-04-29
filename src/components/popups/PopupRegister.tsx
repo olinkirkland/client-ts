@@ -74,7 +74,7 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
               />
             </div>
 
-            <p className="alert warn">{`✨ Your new account will be created at level ${me?.level} with ${me?.experience} experience from your current session's progress.`}</p>
+            <div className="alert warn"><span>{`✨ Your new account will be created at level ${me?.level} with ${me?.experience} experience from your current session's progress.`}</span></div>
           </div>
           <div className="popup-taskbar">
             <button

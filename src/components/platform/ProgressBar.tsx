@@ -3,8 +3,6 @@ interface Props {
 }
 
 export default function ProgressBar({ percent }: Props) {
-  console.log(percent);
-
   return (
     <div className="progress-bar">
       <div className="trough">

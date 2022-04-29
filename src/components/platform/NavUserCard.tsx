@@ -9,11 +9,13 @@ export default function NavAnonCard() {
   const connection = Connection.instance;
   const [username, setUsername] = useState<string>('');
   const [isGuest, setIsGuest] = useState<boolean>(true);
+  const [avatar, setAvatar] = useState<string>('');
 
   useEffect(() => {
     connection.on('connect', () => {
       setUsername(connection.me!.username!);
       setIsGuest(connection.me!.isGuest === true);
+      setAvatar(connection.me!.avatar!);
     });
   }, []);
 
@@ -24,15 +26,9 @@ export default function NavAnonCard() {
           className="profile-button"
           onClick={() => PopupMediator.open(PopupMyAccount)}
         >
-          {username && (
-            <img
-              className="avatar"
-              src={`https://avatars.dicebear.com/api/identicon/${username}.svg`}
-              alt=""
-            />
-          )}
+          {username && <img className="avatar" src={avatar} alt="" />}
           {isGuest && (
-            <img className="guest-badge" src="assets/icons/acorn.png" alt="" />
+            <img className="guest-badge" src="assets/icons/guest.png" alt="" />
           )}
           <h2 className={isGuest ? 'guest' : ''}>{username}</h2>
         </div>
