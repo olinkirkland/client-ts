@@ -7,6 +7,7 @@ import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
 const url: string = 'https://dontfall-backend.herokuapp.com/';
+// const url: string = '';
 
 export default class Connection extends EventEmitter {
   private static _instance: Connection;
