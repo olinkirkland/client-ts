@@ -1,8 +1,10 @@
-import Modal from 'react-modal';
 import React from 'react';
+import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import { rootElement } from '../../index';
 import Connection from '../../connection/Connection';
+import { rootElement } from '../../index';
+import { experienceNeededFromLevel } from '../../Util';
+import ProgressBar from '../platform/ProgressBar';
 
 interface PopupMyAccountProps extends PopupProps {}
 
@@ -24,10 +26,17 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
           <div className="popup-content">
             {me.isGuest && (
               <>
-                <p className="alert warn">
-                  😢 This is a guest account. Register an account to earn
-                  experience points and unlock rewards.
-                </p>
+                <div className="alert warn">
+                  <img
+                    className="guest-badge"
+                    src="assets/icons/guest.png"
+                    alt=""
+                  />
+                  <span>
+                    This is a guest account. Register an account to save your
+                    experience points and unlock rewards.
+                  </span>
+                </div>
               </>
             )}
             <ul className="profile-data">
@@ -48,12 +57,33 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
                 </>
               )}
               <li>
-                <span>Level</span>
-                <span>{me.level}</span>
+                <span>{`Level ${me.level}`}</span>
+                <ProgressBar
+                  percent={Math.min(
+                    me.experience! / experienceNeededFromLevel(me.level!)
+                  )}
+                />
+                <span className="muted">{`${
+                  me.experience
+                }/${experienceNeededFromLevel(me.level!)} XP`}</span>
               </li>
               <li>
-                <span>Experience</span>
-                <span>{me.experience}</span>
+                <span>{`User ID`}</span>
+                <span>{me.id}</span>
+                <div>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(me.id!);
+                    }}
+                  >
+                    <i className="fas fa-copy" />
+                    Copy User ID
+                  </button>
+                </div>
+              </li>
+              <li>
+                <span>Avatar</span>
+                <img className="avatar" src={me.avatar} alt="" />
               </li>
             </ul>
           </div>

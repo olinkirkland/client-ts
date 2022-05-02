@@ -12,7 +12,7 @@ export class PopupLoading extends React.Component<PopupLoadingProps> {
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup popup-fit">
           <div className="popup-header popup-loading">
-            <span>⏳</span>
+            <span>Loading ...</span>
           </div>
         </div>
       </Modal>

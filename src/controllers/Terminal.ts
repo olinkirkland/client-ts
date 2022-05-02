@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import { formatHelpString } from '../Util';
 
 export enum TerminalEventType {
   LOG = 'log',
@@ -39,6 +40,33 @@ export default class Terminal extends EventEmitter {
   public static command(cmd: string): void {
     if (cmd === 'clear') {
       Terminal.clear();
+      return;
+    }
+
+    if (cmd === 'help') {
+      const helpCommands = [
+        ['clear', 'Clear the terminal'],
+        ['help', 'Show this help message'],
+        ['login', 'Login [email, password]'],
+        ['register', 'Register [email, password]'],
+        ['logout', 'Logout'],
+        ['cheat', 'Set a resource [resource, amount]'],
+        ['connect', 'Connect to the socket server'],
+        ['disconnect', 'Disconnect from the socket server'],
+        ['chat', 'Send a chat message [room, message]'],
+        ['create', 'Create a room [room]'],
+        ['join', 'Join a room [room]'],
+        ['leave', 'Leave a room [room]'],
+        ['rooms', 'Show all connected rooms']
+      ];
+
+      Terminal.log(
+        '📖 Terminal Commands',
+        `\n${helpCommands
+          .map((arr) => formatHelpString(arr[0], arr[1]))
+          .join('\n')}`
+      );
+
       return;
     }
 

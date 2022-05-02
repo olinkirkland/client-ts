@@ -32,7 +32,7 @@
       display: flex;
       justify-content: space-between;
       gap: 0.4rem;
-      padding: 1rem 1.4rem;
+      padding: 1.4rem 1.8rem;
       background-color: $primary-muted;
       color: $primary;
 
@@ -78,13 +78,24 @@
       }
     }
 
+    .guest-badge {
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .avatar {
+      width: 8rem;
+      background-color: white;
+      border-radius: 5px;
+    }
+
     .popup-taskbar {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      padding: 1rem 2rem;
-      background-color: $dark;
+      padding: 1.4rem 1.8rem;
+      border-top: 1px dashed $darker;
     }
   }
 }

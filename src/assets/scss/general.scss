@@ -4,7 +4,6 @@ html {
   /* Percentage of user's browser font-size setting */
   font-size: 62.5%;
   scroll-behavior: smooth;
-  background-color: $background;
 }
 
 * {
@@ -39,7 +38,10 @@ p {
   font-size: 1.6rem;
 }
 
-p.alert {
+div.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   padding: 1rem 1rem;
   border-radius: 5px;
   &.warn {
@@ -49,6 +51,10 @@ p.alert {
   &.error {
     color: $error;
     background-color: $error-muted;
+  }
+
+  button {
+    margin-left: auto;
   }
 }
 
@@ -91,6 +97,7 @@ button {
 }
 
 pre {
+  user-select: text;
   color: $text;
   font-family: 'Inconsolata', monospace !important;
   white-space: pre-wrap;
@@ -139,10 +146,12 @@ input[type='password'] {
 .checkbox {
   cursor: pointer;
   display: flex;
+  width: fit-content;
   gap: 0.4rem;
   align-items: center;
-  opacity: 0.6;
   transition: all 0.3s;
+  color: $text-muted;
+  opacity: 0.8;
 
   .icon-frame {
     display: flex;
@@ -152,7 +161,7 @@ input[type='password'] {
     height: 1.6rem;
     color: white;
     border-radius: 3px;
-    background-color: $darker;
+    background-color: $dark;
     font-size: 1rem;
   }
 

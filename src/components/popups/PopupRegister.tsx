@@ -3,11 +3,13 @@ import React from 'react';
 import { PopupProps } from 'react-popup-manager';
 import { rootElement } from '../../index';
 import Connection from '../../connection/Connection';
+import { validateEmail, validatePassword } from '../../Util';
 
 type State = {
   email: string;
   password: string;
   confirmPassword: string;
+  validationMessage: string | null;
 };
 
 interface PopupRegisterProps extends PopupProps {}
@@ -16,8 +18,40 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
   public readonly state: State = {
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    validationMessage: null
   };
+
+  private validateAndRegister() {
+    const { onClose } = this.props;
+
+    // Validation
+    if (!validateEmail(this.state.email)) {
+      this.setState((state, props) => ({
+        validationMessage: 'Please enter a valid email.'
+      }));
+      return;
+    }
+
+    if (!validatePassword(this.state.password)) {
+      this.setState((state, props) => ({
+        validationMessage:
+          'Please enter a valid password. Must be at least 8 characters long.'
+      }));
+      return;
+    }
+
+    if (this.state.password !== this.state.confirmPassword) {
+      this.setState((state, props) => ({
+        validationMessage: 'Passwords do not match.'
+      }));
+      return;
+    }
+
+    // Register
+    Connection.instance.register(this.state.email, this.state.password);
+    onClose!();
+  }
 
   render() {
     const { isOpen, onClose } = this.props;
@@ -71,21 +105,36 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
                     confirmPassword: event.target.value
                   }));
                 }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    this.validateAndRegister();
+                  }
+                }}
               />
             </div>
 
-            <p className="alert warn">{`✨ Your new account will be created at level ${me?.level} with ${me?.experience} experience from your current session's progress.`}</p>
+            {this.state.validationMessage && (
+              <div className="alert error">
+                {this.state.validationMessage}
+                <button
+                  className="button-close"
+                  onClick={() => {
+                    this.setState((state, props) => ({
+                      validationMessage: null
+                    }));
+                  }}
+                >
+                  <i className="fas fa-times" />
+                </button>
+              </div>
+            )}
+
+            <div className="alert warn">
+              <span>{`✨ Your new account will be created at level ${me?.level} with ${me?.experience} experience from your current session's progress.`}</span>
+            </div>
           </div>
           <div className="popup-taskbar">
-            <button
-              onClick={() => {
-                Connection.instance.register(
-                  this.state.email,
-                  this.state.password
-                );
-                onClose!();
-              }}
-            >
+            <button onClick={this.validateAndRegister.bind(this)}>
               Create Account
             </button>
           </div>

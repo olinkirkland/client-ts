@@ -7,6 +7,7 @@ import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
 const url: string = 'https://dontfall-backend.herokuapp.com/';
+// const url: string = '';
 
 export default class Connection extends EventEmitter {
   private static _instance: Connection;
@@ -47,7 +48,11 @@ export default class Connection extends EventEmitter {
     });
   }
 
-  public login(email: string | null, password: string | null) {
+  public login(
+    email: string | null,
+    password: string | null,
+    staySignedIn: boolean = false
+  ) {
     PopupMediator.open(PopupLoading);
 
     if ((email || password) && !(email && password))
@@ -84,28 +89,30 @@ export default class Connection extends EventEmitter {
         Terminal.log('✔️ Logged in as', data.id);
 
         // Populate my user data
+        // Terminal.log('👀', JSON.stringify(data, null, 2));
         this.me = {
           id: data.id,
           email: data.email,
+          gold: data.gold,
           username: data.username,
-          avatar: data.avatar,
+          avatar: data.currentAvatar,
           level: data.level,
           experience: data.experience,
           isGuest: data.isGuest,
         };
 
-        // if (rememberLogin && !this.me.isGuest) {
-        //   // Save login data
-        //   localStorage.setItem(
-        //     'login',
-        //     JSON.stringify({
-        //       email: email,
-        //       password: password
-        //     })
-        //   );
+        if (staySignedIn && !this.me.isGuest) {
+          // Save login data
+          localStorage.setItem(
+            'login',
+            JSON.stringify({
+              email: email,
+              password: password
+            })
+          );
 
-        //   Terminal.log('🔑', 'Login credentials saved to local storage');
-        // }
+          Terminal.log('🔑', 'Login credentials saved to local storage');
+        }
 
         this.connect();
       })
@@ -126,20 +133,35 @@ export default class Connection extends EventEmitter {
     this.login(null, null);
   }
 
+  public cheat(type: string, value: number): void {
+    Terminal.log('⭐', 'Cheating', value, type, '...');
+    axios
+      .post(
+        `${url}cheat/?${type}=${value}`,
+        { userID: this.me?.id },
+        { withCredentials: true }
+      )
+      .then((res) => Terminal.log('✔️', res.data))
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
   public register(email: string, password: string) {
     PopupMediator.open(PopupLoading);
 
     Terminal.log('🔑', `Registering ${email} / ${password}`, '...');
     axios
-      .post(url + 'users/registration', { email: email, password: password })
+      .post(
+        url + 'users/registration',
+        { email: email, password: password, userID: this.me!.id },
+        { withCredentials: true }
+      )
       .then((res) => {
-        Terminal.log('👀', res);
+        // Terminal.log('👀', res);
         Terminal.log('✔️ Registered');
-
-        this.connect();
+        PopupMediator.close();
       })
       .catch((err) => {
-        console.log(err);
+        Terminal.log(err);
         this.error(
           'Registration failed',
           'Could not register an account with the provided email and password.'
@@ -197,14 +219,11 @@ export default class Connection extends EventEmitter {
   // Leave a room
   private leaveRoom(roomId: string) {
     Terminal.log(`Leaving room ${roomId}...`);
+    this.socket?.emit('leave-room', roomId);
   }
 
-  private chat(message: string) {
-    //! room === ''
-    //!   ? this.socket?.emit('chat', message)
-    //!   : this.socket?.to(room).emit('chat', message);
-
-    this.socket?.emit('chat', message); //! REPLACE ME
+  private chat(room: string, message: string) {
+    this.socket?.emit('chat', { room: room, message: message });
   }
 
   // Socket listeners
@@ -218,12 +237,8 @@ export default class Connection extends EventEmitter {
       }, 500);
     });
 
-    this.socket?.on('me', (data) => {
-      Terminal.log('user-intro', data);
-    });
-
     this.socket?.on('chat', (data) => {
-      Terminal.log('💬', data);
+      Terminal.log('💬', JSON.stringify(data));
     });
 
     this.socket?.on('force-reload', (data) => {
@@ -262,6 +277,9 @@ export default class Connection extends EventEmitter {
         case 'logout':
           this.logout();
           break;
+        case 'cheat':
+          this.cheat(arr[0], parseInt(arr[1]));
+          break;
         case 'connect':
           this.connect();
           break;
@@ -269,12 +287,12 @@ export default class Connection extends EventEmitter {
           this.disconnect();
           break;
         case 'chat':
-          this.chat(arr.join(' '));
+          this.chat(arr.shift(), arr.join(' '));
           break;
-        case 'joinRoom':
+        case 'join':
           this.joinRoom(arr[0]);
           break;
-        case 'leaveRoom':
+        case 'leave':
           this.leaveRoom(arr[0]);
           break;
       }

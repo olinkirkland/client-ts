@@ -9,8 +9,15 @@ import HomePanel from './HomePanel';
 export default function Navbar() {
   useEffect(() => {}, []);
 
+  const wallpaper: string = 'prism.png';
+
   return (
-    <div className="home">
+    <div
+      className="home"
+      style={{
+        background: `url(${process.env.PUBLIC_URL}/assets/images/wallpapers/${wallpaper}) repeat center center`
+      }}
+    >
       <div className="home-container">
         <div className="home-grid">
           <HomePanel
