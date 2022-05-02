@@ -30,3 +30,9 @@ export function validatePassword(password: string): boolean {
   // Validate password
   return password.length >= 8;
 }
+
+export function formatHelpString(cmd: string, description: string): string {
+  cmd += ' ';
+  while (cmd.length < 20) cmd += '.';
+  return cmd + ' ' + description;
+}

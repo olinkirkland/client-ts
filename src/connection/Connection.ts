@@ -89,7 +89,7 @@ export default class Connection extends EventEmitter {
         Terminal.log('✔️ Logged in as', data.id);
 
         // Populate my user data
-        Terminal.log('👀', JSON.stringify(data, null, 2));
+        // Terminal.log('👀', JSON.stringify(data, null, 2));
         this.me = {
           id: data.id,
           email: data.email,
@@ -219,14 +219,11 @@ export default class Connection extends EventEmitter {
   // Leave a room
   private leaveRoom(roomId: string) {
     Terminal.log(`Leaving room ${roomId}...`);
+    this.socket?.emit('leave-room', roomId);
   }
 
-  private chat(message: string) {
-    //! room === ''
-    //!   ? this.socket?.emit('chat', message)
-    //!   : this.socket?.to(room).emit('chat', message);
-
-    this.socket?.emit('chat', message); //! REPLACE ME
+  private chat(room: string, message: string) {
+    this.socket?.emit('chat', { room: room, message: message });
   }
 
   // Socket listeners
@@ -240,12 +237,8 @@ export default class Connection extends EventEmitter {
       }, 500);
     });
 
-    this.socket?.on('me', (data) => {
-      Terminal.log('user-intro', data);
-    });
-
     this.socket?.on('chat', (data) => {
-      Terminal.log('💬', data);
+      Terminal.log('💬', JSON.stringify(data));
     });
 
     this.socket?.on('force-reload', (data) => {
@@ -294,12 +287,12 @@ export default class Connection extends EventEmitter {
           this.disconnect();
           break;
         case 'chat':
-          this.chat(arr.join(' '));
+          this.chat(arr.shift(), arr.join(' '));
           break;
-        case 'joinRoom':
+        case 'join':
           this.joinRoom(arr[0]);
           break;
-        case 'leaveRoom':
+        case 'leave':
           this.leaveRoom(arr[0]);
           break;
       }
