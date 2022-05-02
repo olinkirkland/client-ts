@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import Terminal from '../../controllers/Terminal';
 import Home from './Home';
 import Navbar from './Navbar';
 import Taskbar from './Taskbar';

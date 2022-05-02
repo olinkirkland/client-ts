@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Connection from '../../connection/Connection';
+import Connection, { ConnectionEventType } from '../../connection/Connection';
 import {
   experienceNeededFromLevel as experienceNeededForNextLevel,
   numberComma
@@ -13,11 +13,9 @@ export default function Taskbar() {
   const [experienceToNextLevel, setExperienceToNextLevel] = useState(0);
 
   useEffect(() => {
-    connection.on('connect', () => {
+    connection.on(ConnectionEventType.USER_DATA_CHANGED, () => {
       update();
     });
-
-    connection.on('update-me', update);
   }, []);
 
   function update() {

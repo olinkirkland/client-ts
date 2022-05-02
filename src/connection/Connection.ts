@@ -9,6 +9,12 @@ import Terminal, { TerminalEventType } from '../controllers/Terminal';
 const url: string = 'https://dontfall-backend.herokuapp.com/';
 // const url: string = '';
 
+export enum ConnectionEventType {
+  CONNECT = 'connect',
+  DISCONNECT = 'disconnect',
+  USER_DATA_CHANGED = 'user-data-changed'
+}
+
 export default class Connection extends EventEmitter {
   private static _instance: Connection;
 
@@ -230,7 +236,8 @@ export default class Connection extends EventEmitter {
   private addSocketListeners() {
     this.socket?.on('connect', () => {
       Terminal.log(`✔️ Connected to ${url} as ${this.me!.id}`);
-      this.emit('connect');
+      this.emit(ConnectionEventType.CONNECT);
+      this.emit(ConnectionEventType.USER_DATA_CHANGED);
       setTimeout(() => {
         this.setIsConnected(true);
         PopupMediator.close();
@@ -239,6 +246,33 @@ export default class Connection extends EventEmitter {
 
     this.socket?.on('chat', (data) => {
       Terminal.log('💬', JSON.stringify(data));
+    });
+
+    this.socket?.on('invalidate-user', () => {
+      // User data invalidated, update it
+      Terminal.log(
+        '🔥',
+        'User data invalidated by server, validating my data',
+        '...'
+      );
+      axios
+        .get(url + `users/${this.me!.id}`, { withCredentials: true })
+        .then((res) => {
+          const data = res.data;
+          this.me = {
+            id: data.id,
+            email: data.email,
+            gold: data.gold,
+            username: data.username,
+            avatar: data.currentAvatar,
+            level: data.level,
+            experience: data.experience,
+            isGuest: data.isGuest
+          };
+
+          Terminal.log('✔️', 'Validated user data');
+          this.emit(ConnectionEventType.USER_DATA_CHANGED);
+        });
     });
 
     this.socket?.on('force-reload', (data) => {
