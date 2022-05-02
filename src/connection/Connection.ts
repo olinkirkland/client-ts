@@ -43,7 +43,7 @@ export default class Connection extends EventEmitter {
     Terminal.log('❌', title);
     PopupMediator.open(PopupError, {
       title: title,
-      message: message
+      message: message,
     });
   }
 
@@ -91,7 +91,7 @@ export default class Connection extends EventEmitter {
           avatar: data.avatar,
           level: data.level,
           experience: data.experience,
-          isGuest: data.isGuest
+          isGuest: data.isGuest,
         };
 
         // if (rememberLogin && !this.me.isGuest) {
@@ -172,8 +172,8 @@ export default class Connection extends EventEmitter {
     this.socket = io(url, {
       query: {
         userID: this.me!.id,
-        online: true
-      }
+        online: true,
+      },
     });
     this.addSocketListeners();
   }
@@ -284,7 +284,7 @@ export default class Connection extends EventEmitter {
 
 export enum OnlineStatus {
   ONLINE = 'online',
-  OFFLINE = 'offline'
+  OFFLINE = 'offline',
 }
 
 export class UserData {
