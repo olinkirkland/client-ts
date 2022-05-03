@@ -6,8 +6,8 @@ import { PopupLoading } from '../components/popups/PopupLoading';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
-const url: string = 'https://dontfall-backend.herokuapp.com/';
-// const url: string = '';
+// const url: string = 'https://dontfall-backend.herokuapp.com/';
+const url: string = 'http://localhost:8000/';
 
 export enum ConnectionEventType {
   CONNECT = 'connect',
@@ -54,6 +54,21 @@ export default class Connection extends EventEmitter {
     });
   }
 
+  public getMe() {
+    Terminal.log('🔑', 'Getting my user data...');
+    Terminal.log(`${url}users/${this.me?.id}`);
+    axios
+      .get(`${url}users/${this.me?.id}`, { withCredentials: true })
+      .then((res) => {
+        // this.me = res.data;
+        // this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
+        Terminal.log('🔑', 'Me', res.data);
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', err);
+      });
+  }
+
   public login(
     email: string | null,
     password: string | null,
@@ -86,6 +101,7 @@ export default class Connection extends EventEmitter {
         const data = res.data;
         if (!data.id) {
           this.error('Login failed', 'Invalid username or password.');
+          localStorage.removeItem('login');
           return;
         }
 
@@ -123,7 +139,9 @@ export default class Connection extends EventEmitter {
         this.connect();
       })
       .catch((err) => {
+        console.log(err);
         this.error('Login failed', 'Invalid username or password.');
+        localStorage.removeItem('login');
         return;
       });
   }
@@ -164,6 +182,17 @@ export default class Connection extends EventEmitter {
       .then((res) => {
         // Terminal.log('👀', res);
         Terminal.log('✔️ Registered');
+
+        localStorage.setItem(
+          'login',
+          JSON.stringify({
+            email: email,
+            password: password
+          })
+        );
+
+        Terminal.log('🔑', 'Login credentials saved to local storage');
+
         PopupMediator.close();
       })
       .catch((err) => {
@@ -302,6 +331,9 @@ export default class Connection extends EventEmitter {
       cmd = arr.shift();
 
       switch (cmd) {
+        case 'me':
+          this.getMe();
+          break;
         case 'login':
           this.login(arr[0], arr[1]);
           break;

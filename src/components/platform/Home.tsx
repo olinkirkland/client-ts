@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import PopupMediator from '../../controllers/PopupMediator';
 import { PopupBook, SectionType } from '../popups/PopupBook';
-import { PopupError } from '../popups/PopupError';
+import { PopupHostGame } from '../popups/PopupHostGame';
 import { PopupInput } from '../popups/PopupInput';
+import { PopupJoinGame } from '../popups/PopupJoinGame';
 import { PopupPrompt } from '../popups/PopupPrompt';
 import HomePanel from './HomePanel';
 
@@ -83,10 +84,10 @@ export default function Navbar() {
           />
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupError, {
-                title: 'Error!',
-                message:
-                  'Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.'
+              PopupMediator.open(PopupHostGame, {
+                onConfirm: () => {
+                  console.log('confirm');
+                }
               });
             }}
             titleText="Host a public or private game"
@@ -94,9 +95,15 @@ export default function Navbar() {
             image="assets/images/abstract-4.png"
           />
           <HomePanel
-            onClick={() => {}}
+            onClick={() => {
+              PopupMediator.open(PopupJoinGame, {
+                onConfirm: () => {
+                  console.log('confirm');
+                }
+              });
+            }}
             titleText="View open games"
-            buttonText="Open games"
+            buttonText="Join a game"
             image="assets/images/abstract-5.png"
           />
         </div>
