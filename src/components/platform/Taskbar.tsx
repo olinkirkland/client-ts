@@ -57,11 +57,10 @@ export default function Taskbar() {
       <button
         className="taskbar-tile"
         onClick={(event) => {
-          console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.CHAT);
         }}
       >
-        <i className="fas fa-comment" />
+        <i className="fas fa-comment-alt" />
         <span>Chat Room</span>
       </button>
 

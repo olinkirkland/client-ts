@@ -281,7 +281,7 @@ export default class Connection extends EventEmitter {
     this.socket?.emit('leave-room', roomId);
   }
 
-  private chat(room: string, message: string) {
+  public chat(room: string, message: string) {
     this.socket?.emit('chat', { room: room, message: message });
   }
 
@@ -377,7 +377,7 @@ export default class Connection extends EventEmitter {
           this.disconnect();
           break;
         case 'chat':
-          this.chat(arr.shift(), arr.join(' '));
+          this.chat('general-chat', arr.join(' '));
           break;
         case 'host-game':
           const gameOptions: GameOptions = {

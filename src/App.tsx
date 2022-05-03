@@ -38,7 +38,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    console.log('isConnected', isConnected);
+    // console.log('isConnected', isConnected);
   }, [isConnected]);
 
   function openPopup<T>(props: {

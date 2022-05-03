@@ -9,17 +9,15 @@ export default function PopoverLevel() {
     <div className="popover popover-level">
       <div className="level-badge">
         <span className="level">{me.level}</span>
-      </div>
-      <span className="v-group">
         <ProgressBar
           percent={Math.min(
             me.experience! / experienceNeededFromLevel(me.level!)
           )}
         />
-        <span>{`${me.experience}/${experienceNeededFromLevel(
-          me.level!
-        )} XP`}</span>
-      </span>
+      </div>
+      <span className='experience'>{`${me.experience}/${experienceNeededFromLevel(
+        me.level!
+      )} XP`}</span>
       <p>
         Earn experience and level up by playing games and completing challenges.
       </p>
