@@ -6,7 +6,7 @@ export default function ChatMessage({ data }: { data: Chat }) {
 
   console.log(user.id, Connection.instance.me!.id);
   if (user.id === Connection.instance.me!.id) {
-    // Todo return own message
+    // This is my message
     return (
       <div className="chat-message chat-message-self">
         <div className="chat-card">
@@ -21,11 +21,12 @@ export default function ChatMessage({ data }: { data: Chat }) {
     );
   }
 
-  // Other user's message
+  // This is someone else's message
   return (
     <div className="chat-message">
       <div className="chat-card">
         <img src={user.currentAvatar} alt="" />
+        {user.id == 'system' && <span className="badge system">System</span>}
         {user.isGuest && <span className="badge guest">Guest</span>}
         <span className="chat-username">{`${user.username} ᛫ ${new Date(
           time

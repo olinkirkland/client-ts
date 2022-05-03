@@ -608,4 +608,8 @@ span.badge {
     color: white;
     background-color: $dark;
   }
+  &.system {
+    color: white;
+    background-color: $primary;
+  }
 }
