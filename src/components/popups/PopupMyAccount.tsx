@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import Connection from '../../connection/Connection';
+import Connection, { systemUser } from '../../connection/Connection';
 import { rootElement } from '../../index';
 import { experienceNeededFromLevel } from '../../Util';
 import ProgressBar from '../platform/ProgressBar';
@@ -27,11 +27,7 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
             {me.isGuest && (
               <>
                 <div className="alert warn">
-                  <img
-                    className="guest-badge"
-                    src="assets/icons/guest.png"
-                    alt=""
-                  />
+                  <img src={systemUser.currentAvatar} alt="" />
                   <span>
                     This is a guest account. Register an account to save your
                     experience points and unlock rewards.
@@ -42,7 +38,10 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
             <ul className="profile-data">
               <li>
                 <span>Name</span>
-                <span>{me.username}</span>
+                <div className="user-with-badge">
+                  {me.isGuest && <span className="badge guest">Guest</span>}
+                  <span>{me.username}</span>
+                </div>
               </li>
               {!me.isGuest && (
                 <>

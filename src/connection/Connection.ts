@@ -189,6 +189,7 @@ export default class Connection extends EventEmitter {
 
     // Reset my user data & login to anonymous user
     this.me = undefined;
+    this.chatMessages = [];
     this.login(null, null);
   }
 
