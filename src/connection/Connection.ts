@@ -6,7 +6,7 @@ import { PopupLoading } from '../components/popups/PopupLoading';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
-const url: string = 'https://dontfall-backend.herokuapp.com/';
+const url: string = 'http://localhost:8000/';
 // const url: string = '';
 
 export default class Connection extends EventEmitter {
