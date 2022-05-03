@@ -39,6 +39,15 @@ export default function Taskbar() {
         <img className="" src="assets/icons/coin.png" alt="" />
         <span>{numberComma(gold)}</span>
       </button>
+      <button className="taskbar-tile">
+        <i className="fas fa-comment" />
+        <span>Chat Room</span>
+      </button>
+
+      <button className="taskbar-tile friends">
+        <i className="fas fa-user-friends" />
+        <span>{`${connection.me?.friends?.length || 0} Friends`}</span>
+      </button>
     </div>
   );
 }

@@ -295,6 +295,12 @@ ul.profile-data {
     gap: 1rem;
     border-right: 1px dashed $text-muted;
 
+    &.friends {
+      margin-left: auto;
+      border-right: none;
+      border-left: 1px dashed $text-muted;
+    }
+
     img {
       box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px;
       border-radius: 99px;
@@ -386,3 +392,5 @@ ul.profile-data {
     gap: 1rem;
   }
 }
+
+// Popovers
