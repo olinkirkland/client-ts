@@ -171,12 +171,17 @@ nav {
 
 // Home
 
+.home-container {
+  position: relative;
+  flex: 1;
+}
+
 .home {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  flex: 1;
+  height: 100%;
 
   .home-container {
     display: flex;
@@ -394,3 +399,44 @@ ul.profile-data {
 }
 
 // Popovers
+.popover-container {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  width: 100%;
+}
+
+.popover {
+  pointer-events: auto;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  padding: 4rem;
+
+  min-width: 40rem;
+
+  border: 1px solid blue;
+  background-color: #000fff20;
+  color: blue;
+  left: 0;
+
+  &.chat {
+    border: 1px solid red;
+    background-color: #ff000020;
+    color: red;
+    left: 0;
+    min-width: 64rem;
+  }
+
+  &.friends {
+    border: 1px solid green;
+    background-color: #00ff0020;
+    color: green;
+    margin-left: auto;
+    min-width: 20rem;
+  }
+}

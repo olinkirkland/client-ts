@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import Connection, { ConnectionEventType } from '../../connection/Connection';
+import PopoverMediator, {
+  PopoverType
+} from '../../controllers/PopoverMediator';
 import {
   experienceNeededFromLevel as experienceNeededForNextLevel,
   numberComma
@@ -29,22 +32,46 @@ export default function Taskbar() {
 
   return (
     <div className="taskbar">
-      <button className="taskbar-tile">
+      <button
+        className="taskbar-tile"
+        onClick={(event) => {
+          console.log(event.currentTarget as HTMLButtonElement);
+          PopoverMediator.toggle(PopoverType.LEVEL);
+        }}
+      >
         <span>{`Level ${level}`}</span>
         <ProgressBar
           percent={Math.min(experience / experienceToNextLevel, 1)}
         />
       </button>
-      <button className="taskbar-tile">
+      <button
+        className="taskbar-tile"
+        onClick={(event) => {
+          console.log(event.currentTarget as HTMLButtonElement);
+          PopoverMediator.toggle(PopoverType.GOLD);
+        }}
+      >
         <img className="" src="assets/icons/coin.png" alt="" />
         <span>{numberComma(gold)}</span>
       </button>
-      <button className="taskbar-tile">
+      <button
+        className="taskbar-tile"
+        onClick={(event) => {
+          console.log(event.currentTarget as HTMLButtonElement);
+          PopoverMediator.toggle(PopoverType.CHAT);
+        }}
+      >
         <i className="fas fa-comment" />
         <span>Chat Room</span>
       </button>
 
-      <button className="taskbar-tile friends">
+      <button
+        className="taskbar-tile friends"
+        onClick={(event) => {
+          console.log(event.currentTarget as HTMLButtonElement);
+          PopoverMediator.toggle(PopoverType.FRIENDS);
+        }}
+      >
         <i className="fas fa-user-friends" />
         <span>{`${connection.me?.friends?.length || 0} Friends`}</span>
       </button>

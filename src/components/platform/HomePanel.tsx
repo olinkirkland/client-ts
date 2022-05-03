@@ -1,5 +1,4 @@
 import { MouseEvent, useEffect, useRef, useState } from 'react';
-import Terminal from '../../controllers/Terminal';
 
 type HomePanelProps = {
   onClick: Function;
