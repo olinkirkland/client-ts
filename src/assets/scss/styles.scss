@@ -483,9 +483,10 @@ ul.profile-data {
       border-radius: 5px;
       padding: 2rem;
       max-height: 40rem;
+      overflow-y: auto;
     }
 
-    .chat-input {
+    .chat-input-container {
       input {
         width: 100%;
       }
