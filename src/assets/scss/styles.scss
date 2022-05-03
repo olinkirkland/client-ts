@@ -570,6 +570,19 @@ div.user-with-badge {
       margin-right: 0.4rem;
     }
   }
+  &.chat-message-self {
+    .chat-card {
+      img {
+        background-color: $text;
+        border: 3px solid $text;
+      }
+    }
+    
+    .chat-text {
+      color: white;
+      background-color: $text;
+    }
+  }
 
   .chat-text {
     background-color: white;

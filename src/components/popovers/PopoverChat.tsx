@@ -13,7 +13,6 @@ export default function PopoverChat() {
     scrollToBottom();
     connection.on(ConnectionEventType.CHAT_MESSAGE, (chatMessage: Chat) => {
       setChatMessages((value) => [...value, chatMessage]);
-
       scrollToBottom();
     });
   }, []);
@@ -21,6 +20,7 @@ export default function PopoverChat() {
   function scrollToBottom() {
     // Scroll to bottom
     const chatContainer = document.querySelector('.chat-messages')!;
+    if (!chatContainer) return;
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
   }
 
