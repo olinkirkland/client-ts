@@ -10,14 +10,19 @@ export default function PopoverChat() {
 
   useEffect(() => {
     const connection = Connection.instance;
+    scrollToBottom();
     connection.on(ConnectionEventType.CHAT_MESSAGE, (chatMessage: Chat) => {
       setChatMessages((value) => [...value, chatMessage]);
 
-      // Scroll to bottom
-      const chatContainer = document.querySelector('.chat-messages')!;
-      chatContainer.scrollTo(0, chatContainer.scrollHeight);
+      scrollToBottom();
     });
   }, []);
+
+  function scrollToBottom() {
+    // Scroll to bottom
+    const chatContainer = document.querySelector('.chat-messages')!;
+    chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  }
 
   function sendChatMessage() {
     const input: HTMLInputElement = document.querySelector('.chat-input')!;
