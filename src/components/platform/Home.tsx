@@ -9,7 +9,7 @@ import { PopupJoinGame } from '../popups/PopupJoinGame';
 import { PopupPrompt } from '../popups/PopupPrompt';
 import HomePanel from './HomePanel';
 
-export default function Navbar() {
+export default function Home() {
   useEffect(() => {}, []);
 
   const wallpaper: string = 'prism.png';
