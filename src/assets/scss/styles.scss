@@ -514,8 +514,6 @@ ul.profile-data {
   width: 6rem;
   background-color: $error;
   aspect-ratio: 1;
-
-  // Shadow
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 25px;
 
   span {
@@ -544,5 +542,47 @@ ul.profile-data {
         margin: 0;
       }
     }
+  }
+}
+
+// Chat
+.chat-message {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  // border: 1px solid red;
+  margin-bottom: 2rem;
+
+  .chat-card {
+    display: flex;
+    align-items: flex-start;
+    position: absolute;
+    gap: 0.8rem;
+
+    font-size: 1.4rem;
+
+    img {
+      position: relative;
+      top: 0.2rem;
+      width: 4rem;
+      border-radius: 50%;
+      background-color: white;
+      border: 3px solid white;
+    }
+
+    span {
+      color: $dark;
+    }
+  }
+
+  .chat-text {
+    background-color: white;
+    border-radius: 15px;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 15px;
+    color: $text;
+    margin-left: 2.6rem;
+    margin-top: 2.6rem;
+    max-width: 40rem;
   }
 }

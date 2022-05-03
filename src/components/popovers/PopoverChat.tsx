@@ -9,7 +9,6 @@ export default function PopoverChat() {
   ]);
 
   useEffect(() => {
-    console.log('intiilizing popover chat');
     const connection = Connection.instance;
     connection.on(ConnectionEventType.CHAT_MESSAGE, (chatMessage: Chat) => {
       setChatMessages((value) => [...value, chatMessage]);
@@ -22,10 +21,11 @@ export default function PopoverChat() {
 
   function sendChatMessage() {
     const input: HTMLInputElement = document.querySelector('.chat-input')!;
-    console.log(input);
     const msg = input.value;
-    if (!msg || msg.length === 0) return;
     input.value = '';
+    if (!msg || msg.trim().length === 0) {
+      return;
+    }
     Connection.instance.chat(msg);
     input.focus();
   }
