@@ -12,9 +12,11 @@ export default function ChatMessage({ data }: { data: Chat }) {
         <div className="chat-card">
           <img src={user.currentAvatar} alt="" />
           {user.isGuest && <span className="badge guest">Guest</span>}
-          <span className="chat-username">{`${user.username} ᛫ ${new Date(
-            time
-          ).toLocaleString()}`}</span>
+          <span className="chat-username">
+            <span>{user.username}</span>
+            <span className="muted"> ᛫ </span>
+            <span className="muted">{new Date(time).toLocaleTimeString()}</span>
+          </span>
         </div>
         <span className="chat-text">{message}</span>
       </div>
@@ -26,11 +28,13 @@ export default function ChatMessage({ data }: { data: Chat }) {
     <div className="chat-message">
       <div className="chat-card">
         <img src={user.currentAvatar} alt="" />
-        {user.id == 'system' && <span className="badge system">System</span>}
+        {user.id === 'system' && <span className="badge system">System</span>}
         {user.isGuest && <span className="badge guest">Guest</span>}
-        <span className="chat-username">{`${user.username} ᛫ ${new Date(
-          time
-        ).toLocaleString()}`}</span>
+        <span className="chat-username">
+          <span>{user.username}</span>
+          <span className="muted"> ᛫ </span>
+          <span className="muted">{new Date(time).toLocaleTimeString()}</span>
+        </span>
       </div>
       <span className="chat-text">{message}</span>
     </div>
