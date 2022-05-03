@@ -57,10 +57,16 @@ export default class Connection extends EventEmitter {
 
   public hostGame(gameOptions: GameOptions) {
     Terminal.log('🕹️', 'Hosting game', '...');
+    const args = {
+      hostID: this.me?.id,
+      ...gameOptions
+    };
+
+    Terminal.log(args);
     axios
-      .get(`${url}game/host`, { withCredentials: true })
+      .post(`${url}game/host`, args, { withCredentials: true })
       .then((res) => {
-        Terminal.log('✔️', 'Game hosted with id', res.data.roomID);
+        Terminal.log('✔️', 'Game hosted with gameId', res.data.roomID);
         this.joinGame(res.data.roomID);
       })
       .catch((err) => Terminal.log('⚠️', err));
