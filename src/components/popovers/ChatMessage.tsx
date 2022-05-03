@@ -14,6 +14,7 @@ export default function ChatMessage({ data }: { data: Chat }) {
     <div className="chat-message">
       <div className="chat-card">
         <img src={user.currentAvatar} alt="" />
+        {user.isGuest && <span className="badge guest">Guest</span>}
         <span className="chat-username">{`${user.username} ᛫ ${new Date(
           time
         ).toLocaleString()}`}</span>

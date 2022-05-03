@@ -48,6 +48,13 @@ export default class Connection extends EventEmitter {
     // Use the login credentials to login
     this.login(loginCredentials.email, loginCredentials.password);
 
+    // Add a welcome message
+    this.chatMessages.push({
+      user: systemUser,
+      message: '👋 Welcome to DontFall!',
+      time: new Date().getTime()
+    });
+
     this.addTerminalListeners();
   }
 
@@ -430,3 +437,12 @@ export class MyUserData extends UserData {
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
 }
+
+export const systemUser: User = {
+  id: 'system',
+  username: 'DontFall',
+  currentAvatar: 'assets/avatars/system.png',
+  level: -1,
+  isGuest: false,
+  isOnline: false
+};

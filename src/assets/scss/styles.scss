@@ -548,7 +548,6 @@ ul.profile-data {
 // Chat
 .chat-message {
   display: flex;
-  gap: 1rem;
   position: relative;
   // border: 1px solid red;
   margin-bottom: 2rem;
@@ -557,7 +556,6 @@ ul.profile-data {
     display: flex;
     align-items: flex-start;
     position: absolute;
-    gap: 0.8rem;
 
     font-size: 1.4rem;
 
@@ -565,13 +563,18 @@ ul.profile-data {
       position: relative;
       top: 0.2rem;
       width: 4rem;
+      margin-right: 0.8rem;
       border-radius: 50%;
       background-color: white;
       border: 3px solid white;
     }
 
     span {
-      color: $dark;
+      color: $text-muted;
+    }
+
+    .badge {
+      margin-right: 0.4rem;
     }
   }
 
@@ -584,5 +587,19 @@ ul.profile-data {
     margin-left: 2.6rem;
     margin-top: 2.6rem;
     max-width: 40rem;
+  }
+}
+
+// Badges
+
+span.badge {
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: 0.6px;
+  &.guest {
+    color: white;
+    background-color: $dark;
   }
 }
