@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import Connection from '../../connection/Connection';
+import { GameOptions } from '../../controllers/Game';
 import PopupMediator from '../../controllers/PopupMediator';
 import { PopupBook, SectionType } from '../popups/PopupBook';
 import { PopupHostGame } from '../popups/PopupHostGame';
@@ -85,8 +87,8 @@ export default function Navbar() {
           <HomePanel
             onClick={() => {
               PopupMediator.open(PopupHostGame, {
-                onConfirm: () => {
-                  console.log('confirm');
+                onConfirm: (gameOptions: GameOptions) => {
+                  Connection.instance.hostGame(gameOptions);
                 }
               });
             }}

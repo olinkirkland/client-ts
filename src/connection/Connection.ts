@@ -3,6 +3,7 @@ import EventEmitter from 'events';
 import { io, Socket } from 'socket.io-client';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
+import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
@@ -54,8 +55,15 @@ export default class Connection extends EventEmitter {
     });
   }
 
+  public hostGame(gameOptions: GameOptions) {
+    Terminal.log('🕹️', 'Hosting game', '...');
+    axios.get(`${url}game/host`, { withCredentials: true }).then((res) => {
+      Terminal.log('✔️', 'Game hosted', res.data.roomID);
+    });
+  }
+
   public getMe() {
-    Terminal.log('🔑', 'Getting my user data...');
+    Terminal.log('🔑', 'Getting my user data', '...');
     Terminal.log(`${url}users/${this.me?.id}`);
     axios
       .get(`${url}users/${this.me?.id}`, { withCredentials: true })

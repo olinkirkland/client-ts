@@ -1,18 +1,13 @@
-import Modal from 'react-modal';
 import React from 'react';
+import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
+import { GameOptions } from '../../controllers/Game';
 import { rootElement } from '../../index';
 
 type State = {
   gameName: string;
   gameDescription: string;
   gamePassword: string;
-};
-
-type GameOptions = {
-  name: string;
-  description: string;
-  password: string;
 };
 
 interface PopupHostGameProps extends PopupProps {
