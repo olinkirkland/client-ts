@@ -56,6 +56,14 @@ export default function TerminalComponent() {
           }}
         />
         <div className="h-group center">
+          <button
+            onClick={() => {
+              Terminal.command('help');
+            }}
+          >
+            <span>Help</span>
+            <i className="fas fa-question-circle" />
+          </button>
           <button onClick={applyCommand}>
             <span>Send</span>
             <i className="fas fa-paper-plane"></i>
