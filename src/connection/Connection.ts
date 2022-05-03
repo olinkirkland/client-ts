@@ -13,7 +13,7 @@ const url: string = 'http://localhost:8000/';
 export enum ConnectionEventType {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
-  USER_DATA_CHANGED = 'user-data-changed'
+  USER_DATA_CHANGED = 'user-data-changed',
 }
 
 export default class Connection extends EventEmitter {
@@ -57,7 +57,8 @@ export default class Connection extends EventEmitter {
 
   public hostGame(gameOptions: GameOptions) {
     Terminal.log('🕹️', 'Hosting game', '...');
-    axios.get(`${url}game/host`, { withCredentials: true }).then((res) => {
+    axios.post(`${url}game/host`, { withCredentials: true }).then((res) => {
+      console.log(res);
       Terminal.log('✔️', 'Game hosted', res.data.roomID);
     });
   }
@@ -137,7 +138,7 @@ export default class Connection extends EventEmitter {
             'login',
             JSON.stringify({
               email: email,
-              password: password
+              password: password,
             })
           );
 
@@ -195,7 +196,7 @@ export default class Connection extends EventEmitter {
           'login',
           JSON.stringify({
             email: email,
-            password: password
+            password: password,
           })
         );
 
@@ -256,7 +257,7 @@ export default class Connection extends EventEmitter {
   // Join a room
   private joinRoom(roomId: string) {
     Terminal.log(`Joining room ${roomId}...`);
-    this.socket?.emit('join-room', roomId);
+    this.socket?.emit('join-game-room', roomId);
   }
 
   // Leave a room
@@ -304,7 +305,7 @@ export default class Connection extends EventEmitter {
             avatar: data.currentAvatar,
             level: data.level,
             experience: data.experience,
-            isGuest: data.isGuest
+            isGuest: data.isGuest,
           };
 
           Terminal.log('✔️', 'Validated user data');
