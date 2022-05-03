@@ -13,7 +13,7 @@ const url: string = 'http://localhost:8000/';
 export enum ConnectionEventType {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
-  USER_DATA_CHANGED = 'user-data-changed',
+  USER_DATA_CHANGED = 'user-data-changed'
 }
 
 export default class Connection extends EventEmitter {
@@ -58,14 +58,8 @@ export default class Connection extends EventEmitter {
   public hostGame(gameOptions: GameOptions) {
     Terminal.log('🕹️', 'Hosting game', '...');
     axios.get(`${url}game/host`, { withCredentials: true }).then((res) => {
-      Terminal.log('✔️', 'Game hosted with id', res.data.roomID);
-      this.joinGame(res.data.roomID);
+      Terminal.log('✔️', 'Game hosted', res.data.roomID);
     });
-  }
-
-  public joinGame(gameId: string) {
-    Terminal.log('🕹️', 'Joining game', gameId, '...');
-    // todo
   }
 
   public getMe() {
@@ -143,7 +137,7 @@ export default class Connection extends EventEmitter {
             'login',
             JSON.stringify({
               email: email,
-              password: password,
+              password: password
             })
           );
 
@@ -201,7 +195,7 @@ export default class Connection extends EventEmitter {
           'login',
           JSON.stringify({
             email: email,
-            password: password,
+            password: password
           })
         );
 
@@ -261,7 +255,7 @@ export default class Connection extends EventEmitter {
 
   // Join a room
   private joinRoom(roomId: string) {
-    Terminal.log('Joining room', '...');
+    Terminal.log(`Joining room ${roomId}...`);
     this.socket?.emit('join-room', roomId);
   }
 
@@ -310,7 +304,7 @@ export default class Connection extends EventEmitter {
             avatar: data.currentAvatar,
             level: data.level,
             experience: data.experience,
-            isGuest: data.isGuest,
+            isGuest: data.isGuest
           };
 
           Terminal.log('✔️', 'Validated user data');
@@ -368,17 +362,6 @@ export default class Connection extends EventEmitter {
           break;
         case 'chat':
           this.chat(arr.shift(), arr.join(' '));
-          break;
-        case 'host-game':
-          const gameOptions: GameOptions = {
-            name: `${this.me?.username}'s Game`,
-            description: 'This game was started from the terminal',
-            password: ''
-          };
-          this.hostGame(gameOptions);
-          break;
-        case 'join-game':
-          this.joinGame(arr[0]);
           break;
         case 'join':
           this.joinRoom(arr[0]);
