@@ -3,11 +3,18 @@ import EventEmitter from 'events';
 import { io, Socket } from 'socket.io-client';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
+import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 
+// const url: string = 'https://dontfall-backend.herokuapp.com/';
 const url: string = 'http://localhost:8000/';
-// const url: string = '';
+
+export enum ConnectionEventType {
+  CONNECT = 'connect',
+  DISCONNECT = 'disconnect',
+  USER_DATA_CHANGED = 'user-data-changed',
+}
 
 export default class Connection extends EventEmitter {
   private static _instance: Connection;
@@ -48,6 +55,28 @@ export default class Connection extends EventEmitter {
     });
   }
 
+  public hostGame(gameOptions: GameOptions) {
+    Terminal.log('🕹️', 'Hosting game', '...');
+    axios.get(`${url}game/host`, { withCredentials: true }).then((res) => {
+      Terminal.log('✔️', 'Game hosted', res.data.roomID);
+    });
+  }
+
+  public getMe() {
+    Terminal.log('🔑', 'Getting my user data', '...');
+    Terminal.log(`${url}users/${this.me?.id}`);
+    axios
+      .get(`${url}users/${this.me?.id}`, { withCredentials: true })
+      .then((res) => {
+        // this.me = res.data;
+        // this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
+        Terminal.log('🔑', 'Me', res.data);
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', err);
+      });
+  }
+
   public login(
     email: string | null,
     password: string | null,
@@ -80,6 +109,7 @@ export default class Connection extends EventEmitter {
         const data = res.data;
         if (!data.id) {
           this.error('Login failed', 'Invalid username or password.');
+          localStorage.removeItem('login');
           return;
         }
 
@@ -107,7 +137,7 @@ export default class Connection extends EventEmitter {
             'login',
             JSON.stringify({
               email: email,
-              password: password
+              password: password,
             })
           );
 
@@ -117,7 +147,9 @@ export default class Connection extends EventEmitter {
         this.connect();
       })
       .catch((err) => {
+        console.log(err);
         this.error('Login failed', 'Invalid username or password.');
+        localStorage.removeItem('login');
         return;
       });
   }
@@ -158,6 +190,17 @@ export default class Connection extends EventEmitter {
       .then((res) => {
         // Terminal.log('👀', res);
         Terminal.log('✔️ Registered');
+
+        localStorage.setItem(
+          'login',
+          JSON.stringify({
+            email: email,
+            password: password,
+          })
+        );
+
+        Terminal.log('🔑', 'Login credentials saved to local storage');
+
         PopupMediator.close();
       })
       .catch((err) => {
@@ -230,7 +273,8 @@ export default class Connection extends EventEmitter {
   private addSocketListeners() {
     this.socket?.on('connect', () => {
       Terminal.log(`✔️ Connected to ${url} as ${this.me!.id}`);
-      this.emit('connect');
+      this.emit(ConnectionEventType.CONNECT);
+      this.emit(ConnectionEventType.USER_DATA_CHANGED);
       setTimeout(() => {
         this.setIsConnected(true);
         PopupMediator.close();
@@ -239,6 +283,33 @@ export default class Connection extends EventEmitter {
 
     this.socket?.on('chat', (data) => {
       Terminal.log('💬', JSON.stringify(data));
+    });
+
+    this.socket?.on('invalidate-user', () => {
+      // User data invalidated, update it
+      Terminal.log(
+        '🔥',
+        'User data invalidated by server, validating my data',
+        '...'
+      );
+      axios
+        .get(url + `users/${this.me!.id}`, { withCredentials: true })
+        .then((res) => {
+          const data = res.data;
+          this.me = {
+            id: data.id,
+            email: data.email,
+            gold: data.gold,
+            username: data.username,
+            avatar: data.currentAvatar,
+            level: data.level,
+            experience: data.experience,
+            isGuest: data.isGuest,
+          };
+
+          Terminal.log('✔️', 'Validated user data');
+          this.emit(ConnectionEventType.USER_DATA_CHANGED);
+        });
     });
 
     this.socket?.on('force-reload', (data) => {
@@ -268,6 +339,9 @@ export default class Connection extends EventEmitter {
       cmd = arr.shift();
 
       switch (cmd) {
+        case 'me':
+          this.getMe();
+          break;
         case 'login':
           this.login(arr[0], arr[1]);
           break;

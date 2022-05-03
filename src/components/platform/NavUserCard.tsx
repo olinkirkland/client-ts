@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Connection from '../../connection/Connection';
+import Connection, { ConnectionEventType } from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
 import { PopupLogin } from '../popups/PopupLogin';
 import { PopupMyAccount } from '../popups/PopupMyAccount';
@@ -12,7 +12,7 @@ export default function NavAnonCard() {
   const [avatar, setAvatar] = useState<string>('');
 
   useEffect(() => {
-    connection.on('connect', () => {
+    connection.on(ConnectionEventType.USER_DATA_CHANGED, () => {
       setUsername(connection.me!.username!);
       setIsGuest(connection.me!.isGuest === true);
       setAvatar(connection.me!.avatar!);
