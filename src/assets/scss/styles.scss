@@ -407,7 +407,7 @@ ul.profile-data {
   align-items: flex-end;
   height: 100%;
   width: 100%;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .popover {
@@ -415,16 +415,47 @@ ul.profile-data {
   position: relative;
   display: inline-flex;
   width: fit-content;
-  padding: 4rem;
+  padding: 2rem;
 
   min-width: 40rem;
 
-  border: 1px solid blue;
-  background-color: #000fff20;
-  color: blue;
+  background-color: $panel;
+  color: $text-muted;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 15px 30px,
+    rgba(0, 0, 0, 0.2) 0px 10px 10px;
+
   left: 0;
 
-  &.chat {
+  &.popover-level {
+    min-width: 0;
+    max-width: 42rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  &.popover-gold {
+    min-width: 0;
+    max-width: 42rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    img {
+      width: 6rem;
+      border-radius: 50%;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
+    }
+
+    .gold-text {
+        font-size: 4rem;
+        font-weight: 700;
+        color: #ff9c04;
+    }
+  }
+
+  &.popover-chat {
     border: 1px solid red;
     background-color: #ff000020;
     color: red;
@@ -432,11 +463,31 @@ ul.profile-data {
     min-width: 64rem;
   }
 
-  &.friends {
+  &.popover-friends {
     border: 1px solid green;
     background-color: #00ff0020;
     color: green;
     margin-left: auto;
     min-width: 20rem;
+  }
+}
+
+.level-badge {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  border-radius: 10px;
+  padding: 3rem;
+  background-color: $error;
+  aspect-ratio: 1;
+
+  // Shadow
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 25px;
+
+  span {
+    color: white;
+    font-size: 3.2rem;
+    font-weight: 700;
   }
 }
