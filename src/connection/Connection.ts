@@ -58,8 +58,14 @@ export default class Connection extends EventEmitter {
   public hostGame(gameOptions: GameOptions) {
     Terminal.log('🕹️', 'Hosting game', '...');
     axios.get(`${url}game/host`, { withCredentials: true }).then((res) => {
-      Terminal.log('✔️', 'Game hosted', res.data.roomID);
+      Terminal.log('✔️', 'Game hosted with id', res.data.roomID);
+      this.joinGame(res.data.roomID);
     });
+  }
+
+  public joinGame(gameId: string) {
+    Terminal.log('🕹️', 'Joining game', gameId, '...');
+    // todo
   }
 
   public getMe() {
@@ -255,7 +261,7 @@ export default class Connection extends EventEmitter {
 
   // Join a room
   private joinRoom(roomId: string) {
-    Terminal.log(`Joining room ${roomId}...`);
+    Terminal.log('Joining room', '...');
     this.socket?.emit('join-room', roomId);
   }
 
@@ -362,6 +368,17 @@ export default class Connection extends EventEmitter {
           break;
         case 'chat':
           this.chat(arr.shift(), arr.join(' '));
+          break;
+        case 'host-game':
+          const gameOptions: GameOptions = {
+            name: `${this.me?.username}'s Game`,
+            description: 'This game was started from the terminal',
+            password: ''
+          };
+          this.hostGame(gameOptions);
+          break;
+        case 'join-game':
+          this.joinGame(arr[0]);
           break;
         case 'join':
           this.joinRoom(arr[0]);
