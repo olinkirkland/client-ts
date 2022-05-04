@@ -9,8 +9,8 @@ import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import User from '../models/User';
 
-// const url: string = 'https://dontfall-backend.herokuapp.com/';
-const url: string = 'http://localhost:8000/';
+//export const url: string = 'https://dontfall-backend.herokuapp.com/';
+export const url: string = 'http://localhost:8000/';
 
 export enum ConnectionEventType {
   CONNECT = 'connect',
@@ -96,8 +96,8 @@ export default class Connection extends EventEmitter {
     axios
       .get(`${url}users/${this.me?.id}`, { withCredentials: true })
       .then((res) => {
-        // this.me = res.data;
-        // this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
+        this.me = res.data;
+        this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
         Terminal.log('🔑', 'Me', res.data);
       })
       .catch((err) => {
