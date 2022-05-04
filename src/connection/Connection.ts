@@ -4,6 +4,7 @@ import { io, Socket } from 'socket.io-client';
 import { PopupBook, SectionType } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
+import { cookie } from '../components/popups/PopupPresets';
 import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
@@ -310,22 +311,8 @@ export default class Connection extends EventEmitter {
         PopupMediator.close();
 
         // Has the user viewed the cookie popup?
-        if (!localStorage.getItem('cookie-popup-viewed')) {
-          // Show the cookie popup
-          PopupMediator.open(PopupBook, {
-            title: 'We use cookies.',
-            sections: [
-              {
-                type: SectionType.BODY,
-                data: 'We use cookies to improve your experience. We do not use cookies for advertising. By continuing to use this site, you agree to our use of cookies.'
-              }
-            ],
-            okButton: 'Accept and continue',
-            onClose: () => {
-              localStorage.setItem('cookie-popup-viewed', 'true');
-            }
-          });
-        }
+        if (!localStorage.getItem('cookie-popup-viewed'))
+          PopupMediator.open(PopupBook, cookie);
       }, 500);
     });
 

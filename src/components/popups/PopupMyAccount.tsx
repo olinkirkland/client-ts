@@ -2,9 +2,12 @@ import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
 import Connection, { systemUser } from '../../connection/Connection';
+import PopupMediator from '../../controllers/PopupMediator';
 import { rootElement } from '../../index';
 import { experienceNeededFromLevel } from '../../Util';
 import ProgressBar from '../platform/ProgressBar';
+import { PopupBook } from './PopupBook';
+import { cookie } from './PopupPresets';
 
 interface PopupMyAccountProps extends PopupProps {}
 
@@ -73,6 +76,7 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
                 <span>{me.id}</span>
                 <div>
                   <button
+                    className="link"
                     onClick={() => {
                       navigator.clipboard.writeText(me.id!);
                     }}
@@ -87,6 +91,18 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
                 <img className="avatar" src={me.avatar} alt="" />
               </li>
             </ul>
+          </div>
+          <div className="popup-taskbar">
+            <div className="h-group">
+              <button
+                onClick={() => {
+                  PopupMediator.open(PopupBook, cookie);
+                }}
+                className="link"
+              >
+                Cookie Policy
+              </button>
+            </div>
           </div>
         </div>
       </Modal>
