@@ -10,6 +10,11 @@ export default function TerminalComponent() {
   const [logs, setLogs] = useState<TerminalLog[]>([]);
 
   useEffect(() => {
+    Terminal.log('welcome');
+    const input: HTMLInputElement = document.querySelector('.terminal-input')!;
+    input.focus();
+    setLogs([...Terminal.logs]);
+
     if (initialized.current) return;
 
     // Initialize terminal

@@ -347,7 +347,7 @@ div.user-with-badge {
 
 // Terminal overlay
 
-.overlay {
+.terminal {
   position: fixed;
   top: 0;
   left: 0;
@@ -355,9 +355,7 @@ div.user-with-badge {
   height: 100vh;
   background-color: $panel;
   z-index: 9999;
-}
 
-.terminal {
   display: flex;
   flex-direction: column;
   height: 100%;

@@ -53,9 +53,7 @@ export default function App() {
   return (
     <div className={isConnected ? 'app' : 'app hidden'}>
       <Platform />
-      <div className={overlay ? 'overlay' : 'overlay hidden'}>
-        <TerminalComponent />
-      </div>
+      {overlay && <TerminalComponent />}
     </div>
   );
 }

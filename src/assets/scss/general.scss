@@ -140,21 +140,19 @@ input[type='password'] {
   user-select: auto;
   font-family: 'Outfit', serif;
   height: 3.2rem;
-  padding: 0 0.2rem;
-  border: none;
-  border-bottom: 1px solid transparent;
-  background-color: transparent;
+  padding: 2rem 1.6rem;
+  border: 1px solid $dark;
+  border-radius: 10px;
+  background-color: white;
   transition: all 0.3s;
   color: $text;
 
   &::placeholder {
     opacity: 1;
     color: $darker;
-    font-style: italic;
   }
 
   &:hover {
-    padding-bottom: 0.4rem;
     border-bottom: 1px solid $dark;
   }
 
@@ -164,6 +162,10 @@ input[type='password'] {
 
   &:focus::placeholder {
     color: transparent;
+  }
+
+  button {
+    margin-left: auto;
   }
 }
 
