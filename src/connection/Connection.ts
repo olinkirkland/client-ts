@@ -9,8 +9,8 @@ import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import User from '../models/User';
 
-const url: string = 'https://dontfall-backend.herokuapp.com/';
-// const url: string = 'http://localhost:8000/';
+// const url: string = 'https://dontfall-backend.herokuapp.com/';
+const url: string = 'http://localhost:8000/';
 
 export enum ConnectionEventType {
   CONNECT = 'connect',

@@ -1,5 +1,7 @@
 import Connection from '../../connection/Connection';
+import PopupMediator from '../../controllers/PopupMediator';
 import Chat from '../../models/Chat';
+import { PopupProfile } from '../popups/PopupUserProfile';
 
 export default function ChatMessage({
   data,
@@ -21,7 +23,9 @@ export default function ChatMessage({
           <img src={user.currentAvatar} alt="" />
           {user.isGuest && <span className="badge guest">Guest</span>}
           <span className="chat-username">
-            <span>{user.username}</span>
+            <button className="link" onClick={() => {}}>
+              {user.username}
+            </button>
             <span className="muted"> ᛫ </span>
             <span className="muted">{new Date(time).toLocaleTimeString()}</span>
           </span>
