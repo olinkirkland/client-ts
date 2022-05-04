@@ -573,7 +573,7 @@ div.user-with-badge {
   &.chat-message-self {
     .chat-card {
       img {
-        background-color: $text;
+        background-color: white;
         border: 3px solid $text;
       }
     }
@@ -610,6 +610,6 @@ span.badge {
   }
   &.system {
     color: white;
-    background-color: $primary;
+    background-color: $text;
   }
 }
