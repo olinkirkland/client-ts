@@ -9,8 +9,8 @@ import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import User from '../models/User';
 
-// const url: string = 'https://dontfall-backend.herokuapp.com/';
-const url: string = 'http://localhost:8000/';
+const url: string = 'https://dontfall-backend.herokuapp.com/';
+// const url: string = 'http://localhost:8000/';
 
 export enum ConnectionEventType {
   CONNECT = 'connect',
@@ -51,7 +51,8 @@ export default class Connection extends EventEmitter {
     // Add a welcome message
     this.chatMessages.push({
       user: systemUser,
-      message: '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
+      message:
+        '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
       time: new Date().getTime()
     });
 

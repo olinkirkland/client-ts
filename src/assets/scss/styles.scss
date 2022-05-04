@@ -473,7 +473,7 @@ div.user-with-badge {
     }
 
     .chat-messages {
-      background-color: #00000010;
+      background-color: $panel-inset;
       border-radius: 5px;
       padding: 2rem;
       max-height: 40rem;
@@ -559,7 +559,7 @@ div.user-with-badge {
       margin-right: 0.8rem;
       border-radius: 50%;
       background-color: white;
-      border: 3px solid white;
+      border: 3px solid $panel-inset;
     }
 
     span {
@@ -574,13 +574,12 @@ div.user-with-badge {
     .chat-card {
       img {
         background-color: white;
-        border: 3px solid $text;
       }
     }
-    
+
     .chat-text {
       color: white;
-      background-color: $text;
+      background-color: $primary;
     }
   }
 
