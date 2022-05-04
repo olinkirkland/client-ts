@@ -284,18 +284,6 @@ export default class Connection extends EventEmitter {
     this.socket?.disconnect();
   }
 
-  // Join a room
-  private joinRoom(roomId: string) {
-    Terminal.log('Joining room', '...');
-    this.socket?.emit('join-room', roomId);
-  }
-
-  // Leave a room
-  private leaveRoom(roomId: string) {
-    Terminal.log(`Leaving room ${roomId}...`);
-    this.socket?.emit('leave-room', roomId);
-  }
-
   public chat(message: string) {
     this.socket?.emit('chat', message);
   }
@@ -400,7 +388,7 @@ export default class Connection extends EventEmitter {
         case 'chat':
           this.chat(arr.join(' '));
           break;
-        case 'host-game':
+        case 'game/host':
           const gameOptions: GameOptions = {
             name: `${this.me?.username}'s Game`,
             description: 'This game was started from the terminal',
@@ -408,14 +396,8 @@ export default class Connection extends EventEmitter {
           };
           this.hostGame(gameOptions);
           break;
-        case 'join-game':
+        case 'game/join':
           this.joinGame(arr[0]);
-          break;
-        case 'join':
-          this.joinRoom(arr[0]);
-          break;
-        case 'leave':
-          this.leaveRoom(arr[0]);
           break;
       }
     });
