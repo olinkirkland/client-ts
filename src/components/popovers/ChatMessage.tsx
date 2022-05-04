@@ -22,13 +22,20 @@ export default function ChatMessage({
         <div className="chat-card">
           <img src={user.currentAvatar} alt="" />
           {user.isGuest && <span className="badge guest">Guest</span>}
-          <span className="chat-username">
-            <button className="link" onClick={() => {}}>
+          <div className='h-group'>
+            <button
+              className="link"
+              onClick={() => {
+                PopupMediator.open(PopupProfile, {
+                  id: user.id
+                });
+              }}
+            >
               {user.username}
             </button>
             <span className="muted"> ᛫ </span>
             <span className="muted">{new Date(time).toLocaleTimeString()}</span>
-          </span>
+          </div>
         </div>
       )}
       <span className={`chat-text ${isBlock ? 'is-block' : ''}`}>

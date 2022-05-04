@@ -1,10 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import Connection, { systemUser } from '../../connection/Connection';
 import { rootElement } from '../../index';
-import { experienceNeededFromLevel } from '../../Util';
-import ProgressBar from '../platform/ProgressBar';
 
 interface PopupProfileProps extends PopupProps {
   id: string;
@@ -17,13 +14,13 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">
-          {/* <div className="popup-header">
+          <div className="popup-header">
             <span>My Profile</span>
             <button className="button-close" onClick={onClose}>
               <i className="fas fa-times" />
             </button>
           </div>
-          <div className="popup-content">
+          {/* <div className="popup-content">
             {me.isGuest && (
               <>
                 <div className="alert warn">

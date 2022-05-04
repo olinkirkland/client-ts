@@ -96,6 +96,24 @@ button {
   }
 }
 
+button.link {
+  background-color: transparent;
+  color: $text-muted;
+  border-radius: 0;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: 0.6px;
+
+  &:hover {
+    background-color: transparent;
+    color: $text;
+  }
+
+  &:active {
+    background-color: transparent;
+  }
+}
+
 ::selection,
 ::-moz-selection {
   background: $primary-muted;
