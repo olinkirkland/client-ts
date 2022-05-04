@@ -65,13 +65,15 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
 
           {this.state.user && (
             <div className="popup-content">
-              <div className="alert warn">
-                <img src={systemUser.currentAvatar} alt="" />
-                <span>
-                  This is a guest account. Register an account to save your
-                  experience points and unlock rewards.
-                </span>
-              </div>
+              {this.state.user?.isGuest && (
+                <div className="alert warn">
+                  <img src={systemUser.currentAvatar} alt="" />
+                  <span>
+                    This is a temporary guest account. You can only add
+                    registered accounts to your friends list.
+                  </span>
+                </div>
+              )}
 
               <ul className="profile-data">
                 <li>
@@ -113,10 +115,12 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
           )}
 
           <div className="popup-taskbar">
-            <button>
-              <i className="fas fa-user-plus" />
-              <span>Add friend</span>
-            </button>
+            {!this.state.user?.isGuest && (
+              <button>
+                <i className="fas fa-user-plus" />
+                <span>Add friend</span>
+              </button>
+            )}
             <button>
               <i className="fas fa-flag" />
               <span>Report</span>

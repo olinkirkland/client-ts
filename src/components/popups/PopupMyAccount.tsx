@@ -29,8 +29,10 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
                 <div className="alert warn">
                   <img src={systemUser.currentAvatar} alt="" />
                   <span>
-                    This is a guest account. Register an account to save your
-                    experience points and unlock rewards.
+                    You are currently signed into a guest account.
+                    <br />
+                    Sign up for a free account to save your progress and earn
+                    rewards.
                   </span>
                 </div>
               </>
