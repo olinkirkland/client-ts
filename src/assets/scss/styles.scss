@@ -407,11 +407,11 @@ ul.profile-data {
   align-items: flex-end;
   height: 100%;
   width: 100%;
+  padding: 1rem;
 }
 
 .popover {
   pointer-events: auto;
-  cursor: pointer;
   position: relative;
   display: inline-flex;
   width: fit-content;
