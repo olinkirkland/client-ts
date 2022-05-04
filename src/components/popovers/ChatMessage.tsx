@@ -13,6 +13,7 @@ export default function ChatMessage({
 }) {
   const { user, message, time } = data;
 
+  if (!Connection.instance.me) return <></>;
   return (
     <div
       className={`chat-message ${
