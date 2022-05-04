@@ -72,8 +72,9 @@ export default function PopoverChat() {
             if (event.key === 'Enter') sendChatMessage();
           }}
         />
-        <button className="chat-send" onClick={sendChatMessage}>
-          <i className="fas fa-comment-alt"></i>
+        <button className="link" onClick={sendChatMessage}>
+          <i className="fas fa-paper-plane"></i>
+          <span>Send</span>
         </button>
       </div>
     </div>
