@@ -51,7 +51,7 @@ export default class Connection extends EventEmitter {
     // Add a welcome message
     this.chatMessages.push({
       user: systemUser,
-      message: '👋 Welcome to DontFall!',
+      message: '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
       time: new Date().getTime()
     });
 
