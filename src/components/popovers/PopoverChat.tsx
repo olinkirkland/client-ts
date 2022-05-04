@@ -11,14 +11,23 @@ export default function PopoverChat() {
   useEffect(() => {
     const connection = Connection.instance;
     scrollToBottom();
-    connection.on(ConnectionEventType.CHAT_MESSAGE, (chatMessage: Chat) => {
-      setChatMessages((value) => [...value, chatMessage]);
-      scrollToBottom();
-    });
+    connection.addListener(ConnectionEventType.CHAT_MESSAGE, onReceiveMessage);
 
     const input: HTMLInputElement = document.querySelector('.chat-input')!;
     input.focus();
+
+    return () => {
+      connection.removeListener(
+        ConnectionEventType.CHAT_MESSAGE,
+        onReceiveMessage
+      );
+    };
   }, []);
+
+  function onReceiveMessage(chatMessage: Chat) {
+    setChatMessages((value) => [...value, chatMessage]);
+    scrollToBottom();
+  }
 
   function scrollToBottom() {
     // Scroll to bottom

@@ -10,7 +10,6 @@ export default function ChatMessage({
 }) {
   const { user, message, time } = data;
 
-  console.log(user.id, Connection.instance.me!.id);
   return (
     <div
       className={`chat-message ${
