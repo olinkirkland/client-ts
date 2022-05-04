@@ -313,14 +313,14 @@ export default class Connection extends EventEmitter {
         if (!localStorage.getItem('cookie-popup-viewed')) {
           // Show the cookie popup
           PopupMediator.open(PopupBook, {
-            title: 'Before you begin ...',
+            title: 'We use cookies.',
             sections: [
               {
                 type: SectionType.BODY,
                 data: 'We use cookies to improve your experience. We do not use cookies for advertising. By continuing to use this site, you agree to our use of cookies.'
               }
             ],
-            okButton: 'Continue',
+            okButton: 'Accept and continue',
             onClose: () => {
               localStorage.setItem('cookie-popup-viewed', 'true');
             }
