@@ -102,6 +102,14 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
               >
                 Cookie Policy
               </button>
+              <button
+                onClick={() => {
+                  PopupMediator.open(PopupBook, cookie);
+                }}
+                className="link"
+              >
+                Impressum
+              </button>
             </div>
           </div>
         </div>
