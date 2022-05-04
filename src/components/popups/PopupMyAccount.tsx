@@ -7,7 +7,7 @@ import { rootElement } from '../../index';
 import { experienceNeededFromLevel } from '../../Util';
 import ProgressBar from '../platform/ProgressBar';
 import { PopupBook } from './PopupBook';
-import { cookie } from './PopupPresets';
+import { cookie, impressum } from './PopupPresets';
 
 interface PopupMyAccountProps extends PopupProps {}
 
@@ -104,7 +104,7 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
               </button>
               <button
                 onClick={() => {
-                  PopupMediator.open(PopupBook, cookie);
+                  PopupMediator.open(PopupBook, impressum);
                 }}
                 className="link"
               >

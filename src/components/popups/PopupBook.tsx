@@ -42,13 +42,13 @@ export class PopupBook extends React.Component<PopupBookProps> {
               ))}
             </ul>
           </div>
-          <div className="popup-taskbar">
-            {okButton && (
+          {okButton && (
+            <div className="popup-taskbar">
               <button className="button-ok" onClick={onClose}>
                 {okButton}
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </Modal>
     );
