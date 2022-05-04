@@ -12,11 +12,12 @@ export enum SectionType {
 interface PopupBookProps extends PopupProps {
   title: string;
   sections: { type: SectionType; data: string }[];
+  okButton?: string;
 }
 
 export class PopupBook extends React.Component<PopupBookProps> {
   render() {
-    const { isOpen, title, sections, onClose } = this.props;
+    const { isOpen, title, sections, okButton, onClose } = this.props;
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">
@@ -40,6 +41,13 @@ export class PopupBook extends React.Component<PopupBookProps> {
                 </li>
               ))}
             </ul>
+          </div>
+          <div className="popup-taskbar">
+            {okButton && (
+              <button className="button-ok" onClick={onClose}>
+                {okButton}
+              </button>
+            )}
           </div>
         </div>
       </Modal>
