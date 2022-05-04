@@ -67,13 +67,13 @@ export default function PopoverChat() {
         <input
           className="chat-input"
           type="text"
-          placeholder="Type your message"
+          placeholder="Type a message..."
           onKeyDown={(event) => {
             if (event.key === 'Enter') sendChatMessage();
           }}
         />
         <button className="chat-send" onClick={sendChatMessage}>
-          Send
+          <i className="fas fa-comment-alt"></i>
         </button>
       </div>
     </div>
