@@ -43,9 +43,15 @@ export default function PopoverChat() {
       <span className="chat-header">Chat Room</span>
       <ul className="chat-messages">
         {chatMessages.map((chatMessage, index) => (
-          <li key={index}>
-            <ChatMessage data={chatMessage} />
-          </li>
+          <ChatMessage
+            key={index}
+            data={chatMessage}
+            isBlock={
+              index > 0
+                ? chatMessage.user.id === chatMessages[index - 1].user.id
+                : false
+            }
+          />
         ))}
       </ul>
       <div className="chat-input-container">

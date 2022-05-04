@@ -543,7 +543,15 @@ div.user-with-badge {
 .chat-message {
   display: flex;
   position: relative;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &.is-block {
+    margin-top: 0.6rem;
+  }
 
   .chat-card {
     display: flex;
@@ -592,6 +600,10 @@ div.user-with-badge {
     margin-left: 2.6rem;
     margin-top: 2.6rem;
     max-width: 40rem;
+
+    &.is-block {
+      margin-top: 0;
+    }
   }
 }
 
