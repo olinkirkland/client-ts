@@ -15,6 +15,9 @@ export default function PopoverChat() {
       setChatMessages((value) => [...value, chatMessage]);
       scrollToBottom();
     });
+
+    const input: HTMLInputElement = document.querySelector('.chat-input')!;
+    input.focus();
   }, []);
 
   function scrollToBottom() {
