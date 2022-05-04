@@ -10,6 +10,7 @@ import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import User from '../models/User';
+import { GameEventType } from './Game';
 
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
 export const url: string = 'http://localhost:8000/';
@@ -76,11 +77,11 @@ export default class Connection extends EventEmitter {
       ...gameOptions
     };
 
-    Terminal.log(args);
     axios
       .post(`${url}game/host`, args, { withCredentials: true })
       .then((res) => {
         Terminal.log('✔️', 'Game hosted with gameId', res.data.roomID);
+        Terminal.log(res.data);
         this.joinGame(res.data.roomID);
       })
       .catch((err) => Terminal.log('⚠️', err));
@@ -89,7 +90,7 @@ export default class Connection extends EventEmitter {
   public joinGame(gameId: string) {
     Terminal.log('🕹️', 'Joining game', gameId, '...');
     // Send socket message join-game-room
-    this.socket?.emit('join-game-room', gameId);
+    this.socket?.emit(GameEventType.JOIN, gameId);
   }
 
   public getMe() {
