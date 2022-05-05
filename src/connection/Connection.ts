@@ -400,8 +400,28 @@ export default class Connection extends EventEmitter {
         case 'game/join':
           this.joinGame(arr[0]);
           break;
+        case 'send':
+          if (arr.length === 0)
+            return Terminal.log('⚠️', 'No event type to send');
+
+          let payload = {};
+          Terminal.log(arr.join(', '));
+          if (arr.length > 1) {
+            try {
+              payload = JSON.parse(arr[1]);
+            } catch (e) {
+              // Payload is not JSON
+              payload = arr[1];
+            }
+          }
+
+          this.sendCustomEvent(arr[0], payload);
       }
     });
+  }
+
+  private sendCustomEvent(eventType: string, payload: any) {
+    this.socket?.emit(eventType, payload);
   }
 }
 
