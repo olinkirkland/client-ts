@@ -23,14 +23,12 @@ export default function NavAnonCard() {
     <>
       <div className="nav-user-card">
         <div
-          className="profile-button"
+          className="profile-button user-with-badge"
           onClick={() => PopupMediator.open(PopupMyAccount)}
         >
           {username && <img className="avatar" src={avatar} alt="" />}
-          {isGuest && (
-            <img className="guest-badge" src="assets/icons/guest.png" alt="" />
-          )}
-          <h2 className={isGuest ? 'guest' : ''}>{username}</h2>
+          {isGuest && <span className="badge guest">Guest</span>}
+          <h2>{username}</h2>
         </div>
         {isGuest && (
           <button

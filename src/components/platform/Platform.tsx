@@ -69,7 +69,7 @@ export default function Platform() {
   return (
     <div className="main">
       <Navbar />
-      <div className="home-container">
+      <div className="home-popover-container">
         <Home />
         <div className="popover-container">
           {isChatOpen && <PopoverChat />}

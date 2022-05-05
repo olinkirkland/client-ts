@@ -44,6 +44,11 @@ div.alert {
   gap: 0.8rem;
   padding: 1rem 1rem;
   border-radius: 5px;
+
+  img {
+    width: 5rem;
+  }
+
   &.warn {
     color: $warn;
     background-color: $warn-muted;

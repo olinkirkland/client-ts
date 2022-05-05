@@ -6,6 +6,8 @@ import { PopupLoading } from '../components/popups/PopupLoading';
 import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
+import Chat from '../models/Chat';
+import User from '../models/User';
 
 // const url: string = 'https://dontfall-backend.herokuapp.com/';
 const url: string = 'http://localhost:8000/';
@@ -14,6 +16,7 @@ export enum ConnectionEventType {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
   USER_DATA_CHANGED = 'user-data-changed',
+  CHAT_MESSAGE = 'chat-message',
 }
 
 export default class Connection extends EventEmitter {
@@ -23,6 +26,7 @@ export default class Connection extends EventEmitter {
 
   // Data
   public me?: MyUserData;
+  public chatMessages: Chat[] = [];
 
   // Callbacks
   setIsConnected!: Function;
@@ -43,6 +47,14 @@ export default class Connection extends EventEmitter {
 
     // Use the login credentials to login
     this.login(loginCredentials.email, loginCredentials.password);
+
+    // Add a welcome message
+    this.chatMessages.push({
+      user: systemUser,
+      message:
+        '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
+      time: new Date().getTime(),
+    });
 
     this.addTerminalListeners();
   }
@@ -180,6 +192,7 @@ export default class Connection extends EventEmitter {
 
     // Reset my user data & login to anonymous user
     this.me = undefined;
+    this.chatMessages = [];
     this.login(null, null);
   }
 
@@ -283,8 +296,8 @@ export default class Connection extends EventEmitter {
     this.socket?.emit('leave-room', roomId);
   }
 
-  private chat(room: string, message: string) {
-    this.socket?.emit('chat', { room: room, message: message });
+  public chat(message: string) {
+    this.socket?.emit('chat', message);
   }
 
   // Socket listeners
@@ -299,8 +312,10 @@ export default class Connection extends EventEmitter {
       }, 500);
     });
 
-    this.socket?.on('chat', (data) => {
-      Terminal.log('💬', JSON.stringify(data));
+    this.socket?.on('chat', (data: Chat) => {
+      // Terminal.log('💬', JSON.stringify(data));
+      this.chatMessages.push(data);
+      this.emit(ConnectionEventType.CHAT_MESSAGE, data);
     });
 
     this.socket?.on('invalidate-user', () => {
@@ -379,7 +394,7 @@ export default class Connection extends EventEmitter {
           this.disconnect();
           break;
         case 'chat':
-          this.chat(arr.shift(), arr.join(' '));
+          this.chat(arr.join(' '));
           break;
         case 'join':
           this.joinRoom(arr[0]);
@@ -415,3 +430,12 @@ export class MyUserData extends UserData {
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
 }
+
+export const systemUser: User = {
+  id: 'system',
+  username: 'DontFall',
+  currentAvatar: 'assets/avatars/system.png',
+  level: -1,
+  isGuest: false,
+  isOnline: false,
+};
