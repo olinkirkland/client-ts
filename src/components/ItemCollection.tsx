@@ -19,8 +19,8 @@ export function AvatarItemCollection({ title, items }: Props) {
             key={item.id}
             className={
               Connection.instance.me?.currentAvatar === item.id
-                ? 'selected'
-                : ''
+                ? 'avatar-item selected'
+                : 'avatar-item'
             }
           >
             <img src={`assets/${item.value.url}`} alt="" />
@@ -30,7 +30,6 @@ export function AvatarItemCollection({ title, items }: Props) {
     </div>
   );
 }
-
 
 export function WallpaperItemCollection({ title, items }: Props) {
   return (
@@ -45,8 +44,8 @@ export function WallpaperItemCollection({ title, items }: Props) {
             key={item.id}
             className={
               Connection.instance.me?.currentWallpaper === item.id
-                ? 'selected'
-                : ''
+                ? 'wallpaper-item selected'
+                : 'wallpaper-item'
             }
           >
             <img src={`assets/${item.value.url}`} alt="" />
