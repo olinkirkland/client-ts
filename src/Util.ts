@@ -15,8 +15,7 @@ export function numberComma(n: number): string {
 }
 
 export function experienceNeededFromLevel(level: number): number {
-  // 100 + (x/7)^2
-  return Math.round(100 + Math.pow(level / 7, 2));
+  return Math.round(100 + (level - 1) * 7);
 }
 
 export function validateEmail(email: string): boolean {

@@ -1,8 +1,7 @@
 import Connection from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
 import Chat from '../../models/Chat';
-import { PopupMyAccount } from '../popups/PopupMyAccount';
-import { PopupProfile } from '../popups/PopupUserProfile';
+import { PopupProfile } from '../popups/PopupProfile';
 
 export default function ChatMessage({
   data,
@@ -33,7 +32,7 @@ export default function ChatMessage({
                 className="link"
                 onClick={() => {
                   if (user.id === Connection.instance.me!.id) {
-                    PopupMediator.open(PopupMyAccount);
+                    PopupMediator.open(PopupProfile);
                   } else {
                     PopupMediator.open(PopupProfile, {
                       id: user.id

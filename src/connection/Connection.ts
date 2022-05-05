@@ -9,6 +9,7 @@ import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
+import Item, { getItemById } from '../models/Item';
 import { systemUser } from '../models/User';
 import { GameEventType } from './Game';
 
@@ -165,7 +166,8 @@ export default class Connection extends EventEmitter {
           Terminal.log('🔑', 'Login credentials saved to local storage');
         }
 
-        this.me = { id: userId };
+        this.me = new MyUserData();
+        this.me.id = userId;
 
         this.connect();
       })
@@ -315,17 +317,7 @@ export default class Connection extends EventEmitter {
         .get(url + `users/${this.me!.id}`, { withCredentials: true })
         .then((res) => {
           const data = res.data;
-          this.me = {
-            id: data.id,
-            email: data.email,
-            gold: data.gold,
-            username: data.username,
-            avatar: data.currentAvatar,
-            level: data.level,
-            experience: data.experience,
-            isGuest: data.isGuest,
-            inventory: data.inventory
-          };
+          this.me = MyUserData.create(data);
 
           Terminal.log('✔️', 'Validated user data');
           this.emit(ConnectionEventType.USER_DATA_CHANGED);
@@ -430,7 +422,7 @@ export class UserData {
   id?: string;
   isGuest?: boolean;
   username?: string;
-  avatar?: string;
+  currentAvatar?: string;
   level?: number;
   status?: OnlineStatus.ONLINE | OnlineStatus.OFFLINE;
 }
@@ -443,5 +435,16 @@ export class MyUserData extends UserData {
   friends?: UserData[];
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
-  inventory?: string[];
+  inventory?: string[]; // Item IDs
+
+  static create(data: Object) {
+    const myUserData = new MyUserData();
+    Object.assign(myUserData, data);
+    console.log(myUserData);
+    return myUserData;
+  }
+
+  public getItems(): Item[] {
+    return this.inventory!.map((itemId) => getItemById(itemId)!);
+  }
 }

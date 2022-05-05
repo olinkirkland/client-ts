@@ -83,12 +83,6 @@
       box-shadow: none;
     }
 
-    .avatar {
-      width: 8rem;
-      background-color: white;
-      border-radius: 5px;
-    }
-
     .popup-taskbar {
       display: flex;
       align-items: center;
@@ -98,4 +92,45 @@
       border-top: 1px dashed $darker;
     }
   }
+}
+
+// My Profile Popup
+.profile-data {
+  img.avatar {
+    position: static;
+    transform: rotate(0);
+    width: 8rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .level-group {
+    gap: 0.4rem;
+    margin: 1rem 0 2rem 0;
+  }
+
+  .profile-editable-item {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      margin-left: auto;
+    }
+  }
+}
+
+div.user-with-badge {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+// Popup
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-color: #00000060;
 }
