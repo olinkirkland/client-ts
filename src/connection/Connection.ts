@@ -322,7 +322,8 @@ export default class Connection extends EventEmitter {
             avatar: data.currentAvatar,
             level: data.level,
             experience: data.experience,
-            isGuest: data.isGuest
+            isGuest: data.isGuest,
+            inventory: data.inventory
           };
 
           Terminal.log('✔️', 'Validated user data');
