@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
@@ -5,17 +6,19 @@ import Connection, {
   ConnectionEventType,
   url
 } from '../../connection/Connection';
-import User, { systemUser } from '../../models/User';
 import PopupMediator from '../../controllers/PopupMediator';
+import Terminal from '../../controllers/Terminal';
 import { rootElement } from '../../index';
+import { getItemById } from '../../models/Item';
+import User from '../../models/User';
 import { experienceNeededFromLevel } from '../../Util';
+import {
+  AvatarItemCollection,
+  WallpaperItemCollection
+} from '../ItemCollection';
 import ProgressBar from '../platform/ProgressBar';
 import { PopupBook } from './PopupBook';
 import { cookie, impressum } from './PopupPresets';
-import axios from 'axios';
-import Terminal from '../../controllers/Terminal';
-import AvatarItemCollection from '../ItemCollection';
-import { getItemById } from '../../models/Item';
 
 interface PopupProfileProps extends PopupProps {
   id?: string;
@@ -149,7 +152,18 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
             </div>
 
             {isMe && (
-              <AvatarItemCollection title="Avatars" items={me.getItems()} />
+              <>
+                <AvatarItemCollection
+                  title="Avatars"
+                  items={me.getItems().filter((item) => item.type === 'avatar')}
+                />
+                <WallpaperItemCollection
+                  title="Wallpapers"
+                  items={me
+                    .getItems()
+                    .filter((item) => item.type === 'wallpaper')}
+                />
+              </>
             )}
           </div>
 

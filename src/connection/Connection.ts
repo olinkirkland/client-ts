@@ -268,6 +268,20 @@ export default class Connection extends EventEmitter {
       .catch((err) => Terminal.log('⚠️', err));
   }
 
+  public changeWallpaper(wallpaper: string) {
+    Terminal.log('🔤', 'Changing wallpaper to', wallpaper, '...');
+    axios
+      .post(
+        url + 'users/update',
+        { id: this.me?.id, newWallpaper: wallpaper },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Wallpaper changed');
+      })
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
   public static get instance() {
     return this._instance || (this._instance = new this());
   }
@@ -341,6 +355,8 @@ export default class Connection extends EventEmitter {
         .then((res) => {
           const data = res.data;
           this.me = MyUserData.create(data);
+
+          console.log('my data', this.me);
 
           Terminal.log('✔️', 'Validated user data');
           this.emit(ConnectionEventType.USER_DATA_CHANGED);
@@ -453,6 +469,7 @@ export class UserData {
 export class MyUserData extends UserData {
   email?: string;
   currentSkin?: string;
+  currentWallpaper?: string;
   gold?: number;
   experience?: number;
   friends?: UserData[];
