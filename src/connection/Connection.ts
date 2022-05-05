@@ -458,7 +458,6 @@ export class MyUserData extends UserData {
   static create(data: Object) {
     const myUserData = new MyUserData();
     Object.assign(myUserData, data);
-    console.log(myUserData);
     return myUserData;
   }
 

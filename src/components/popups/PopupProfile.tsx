@@ -82,19 +82,19 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
           </div>
           <div className="popup-content">
             <div className="profile-data v-group center">
-            {isMe && me.isGuest && (
-              <>
-                <div className="alert warn">
-                  <img src={systemUser.currentAvatar} alt="" />
-                  <span>
-                    You are currently signed into a guest account.
-                    <br />
-                    Sign up for a free account to save your progress and earn
-                    rewards.
-                  </span>
-                </div>
-              </>
-            )}
+              {isMe && me.isGuest && (
+                <>
+                  <div className="alert warn">
+                    <img src={'assets/avatars/system.png'} alt="" />
+                    <span>
+                      You are currently signed into a guest account.
+                      <br />
+                      Sign up for a free account to save your progress and earn
+                      rewards.
+                    </span>
+                  </div>
+                </>
+              )}
 
               <div className="h-group center">
                 <img

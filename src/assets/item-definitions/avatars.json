@@ -1,5 +1,15 @@
 [
   {
+    "id": "system-avatar",
+    "type": "avatar",
+    "name": "System Avatar",
+    "description": "",
+    "tags": [],
+    "value": {
+      "url": "avatars/system.png"
+    }
+  },
+  {
     "id": "HiyA42N_K52PcsdDfe8SS",
     "type": "avatar",
     "name": "Anonymous",

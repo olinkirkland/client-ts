@@ -26,18 +26,6 @@ export default function AvatarItemCollection({ title, items }: Props) {
             <img src={`assets/${item.value.url}`} alt="" />
           </li>
         ))}
-        {items.map((item) => (
-          <li key={item.id}>
-            <img src={`assets/${item.value.url}`} alt="" />
-            {/* <p>{item.name}</p> */}
-          </li>
-        ))}
-        {items.map((item) => (
-          <li key={item.id}>
-            <img src={`assets/${item.value.url}`} alt="" />
-            {/* <p>{item.name}</p> */}
-          </li>
-        ))}
       </ul>
     </div>
   );

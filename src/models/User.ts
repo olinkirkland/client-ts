@@ -15,7 +15,7 @@ export default interface User {
 export const systemUser: User = {
   id: 'system',
   username: 'DontFall',
-  currentAvatar: 'assets/avatars/system.png',
+  currentAvatar: 'system-avatar',
   level: -1,
   isGuest: false,
   isOnline: false
