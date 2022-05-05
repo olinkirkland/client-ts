@@ -241,11 +241,29 @@ export default class Connection extends EventEmitter {
   }
 
   public changeUsername(username: string) {
-    Terminal.log('🔤', 'Changing username to', username);
+    Terminal.log('🔤', 'Changing username to', username, '...');
     axios
-      .post(url + 'update', { username: username }, { withCredentials: true })
+      .post(
+        url + 'users/update',
+        { newUsername: username },
+        { withCredentials: true }
+      )
       .then((res) => {
-        // res == .SUCCESS;
+        Terminal.log('✔️ Username changed');
+      })
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
+  public changeAvatar(avatar: string) {
+    Terminal.log('🔤', 'Changing avatar to', avatar, '...');
+    axios
+      .post(
+        url + 'users/update',
+        { id: this.me?.id, newAvatar: avatar },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Avatar changed');
       })
       .catch((err) => Terminal.log('⚠️', err));
   }

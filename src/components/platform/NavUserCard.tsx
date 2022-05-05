@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Connection, { ConnectionEventType } from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
+import { getItemById } from '../../models/Item';
 import { PopupLogin } from '../popups/PopupLogin';
 import { PopupProfile } from '../popups/PopupProfile';
 import { PopupPrompt } from '../popups/PopupPrompt';
@@ -26,7 +27,13 @@ export default function NavAnonCard() {
           className="profile-button user-with-badge"
           onClick={() => PopupMediator.open(PopupProfile)}
         >
-          {username && <img className="avatar" src={avatar} alt="" />}
+          {username && (
+            <img
+              className="avatar"
+              src={'assets/' + getItemById(avatar)?.value.url}
+              alt=""
+            />
+          )}
           {isGuest && <span className="badge guest">Guest</span>}
           <h2>{username}</h2>
         </div>
