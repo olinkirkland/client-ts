@@ -20,7 +20,8 @@ export enum ConnectionEventType {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
   USER_DATA_CHANGED = 'user-data-changed',
-  CHAT_MESSAGE = 'chat-message'
+  CHAT_MESSAGE = 'chat-message',
+  ONLINE_USERS = 'online-users'
 }
 
 export default class Connection extends EventEmitter {
@@ -30,6 +31,7 @@ export default class Connection extends EventEmitter {
 
   // Data
   public me?: MyUserData;
+  public onlineUsers: number = 0;
   public chatMessages: Chat[] = [];
 
   // Callbacks
@@ -314,6 +316,11 @@ export default class Connection extends EventEmitter {
         if (!localStorage.getItem('cookie-popup-viewed'))
           PopupMediator.open(PopupBook, cookie);
       }, 500);
+    });
+
+    this.socket?.on('online-users', (count) => {
+      this.onlineUsers = count;
+      this.emit(ConnectionEventType.ONLINE_USERS, count);
     });
 
     this.socket?.on('chat', (data: Chat) => {
