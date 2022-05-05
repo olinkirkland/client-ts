@@ -1,0 +1,42 @@
+[
+  {
+    "id": "nbKnDUBgYwiQcUJjI8gYG",
+    "type": "wallpaper",
+    "name": "Prism",
+    "description": "A subtle geometric pattern.",
+    "tags": [],
+    "value": {
+      "url": "prism.png"
+    }
+  },
+  {
+    "id": "KgkdXnvuUjgFg9mFsF_o1",
+    "type": "wallpaper",
+    "name": "Embroidery",
+    "description": "A pleasant embroidery pattern.",
+    "tags": [],
+    "value": {
+      "url": "embroidery.png"
+    }
+  },
+  {
+    "id": "7c83d4BwbheZ127zCA9hr",
+    "type": "wallpaper",
+    "name": "Terrazzo",
+    "description": "A dark pattern that looks like it contains chips of marble and granite.",
+    "tags": [],
+    "value": {
+      "url": "terrazzo.png"
+    }
+  },
+  {
+    "id": "bWlODlitPpTpauqu7egQW",
+    "type": "wallpaper",
+    "name": "Hotel",
+    "description": "This dark pattern is a perfect fit for your hotel room.",
+    "tags": [],
+    "value": {
+      "url": "hotel.png"
+    }
+  }
+]

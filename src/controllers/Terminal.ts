@@ -64,7 +64,7 @@ export default class Terminal extends EventEmitter {
       case 'inventory':
       case 'inv':
         Terminal.log(
-          `📚 Inventory (${Connection.instance.me?.inventory?.length})`,
+          `🗃️ Inventory (${Connection.instance.me?.inventory?.length})`,
           Connection.instance.me?.inventory
         );
         return;

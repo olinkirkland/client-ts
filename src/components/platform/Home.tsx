@@ -18,7 +18,7 @@ export default function Home() {
     <div
       className="home"
       style={{
-        background: `url(${process.env.PUBLIC_URL}/assets/images/wallpapers/${wallpaper}) repeat center center`
+        background: `url(${process.env.PUBLIC_URL}/assets/wallpapers/${wallpaper}) repeat center center`
       }}
     >
       <div className="home-container">

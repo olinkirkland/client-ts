@@ -189,8 +189,9 @@ export default class Connection extends EventEmitter {
     this.login(null, null);
   }
 
-  public cheat(type: string, value: number): void {
+  public cheat(type: string, value: string): void {
     Terminal.log('⭐', 'Cheating', type, value, '...');
+
     axios
       .post(
         `${url}cheat/?type=${type}&value=${value}`,
@@ -371,7 +372,7 @@ export default class Connection extends EventEmitter {
           this.logout();
           break;
         case 'cheat':
-          this.cheat(arr[0], parseInt(arr[1]));
+          this.cheat(arr[0], arr[1]);
           break;
         case 'connect':
           this.connect();
