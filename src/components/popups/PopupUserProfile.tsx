@@ -1,13 +1,11 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import { systemUser, url } from '../../connection/Connection';
+import { url } from '../../connection/Connection';
 import Terminal from '../../controllers/Terminal';
 import { rootElement } from '../../index';
-import User from '../../models/User';
-import { experienceNeededFromLevel } from '../../Util';
-import ProgressBar from '../platform/ProgressBar';
+import User, { systemUser } from '../../models/User';
 
 interface PopupProfileProps extends PopupProps {
   id: string;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import EventEmitter from 'events';
 import { io, Socket } from 'socket.io-client';
-import { PopupBook, SectionType } from '../components/popups/PopupBook';
+import { PopupBook } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
 import { cookie } from '../components/popups/PopupPresets';
@@ -9,7 +9,7 @@ import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
-import User from '../models/User';
+import { systemUser } from '../models/User';
 import { GameEventType } from './Game';
 
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
@@ -100,6 +100,7 @@ export default class Connection extends EventEmitter {
       .get(`${url}users/${this.me?.id}`, { withCredentials: true })
       .then((res) => {
         this.me = res.data;
+        if (!this.me!.inventory) this.me!.inventory = [];
         this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
         Terminal.log('🔑', 'Me', res.data);
       })
@@ -137,8 +138,8 @@ export default class Connection extends EventEmitter {
         { withCredentials: true }
       )
       .then((res) => {
-        const data = res.data;
-        if (!data.id) {
+        const userId = res.data;
+        if (!userId) {
           this.error('Login failed', 'Invalid username or password.');
           localStorage.removeItem('login');
           return;
@@ -147,22 +148,11 @@ export default class Connection extends EventEmitter {
         // Disconnect the socket server first
         if (this.socket && this.socket.connected) this.disconnect();
 
-        Terminal.log('✔️ Logged in as', data.id);
+        Terminal.log('✔️ Logged in as', userId);
 
         // Populate my user data
-        // Terminal.log('👀', JSON.stringify(data, null, 2));
-        this.me = {
-          id: data.id,
-          email: data.email,
-          gold: data.gold,
-          username: data.username,
-          avatar: data.currentAvatar,
-          level: data.level,
-          experience: data.experience,
-          isGuest: data.isGuest
-        };
 
-        if (staySignedIn && !this.me.isGuest) {
+        if (staySignedIn && email && password) {
           // Save login data
           localStorage.setItem(
             'login',
@@ -174,6 +164,8 @@ export default class Connection extends EventEmitter {
 
           Terminal.log('🔑', 'Login credentials saved to local storage');
         }
+
+        this.me = { id: userId };
 
         this.connect();
       })
@@ -198,15 +190,15 @@ export default class Connection extends EventEmitter {
   }
 
   public cheat(type: string, value: number): void {
-    Terminal.log('⭐', 'Cheating', value, type, '...');
+    Terminal.log('⭐', 'Cheating', type, value, '...');
     axios
       .post(
-        `${url}cheat/?${type}=${value}`,
+        `${url}cheat/?type=${type}&value=${value}`,
         { userID: this.me?.id },
         { withCredentials: true }
       )
-      .then((res) => Terminal.log('✔️', res.data))
-      .catch((err) => Terminal.log('⚠️', err));
+      .then((res) => Terminal.log('✔️', 'Cheat successful'))
+      .catch((err) => Terminal.log('⚠️', 'Cheat failed'));
   }
 
   public register(email: string, password: string) {
@@ -390,6 +382,7 @@ export default class Connection extends EventEmitter {
           this.chat(arr.join(' '));
           break;
         case 'game/host':
+        case 'gh':
           const gameOptions: GameOptions = {
             name: `${this.me?.username}'s Game`,
             description: 'This game was started from the terminal',
@@ -398,6 +391,7 @@ export default class Connection extends EventEmitter {
           this.hostGame(gameOptions);
           break;
         case 'game/join':
+        case 'gj':
           this.joinGame(arr[0]);
           break;
         case 'send':
@@ -447,13 +441,5 @@ export class MyUserData extends UserData {
   friends?: UserData[];
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
+  inventory?: string[];
 }
-
-export const systemUser: User = {
-  id: 'system',
-  username: 'DontFall',
-  currentAvatar: 'assets/avatars/system.png',
-  level: -1,
-  isGuest: false,
-  isOnline: false
-};

@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import Connection, { systemUser } from '../../connection/Connection';
+import Connection from '../../connection/Connection';
+import { systemUser } from '../../models/User';
 import PopupMediator from '../../controllers/PopupMediator';
 import { rootElement } from '../../index';
 import { experienceNeededFromLevel } from '../../Util';
