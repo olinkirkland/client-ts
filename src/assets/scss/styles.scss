@@ -631,7 +631,7 @@ span.badge {
       padding: 0.4rem;
       transition: all 0.3s;
       position: relative;
-      border: 3px solid transparent;
+      border: 2px solid transparent;
       bottom: 0;
 
       p {
@@ -643,7 +643,7 @@ span.badge {
       }
 
       &.selected {
-        border: 3px solid $primary;
+        border: 2px solid $primary;
       }
 
       &:hover {

@@ -66,12 +66,13 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
   render() {
     const { isOpen, onClose } = this.props;
     const me = Connection.instance.me!;
+    if (!me) return <></>;
     const isMe = this.userId === me.id;
 
     if (!this.state.user) return <></>;
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
-        <div className="popup">
+        <div className="popup popup-profile">
           <div className="popup-header">
             <span>
               {isMe ? 'My Profile' : `${this.state.user.username}'s Profile`}

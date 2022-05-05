@@ -19,8 +19,8 @@ export default function Navbar() {
               // PopupMediator.open(PopupShop);
             }}
           >
-            <i className="fas fa-box-open" />
-            <span>Collection</span>
+            <i className="fas fa-shopping-cart" />
+            <span>Shop</span>
           </button>
         </li>
         <li>

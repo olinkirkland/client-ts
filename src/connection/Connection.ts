@@ -52,14 +52,6 @@ export default class Connection extends EventEmitter {
     // Use the login credentials to login
     this.login(loginCredentials.email, loginCredentials.password);
 
-    // Add a welcome message to chat
-    this.chatMessages.push({
-      user: systemUser,
-      message:
-        '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
-      time: new Date().getTime()
-    });
-
     this.addTerminalListeners();
   }
 
@@ -130,6 +122,14 @@ export default class Connection extends EventEmitter {
       '...'
     );
 
+    // Add a welcome message to chat
+    this.chatMessages.push({
+      user: systemUser,
+      message:
+        '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
+      time: new Date().getTime()
+    });
+
     axios
       .post(
         url + 'users/login',
@@ -185,10 +185,8 @@ export default class Connection extends EventEmitter {
     // Clear stored login credentials
     localStorage.removeItem('login');
 
-    // Reset my user data & login to anonymous user
-    this.me = undefined;
-    this.chatMessages = [];
-    this.login(null, null);
+    // Reload the page
+    window.location.reload();
   }
 
   public cheat(type: string, value: string): void {
