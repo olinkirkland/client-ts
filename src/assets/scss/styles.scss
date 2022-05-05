@@ -80,6 +80,12 @@ nav {
           box-shadow: none;
           background: none;
         }
+
+        &:active {
+          opacity: 1;
+          box-shadow: none;
+          background: none;
+        }
       }
     }
   }
@@ -341,7 +347,7 @@ div.user-with-badge {
 
 // Terminal overlay
 
-.overlay {
+.terminal {
   position: fixed;
   top: 0;
   left: 0;
@@ -349,9 +355,7 @@ div.user-with-badge {
   height: 100vh;
   background-color: $panel;
   z-index: 9999;
-}
 
-.terminal {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -473,7 +477,7 @@ div.user-with-badge {
     }
 
     .chat-messages {
-      background-color: #00000010;
+      background-color: $panel-inset;
       border-radius: 5px;
       padding: 2rem;
       max-height: 40rem;
@@ -485,7 +489,8 @@ div.user-with-badge {
         width: 100%;
       }
       display: flex;
-      gap: 0.6rem;
+      gap: 1.2rem;
+      padding-right: 0.2rem;
     }
   }
 
@@ -543,7 +548,15 @@ div.user-with-badge {
 .chat-message {
   display: flex;
   position: relative;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &.is-block {
+    margin-top: 0.6rem;
+  }
 
   .chat-card {
     display: flex;
@@ -559,7 +572,7 @@ div.user-with-badge {
       margin-right: 0.8rem;
       border-radius: 50%;
       background-color: white;
-      border: 3px solid white;
+      border: 3px solid $panel-inset;
     }
 
     span {
@@ -574,13 +587,12 @@ div.user-with-badge {
     .chat-card {
       img {
         background-color: white;
-        border: 3px solid $text;
       }
     }
-    
+
     .chat-text {
       color: white;
-      background-color: $text;
+      background-color: $primary;
     }
   }
 
@@ -593,6 +605,10 @@ div.user-with-badge {
     margin-left: 2.6rem;
     margin-top: 2.6rem;
     max-width: 40rem;
+
+    &.is-block {
+      margin-top: 0;
+    }
   }
 }
 

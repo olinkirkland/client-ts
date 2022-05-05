@@ -1,42 +1,57 @@
 import Connection from '../../connection/Connection';
+import PopupMediator from '../../controllers/PopupMediator';
 import Chat from '../../models/Chat';
+import { PopupMyAccount } from '../popups/PopupMyAccount';
+import { PopupProfile } from '../popups/PopupUserProfile';
 
-export default function ChatMessage({ data }: { data: Chat }) {
+export default function ChatMessage({
+  data,
+  isBlock = false
+}: {
+  data: Chat;
+  isBlock: boolean;
+}) {
   const { user, message, time } = data;
 
-  console.log(user.id, Connection.instance.me!.id);
-  if (user.id === Connection.instance.me!.id) {
-    // This is my message
-    return (
-      <div className="chat-message chat-message-self">
+  if (!Connection.instance.me) return <></>;
+  return (
+    <div
+      className={`chat-message ${
+        user.id === Connection.instance.me!.id ? 'chat-message-self' : ''
+      } ${isBlock ? 'is-block' : ''}`}
+    >
+      {!isBlock && (
         <div className="chat-card">
           <img src={user.currentAvatar} alt="" />
           {user.isGuest && <span className="badge guest">Guest</span>}
-          <span className="chat-username">
-            <span>{user.username}</span>
+          <div className="h-group">
+            {user.id === 'system' && (
+              <span className="muted">{user.username}</span>
+            )}
+            {user.id !== 'system' && (
+              <button
+                className="link"
+                onClick={() => {
+                  if (user.id === Connection.instance.me!.id) {
+                    PopupMediator.open(PopupMyAccount);
+                  } else {
+                    PopupMediator.open(PopupProfile, {
+                      id: user.id
+                    });
+                  }
+                }}
+              >
+                {user.username}
+              </button>
+            )}
             <span className="muted"> ᛫ </span>
             <span className="muted">{new Date(time).toLocaleTimeString()}</span>
-          </span>
+          </div>
         </div>
-        <span className="chat-text">{message}</span>
-      </div>
-    );
-  }
-
-  // This is someone else's message
-  return (
-    <div className="chat-message">
-      <div className="chat-card">
-        <img src={user.currentAvatar} alt="" />
-        {user.id === 'system' && <span className="badge system">System</span>}
-        {user.isGuest && <span className="badge guest">Guest</span>}
-        <span className="chat-username">
-          <span>{user.username}</span>
-          <span className="muted"> ᛫ </span>
-          <span className="muted">{new Date(time).toLocaleTimeString()}</span>
-        </span>
-      </div>
-      <span className="chat-text">{message}</span>
+      )}
+      <span className={`chat-text ${isBlock ? 'is-block' : ''}`}>
+        {message}
+      </span>
     </div>
   );
 }

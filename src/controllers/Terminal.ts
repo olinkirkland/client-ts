@@ -54,12 +54,12 @@ export default class Terminal extends EventEmitter {
         ['connect', 'Connect to the socket server'],
         ['disconnect', 'Disconnect from the socket server'],
         ['chat', 'Send a chat message to the general-chat [message]'],
-        ['create', 'Create a room [roomId]'],
-        ['join', 'Join a room [roomId]'],
-        ['leave', 'Leave a room [roomId]'],
-        ['rooms', 'Show all connected rooms'],
-        ['host-game', 'Host a game with default settings'],
-        ['join-game', 'Join a game [gameId]']
+        ['game/host', 'Host a game with default settings'],
+        ['game/join', 'Join a game [gameId]'],
+        [
+          'send',
+          'Send a custom event and payload to the backend [event, payload]'
+        ]
       ];
 
       Terminal.log(

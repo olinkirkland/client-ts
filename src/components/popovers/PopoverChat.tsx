@@ -11,14 +11,23 @@ export default function PopoverChat() {
   useEffect(() => {
     const connection = Connection.instance;
     scrollToBottom();
-    connection.on(ConnectionEventType.CHAT_MESSAGE, (chatMessage: Chat) => {
-      setChatMessages((value) => [...value, chatMessage]);
-      scrollToBottom();
-    });
+    connection.addListener(ConnectionEventType.CHAT_MESSAGE, onReceiveMessage);
 
     const input: HTMLInputElement = document.querySelector('.chat-input')!;
     input.focus();
+
+    return () => {
+      connection.removeListener(
+        ConnectionEventType.CHAT_MESSAGE,
+        onReceiveMessage
+      );
+    };
   }, []);
+
+  function onReceiveMessage(chatMessage: Chat) {
+    setChatMessages((value) => [...value, chatMessage]);
+    scrollToBottom();
+  }
 
   function scrollToBottom() {
     // Scroll to bottom
@@ -43,22 +52,29 @@ export default function PopoverChat() {
       <span className="chat-header">Chat Room</span>
       <ul className="chat-messages">
         {chatMessages.map((chatMessage, index) => (
-          <li key={index}>
-            <ChatMessage data={chatMessage} />
-          </li>
+          <ChatMessage
+            key={index}
+            data={chatMessage}
+            isBlock={
+              index > 0
+                ? chatMessage.user.id === chatMessages[index - 1].user.id
+                : false
+            }
+          />
         ))}
       </ul>
       <div className="chat-input-container">
         <input
           className="chat-input"
           type="text"
-          placeholder="Type your message"
+          placeholder="Type a message..."
           onKeyDown={(event) => {
             if (event.key === 'Enter') sendChatMessage();
           }}
         />
-        <button className="chat-send" onClick={sendChatMessage}>
-          Send
+        <button className="link" onClick={sendChatMessage}>
+          <i className="fas fa-paper-plane"></i>
+          <span>Send</span>
         </button>
       </div>
     </div>

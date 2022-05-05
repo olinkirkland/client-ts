@@ -96,6 +96,24 @@ button {
   }
 }
 
+button.link {
+  background-color: transparent;
+  color: $text-muted;
+  border-radius: 0;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: 0.6px;
+
+  &:hover {
+    background-color: transparent;
+    color: $text;
+  }
+
+  &:active {
+    background-color: transparent;
+  }
+}
+
 ::selection,
 ::-moz-selection {
   background: $primary-muted;
@@ -122,25 +140,24 @@ input[type='password'] {
   user-select: auto;
   font-family: 'Outfit', serif;
   height: 3.2rem;
-  padding: 0 1.2rem;
-  border: 1px solid $text-muted;
-  background-color: $lighter;
-  border-radius: 5px;
+  padding: 2rem 1.6rem;
+  border: 1px solid $dark;
+  border-radius: 10px;
+  background-color: white;
   transition: all 0.3s;
   color: $text;
 
   &::placeholder {
     opacity: 1;
-    color: $text-muted;
-    font-style: italic;
+    color: $darker;
   }
 
   &:hover {
-    border: 1px solid $primary;
+    border-bottom: 1px solid $dark;
   }
 
   &:focus {
-    border: 1px solid $primary;
+    border-bottom: 1px solid $darker;
   }
 
   &:focus::placeholder {
@@ -192,6 +209,10 @@ li {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+}
+
+.spread {
+  gap: 2rem;
 }
 
 .panel {

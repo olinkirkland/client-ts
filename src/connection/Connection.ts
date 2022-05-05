@@ -1,16 +1,19 @@
 import axios from 'axios';
 import EventEmitter from 'events';
 import { io, Socket } from 'socket.io-client';
+import { PopupBook, SectionType } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
+import { cookie } from '../components/popups/PopupPresets';
 import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import User from '../models/User';
+import { GameEventType } from './Game';
 
-// const url: string = 'https://dontfall-backend.herokuapp.com/';
-const url: string = 'http://localhost:8000/';
+//export const url: string = 'https://dontfall-backend.herokuapp.com/';
+export const url: string = 'http://localhost:8000/';
 
 export enum ConnectionEventType {
   CONNECT = 'connect',
@@ -48,12 +51,12 @@ export default class Connection extends EventEmitter {
     // Use the login credentials to login
     this.login(loginCredentials.email, loginCredentials.password);
 
-    // Add a welcome message
+    // Add a welcome message to chat
     this.chatMessages.push({
       user: systemUser,
       message:
         '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
-      time: new Date().getTime(),
+      time: new Date().getTime()
     });
 
     this.addTerminalListeners();
@@ -74,13 +77,11 @@ export default class Connection extends EventEmitter {
       ...gameOptions,
     };
 
-    console.log(args);
-
-    Terminal.log(args);
     axios
       .post(`${url}game/host`, args, { withCredentials: true })
       .then((res) => {
         Terminal.log('✔️', 'Game hosted with gameId', res.data.roomID);
+        Terminal.log(res.data);
         this.joinGame(res.data.roomID);
       })
       .catch((err) => Terminal.log('⚠️', err));
@@ -89,7 +90,7 @@ export default class Connection extends EventEmitter {
   public joinGame(gameId: string) {
     Terminal.log('🕹️', 'Joining game', gameId, '...');
     // Send socket message join-game-room
-    this.socket?.emit('join-game-room', gameId);
+    this.socket?.emit(GameEventType.JOIN, gameId);
   }
 
   public getMe() {
@@ -98,8 +99,8 @@ export default class Connection extends EventEmitter {
     axios
       .get(`${url}users/${this.me?.id}`, { withCredentials: true })
       .then((res) => {
-        // this.me = res.data;
-        // this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
+        this.me = res.data;
+        this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
         Terminal.log('🔑', 'Me', res.data);
       })
       .catch((err) => {
@@ -284,18 +285,6 @@ export default class Connection extends EventEmitter {
     this.socket?.disconnect();
   }
 
-  // Join a room
-  private joinRoom(roomId: string) {
-    Terminal.log(`Joining room ${roomId}...`);
-    this.socket?.emit('join-game-room', roomId);
-  }
-
-  // Leave a room
-  private leaveRoom(roomId: string) {
-    Terminal.log(`Leaving room ${roomId}...`);
-    this.socket?.emit('leave-room', roomId);
-  }
-
   public chat(message: string) {
     this.socket?.emit('chat', message);
   }
@@ -309,6 +298,10 @@ export default class Connection extends EventEmitter {
       setTimeout(() => {
         this.setIsConnected(true);
         PopupMediator.close();
+
+        // Has the user viewed the cookie popup?
+        if (!localStorage.getItem('cookie-popup-viewed'))
+          PopupMediator.open(PopupBook, cookie);
       }, 500);
     });
 
@@ -396,14 +389,39 @@ export default class Connection extends EventEmitter {
         case 'chat':
           this.chat(arr.join(' '));
           break;
-        case 'join':
-          this.joinRoom(arr[0]);
+        case 'game/host':
+          const gameOptions: GameOptions = {
+            name: `${this.me?.username}'s Game`,
+            description: 'This game was started from the terminal',
+            password: ''
+          };
+          this.hostGame(gameOptions);
           break;
-        case 'leave':
-          this.leaveRoom(arr[0]);
+        case 'game/join':
+          this.joinGame(arr[0]);
           break;
+        case 'send':
+          if (arr.length === 0)
+            return Terminal.log('⚠️', 'No event type to send');
+
+          let payload = {};
+          Terminal.log(arr.join(', '));
+          if (arr.length > 1) {
+            try {
+              payload = JSON.parse(arr[1]);
+            } catch (e) {
+              // Payload is not JSON
+              payload = arr[1];
+            }
+          }
+
+          this.sendCustomEvent(arr[0], payload);
       }
     });
+  }
+
+  private sendCustomEvent(eventType: string, payload: any) {
+    this.socket?.emit(eventType, payload);
   }
 }
 
