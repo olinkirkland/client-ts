@@ -12,11 +12,11 @@
   {
     "id": "KgkdXnvuUjgFg9mFsF_o1",
     "type": "wallpaper",
-    "name": "Embroidery",
-    "description": "A pleasant embroidery pattern.",
+    "name": "Seigaiha",
+    "description": "A pleasant wave-like pattern.",
     "tags": [],
     "value": {
-      "url": "wallpapers/embroidery.png"
+      "url": "wallpapers/seigaiha.png"
     }
   },
   {
@@ -37,6 +37,16 @@
     "tags": [],
     "value": {
       "url": "wallpapers/hotel.png"
+    }
+  },
+  {
+    "id": "249573cc1e6ac120X00a2",
+    "type": "wallpaper",
+    "name": "Floral",
+    "description": "A fancy floral pattern.",
+    "tags": [],
+    "value": {
+      "url": "wallpapers/floral.png"
     }
   }
 ]
