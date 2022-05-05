@@ -1,20 +1,19 @@
-import { PopupManager } from 'react-popup-manager';
-import PopupMediator from '../../controllers/PopupMediator';
 import Terminal from '../../controllers/Terminal';
 import NavUserCard from './NavUserCard';
 export default function Navbar() {
   return (
     <nav>
-      <h1 className="logo">Don't Fall!</h1>
       <ul>
         <li>
-          <button>
+          <button className="bar-tile logo-tile">
+            <h1 className="logo">Don't Fall</h1>
             <i className="fas fa-gamepad" />
             <span>Play</span>
           </button>
         </li>
         <li>
           <button
+            className="bar-tile"
             onClick={() => {
               // PopupMediator.open(PopupShop);
             }}
@@ -25,6 +24,7 @@ export default function Navbar() {
         </li>
         <li>
           <button
+            className="bar-tile"
             onClick={() => {
               Terminal.show();
             }}

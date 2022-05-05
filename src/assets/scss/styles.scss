@@ -28,9 +28,15 @@ img.guest-badge {
 
 // Navbar
 
+.logo-tile {
+  i {
+    margin-left: 12.5rem;
+  }
+}
+
 .logo {
+  position: absolute;
   text-transform: lowercase;
-  letter-spacing: 1.6px;
   color: $primary;
 }
 
@@ -49,7 +55,7 @@ nav {
 
   display: flex;
   align-items: center;
-  padding: 1.6rem;
+  padding-right: 1.2rem;
   background-color: $panel;
 
   .logo {
@@ -59,45 +65,6 @@ nav {
   ul {
     display: flex;
     align-items: center;
-
-    li {
-      // Vertical divider dashed line
-      display: flex;
-      &:not(:last-of-type):after {
-        content: '';
-        display: block;
-        height: 2rem;
-        width: 1px;
-        margin: 0 2rem;
-        border-right: 1px dashed $text-muted;
-      }
-
-      button {
-        background: none;
-        box-shadow: none;
-        border-radius: 0;
-        color: $text;
-        padding: 0;
-
-        font-size: 1.2rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-
-        opacity: 0.6;
-
-        &:hover {
-          opacity: 1;
-          box-shadow: none;
-          background: none;
-        }
-
-        &:active {
-          opacity: 1;
-          box-shadow: none;
-          background: none;
-        }
-      }
-    }
   }
 
   .nav-user-card {
@@ -252,38 +219,39 @@ nav {
   width: 100%;
   display: flex;
   background-color: $panel;
+}
 
-  button.taskbar-tile {
-    padding: 1.2rem 2rem;
-    background-color: transparent;
-    border-radius: 0;
-    font-size: 2rem;
-    color: $text-muted;
-    text-transform: none;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border-right: 1px dashed $text-muted;
+button.bar-tile {
+  height: 6rem;
+  padding: 1.2rem 2rem;
+  background-color: transparent;
+  border-radius: 0;
+  font-size: 2rem;
+  color: $text-muted;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-right: 1px dashed $text-muted;
 
-    &.friends {
-      margin-left: auto;
-      border-right: none;
-      border-left: 1px dashed $text-muted;
-    }
+  &.friends {
+    margin-left: auto;
+    border-right: none;
+    border-left: 1px dashed $text-muted;
+  }
 
-    img {
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px;
-      border-radius: 99px;
-      height: 3.2rem;
-    }
+  img {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px;
+    border-radius: 99px;
+    height: 3.2rem;
+  }
 
-    &:hover {
-      background-color: #00000020;
-    }
+  &:hover {
+    background-color: #00000020;
+  }
 
-    &:active {
-      background-color: #00000040;
-    }
+  &:active {
+    background-color: #00000040;
   }
 }
 
