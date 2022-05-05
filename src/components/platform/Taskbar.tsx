@@ -14,10 +14,17 @@ export default function Taskbar() {
   const [level, setLevel] = useState(0);
   const [experience, setExperience] = useState(0);
   const [experienceToNextLevel, setExperienceToNextLevel] = useState(0);
+  const [onlineUsers, setOnlineUsers] = useState(
+    Connection.instance.onlineUsers
+  );
 
   useEffect(() => {
     connection.on(ConnectionEventType.USER_DATA_CHANGED, () => {
       update();
+    });
+
+    connection.on(ConnectionEventType.ONLINE_USERS, (count) => {
+      setOnlineUsers(count);
     });
   }, []);
 
@@ -61,7 +68,7 @@ export default function Taskbar() {
         }}
       >
         <i className="fas fa-comment-alt" />
-        <span>Chat Room</span>
+        <span>{`Chat Room (${onlineUsers})`}</span>
       </button>
 
       <button
