@@ -1,3 +1,5 @@
+import { PopupManager } from 'react-popup-manager';
+import PopupMediator from '../../controllers/PopupMediator';
 import Terminal from '../../controllers/Terminal';
 import NavUserCard from './NavUserCard';
 export default function Navbar() {
@@ -12,9 +14,13 @@ export default function Navbar() {
           </button>
         </li>
         <li>
-          <button>
-            <i className="fas fa-paint-brush" />
-            <span>Customize</span>
+          <button
+            onClick={() => {
+              // PopupMediator.open(PopupShop);
+            }}
+          >
+            <i className="fas fa-box-open" />
+            <span>Collection</span>
           </button>
         </li>
         <li>

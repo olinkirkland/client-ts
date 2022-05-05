@@ -73,44 +73,41 @@ export class PopupMyAccount extends React.Component<PopupMyAccountProps> {
                 }/${experienceNeededFromLevel(me.level!)} XP`}</span>
               </li>
               <li>
-                <span>{`User ID`}</span>
-                <span>{me.id}</span>
-                <div>
-                  <button
-                    className="link"
-                    onClick={() => {
-                      navigator.clipboard.writeText(me.id!);
-                    }}
-                  >
-                    <i className="fas fa-copy" />
-                    Copy User ID
-                  </button>
-                </div>
-              </li>
-              <li>
                 <span>Avatar</span>
                 <img className="avatar" src={me.avatar} alt="" />
               </li>
             </ul>
           </div>
           <div className="popup-taskbar">
-            <div className="h-group">
-              <button
-                onClick={() => {
-                  PopupMediator.open(PopupBook, cookie);
-                }}
-                className="link"
-              >
-                Cookie Policy
-              </button>
-              <button
-                onClick={() => {
-                  PopupMediator.open(PopupBook, impressum);
-                }}
-                className="link"
-              >
-                Impressum
-              </button>
+            <div className="v-group center">
+              <div className="h-group center">
+                <button
+                  onClick={() => {
+                    PopupMediator.open(PopupBook, cookie);
+                  }}
+                  className="link"
+                >
+                  Cookie Policy
+                </button>
+                <button
+                  onClick={() => {
+                    PopupMediator.open(PopupBook, impressum);
+                  }}
+                  className="link"
+                >
+                  Impressum
+                </button>
+              </div>
+              <div className="h-group">
+                <button
+                  className="link"
+                  onClick={() => {
+                    navigator.clipboard.writeText(me.id!);
+                  }}
+                >
+                  {`Id: ${me.id}`}
+                </button>
+              </div>
             </div>
           </div>
         </div>
