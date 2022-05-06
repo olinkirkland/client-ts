@@ -18,6 +18,7 @@ import {
 } from '../ItemCollection';
 import ProgressBar from '../platform/ProgressBar';
 import { PopupBook } from './PopupBook';
+import { PopupInput } from './PopupInput';
 import { cookie, impressum } from './PopupPresets';
 
 interface PopupProfileProps extends PopupProps {
@@ -49,6 +50,25 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
 
     this.userId = props.id;
   }
+
+  private editUsername() {
+    const me = Connection.instance.me!;
+    PopupMediator.open(PopupInput, {
+      title: 'Edit your username',
+      message: '',
+      placeholder: me.username!,
+      confirm: 'Change',
+      cancel: 'Cancel',
+      onConfirm: (text: string) => {},
+      onCancel: () => {}
+    });
+  }
+
+  private editStatus() {}
+
+  private editEmail() {}
+
+  private editPassword() {}
 
   public componentDidMount() {
     if (!this.userId) this.userId = Connection.instance.me?.id;
@@ -114,11 +134,25 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
                 {me.isGuest && <span className="badge guest">Guest</span>}
                 <span>{me.username}</span>
               </div>
+
               <span className="emphasized text-center h-group">
                 <i className="fas fa-quote-left muted" />
                 <span>Lorem ipsum dolor sit amet.</span>
                 <i className="fas fa-quote-right muted" />
               </span>
+
+              {isMe && (
+                <div className="h-group center">
+                  <button className="link" onClick={editUsername}>
+                    <i className="fas fa-pen" />
+                    Edit username
+                  </button>
+                  <button className="link" onClick={editStatus}>
+                    <i className="fas fa-pen" />
+                    Edit status
+                  </button>
+                </div>
+              )}
 
               <div className="level-group v-group center">
                 <span>{`Level ${me.level}`}</span>
