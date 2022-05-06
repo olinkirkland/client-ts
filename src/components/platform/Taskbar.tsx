@@ -35,7 +35,6 @@ export default function Taskbar() {
       <button
         className="bar-tile"
         onClick={(event) => {
-          console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.LEVEL);
         }}
       >
@@ -47,7 +46,6 @@ export default function Taskbar() {
       <button
         className="bar-tile"
         onClick={(event) => {
-          console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.GOLD);
         }}
       >

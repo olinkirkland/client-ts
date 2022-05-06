@@ -5,7 +5,6 @@ import { PopupBook } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
 import { cookie } from '../components/popups/PopupPresets';
-import { PopupProfile } from '../components/popups/PopupProfile';
 import { PopupSuccess } from '../components/popups/PopupSuccess';
 import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
@@ -309,6 +308,15 @@ export default class Connection extends EventEmitter {
           title: 'Email changed',
           message: 'Your Email has been changed successfully.'
         });
+        const loginData = localStorage.getItem('login');
+        if (loginData)
+          localStorage.setItem(
+            'login',
+            JSON.stringify({
+              email: this.me?.email,
+              password: JSON.parse(loginData).password
+            })
+          );
       })
       .catch((err) => {
         Terminal.log('⚠️', err);
@@ -338,6 +346,14 @@ export default class Connection extends EventEmitter {
           title: 'Password changed',
           message: 'Your password has been changed successfully.'
         });
+        if (localStorage.getItem('login'))
+          localStorage.setItem(
+            'login',
+            JSON.stringify({
+              email: this.me?.email,
+              password: newPassword
+            })
+          );
       })
       .catch((err) => {
         Terminal.log('⚠️', err);

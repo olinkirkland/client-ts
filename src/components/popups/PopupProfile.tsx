@@ -40,17 +40,16 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
 
   constructor(props: PopupProfileProps) {
     super(props);
-
-    const connection = Connection.instance;
-    connection.on(ConnectionEventType.USER_DATA_CHANGED, () => {
-      if (this.userId === connection.me?.id) {
-        this.setState({
-          user: connection.me
-        });
-      }
-    });
-
     this.userId = props.id;
+  }
+
+  private onUserDataChanged() {
+    const connection = Connection.instance;
+    if (this.userId === connection.me?.id) {
+      this.setState({
+        user: connection.me
+      });
+    }
   }
 
   private editUsername() {
@@ -105,6 +104,20 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
       .catch((err) => {
         Terminal.log('⚠️', err);
       });
+
+    const connection = Connection.instance;
+    connection.addListener(
+      ConnectionEventType.USER_DATA_CHANGED,
+      this.onUserDataChanged.bind(this)
+    );
+  }
+
+  public componentWillUnmount() {
+    // const connection = Connection.instance;
+    // connection.removeListener(
+    //   ConnectionEventType.USER_DATA_CHANGED,
+    //   this.onUserDataChanged
+    // );
   }
 
   render() {
@@ -152,7 +165,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
               </div>
               <div className="user-with-badge">
                 {me.isGuest && <span className="badge guest">Guest</span>}
-                <span>{me.username}</span>
+                <h1>{me.username}</h1>
               </div>
 
               <span className="emphasized text-center h-group">
@@ -161,7 +174,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
                 <i className="fas fa-quote-right muted" />
               </span>
 
-              {isMe && (
+              {isMe && !me.isGuest && (
                 <div className="h-group center">
                   <button className="link" onClick={this.editUsername}>
                     <i className="fas fa-pen" onClick={this.editEmail} />
