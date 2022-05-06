@@ -2,7 +2,9 @@ import Connection from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
 import Chat from '../../models/Chat';
 import { getItemById } from '../../models/Item';
+import { extractUrlsFromString } from '../../Util';
 import { PopupProfile } from '../popups/PopupProfile';
+import { PopupPrompt } from '../popups/PopupPrompt';
 
 export default function ChatMessage({
   data,
@@ -12,6 +14,8 @@ export default function ChatMessage({
   isBlock: boolean;
 }) {
   const { user, message, time } = data;
+
+  const messageParts = extractUrlsFromString(message);
 
   if (!Connection.instance.me) return <></>;
   return (
@@ -52,9 +56,32 @@ export default function ChatMessage({
           </div>
         </div>
       )}
-      <span className={`chat-text ${isBlock ? 'is-block' : ''}`}>
-        {message}
-      </span>
+      <p className={`chat-text ${isBlock ? 'is-block' : ''}`}>
+        {messageParts.map((part, index) => {
+          if (part.isUrl)
+            return (
+              <button
+                className="chat-link"
+                key={index}
+                onClick={() => {
+                  PopupMediator.open(PopupPrompt, {
+                    title: 'External link',
+                    message: `Following the external link "${part.text}" will open a website in a new tab. Are you sure you want to continue?`,
+                    onConfirm: () => {
+                      window.open('//' + part.text, '_blank');
+                    },
+                    onCancel: () => {},
+                    confirm: 'Continue',
+                    cancel: 'Cancel'
+                  });
+                }}
+              >
+                {part.text}
+              </button>
+            );
+          else return part.text;
+        })}
+      </p>
     </div>
   );
 }
