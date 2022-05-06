@@ -1,8 +1,8 @@
 import Connection from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
 import Chat from '../../models/Chat';
-import { PopupMyAccount } from '../popups/PopupMyAccount';
-import { PopupProfile } from '../popups/PopupUserProfile';
+import { getItemById } from '../../models/Item';
+import { PopupProfile } from '../popups/PopupProfile';
 
 export default function ChatMessage({
   data,
@@ -22,7 +22,10 @@ export default function ChatMessage({
     >
       {!isBlock && (
         <div className="chat-card">
-          <img src={user.currentAvatar} alt="" />
+          <img
+            src={'assets/' + getItemById(user.currentAvatar)?.value.url}
+            alt=""
+          />
           {user.isGuest && <span className="badge guest">Guest</span>}
           <div className="h-group">
             {user.id === 'system' && (
@@ -33,7 +36,7 @@ export default function ChatMessage({
                 className="link"
                 onClick={() => {
                   if (user.id === Connection.instance.me!.id) {
-                    PopupMediator.open(PopupMyAccount);
+                    PopupMediator.open(PopupProfile);
                   } else {
                     PopupMediator.open(PopupProfile, {
                       id: user.id

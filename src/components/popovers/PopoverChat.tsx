@@ -8,10 +8,18 @@ export default function PopoverChat() {
     ...Connection.instance.chatMessages
   ]);
 
+  const [onlineUsers, setOnlineUsers] = useState(
+    Connection.instance.onlineUsers
+  );
+
   useEffect(() => {
     const connection = Connection.instance;
     scrollToBottom();
     connection.addListener(ConnectionEventType.CHAT_MESSAGE, onReceiveMessage);
+    connection.addListener(
+      ConnectionEventType.ONLINE_USERS,
+      onOnlineUsersChanged
+    );
 
     const input: HTMLInputElement = document.querySelector('.chat-input')!;
     input.focus();
@@ -21,12 +29,20 @@ export default function PopoverChat() {
         ConnectionEventType.CHAT_MESSAGE,
         onReceiveMessage
       );
+      connection.removeListener(
+        ConnectionEventType.ONLINE_USERS,
+        onOnlineUsersChanged
+      );
     };
   }, []);
 
   function onReceiveMessage(chatMessage: Chat) {
     setChatMessages((value) => [...value, chatMessage]);
     scrollToBottom();
+  }
+
+  function onOnlineUsersChanged(count: number) {
+    setOnlineUsers(count);
   }
 
   function scrollToBottom() {
@@ -49,7 +65,13 @@ export default function PopoverChat() {
 
   return (
     <div className="popover popover-chat">
-      <span className="chat-header">Chat Room</span>
+      <span className="chat-header">
+        <span>Chat Room</span>
+        <div className="online-users">
+          <span>{onlineUsers}</span>
+          <i className="fas fa-user-friends" />
+        </div>
+      </span>
       <ul className="chat-messages">
         {chatMessages.map((chatMessage, index) => (
           <ChatMessage

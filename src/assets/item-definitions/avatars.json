@@ -1,0 +1,122 @@
+[
+  {
+    "id": "system-avatar",
+    "type": "avatar",
+    "name": "System Avatar",
+    "description": "",
+    "tags": [],
+    "value": {
+      "url": "avatars/system.png"
+    }
+  },
+  {
+    "id": "HiyA42N_K52PcsdDfe8SS",
+    "type": "avatar",
+    "name": "Anonymous",
+    "description": "This is the default avatar for new users.",
+    "tags": [],
+    "value": {
+      "url": "avatars/anonymous.png"
+    }
+  },
+  {
+    "id": "oGvKI-FE4dE4S5XliZOGj",
+    "type": "avatar",
+    "name": "Dinosaur",
+    "description": "",
+    "tags": ["animals"],
+    "value": {
+      "url": "avatars/dinosaur.png"
+    }
+  },
+  {
+    "id": "LgzPFDYuFg53oV8Q0CnG3",
+    "type": "avatar",
+    "name": "Corgi",
+    "description": "",
+    "tags": ["animals"],
+    "value": {
+      "url": "avatars/corgi.png"
+    }
+  },
+  {
+    "id": "XII2NZXy4WPGry0P_v3lo",
+    "type": "avatar",
+    "name": "Octopus",
+    "description": "",
+    "tags": ["animals"],
+    "value": {
+      "url": "avatars/octopus.png"
+    }
+  },
+  {
+    "id": "W1ybwi-4MeV9rXK-xW9lW",
+    "type": "avatar",
+    "name": "Dragon",
+    "description": "",
+    "tags": ["animals"],
+    "value": {
+      "url": "avatars/dragon.png"
+    }
+  },
+  {
+    "id": "jRsK5vFBuCOB_K5rENykE",
+    "type": "avatar",
+    "name": "Unicorn",
+    "description": "",
+    "tags": ["animals"],
+    "value": {
+      "url": "avatars/unicorn.png"
+    }
+  },
+  {
+    "id": "fAD3jI6_3-fxwk809SkHJ",
+    "type": "avatar",
+    "name": "Hummingbird",
+    "description": "",
+    "tags": ["animals"],
+    "value": {
+      "url": "avatars/hummingbird.png"
+    }
+  },
+  {
+    "id": "Gpm00ST2s7WypfINoDx4i",
+    "type": "avatar",
+    "name": "Day of the Dead",
+    "description": "",
+    "tags": [],
+    "value": {
+      "url": "avatars/day-of-the-dead.png"
+    }
+  },
+  {
+    "id": "oO7GXCjER0DbQioa2Mwqx",
+    "type": "avatar",
+    "name": "Viking",
+    "description": "",
+    "tags": [],
+    "value": {
+      "url": "avatars/viking.png"
+    }
+  },
+  {
+    "id": "Pp7gNhFNLGW4xXs1r9itO",
+    "type": "avatar",
+    "name": "Anubis",
+    "description": "",
+    "tags": [],
+    "value": {
+      "url": "avatars/anubis.png"
+    }
+  },
+  {
+    "id": "i3B7f2qu7l-9j8ZQq77e1",
+    "type": "avatar",
+    "name": "Ninja",
+    "description": "",
+    "tags": [],
+    "value": {
+      "url": "avatars/ninja.png"
+    }
+  }
+]

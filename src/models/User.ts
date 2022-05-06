@@ -11,3 +11,12 @@ export default interface User {
 
   // User-fl
 }
+
+export const systemUser: User = {
+  id: 'system',
+  username: 'FallBot',
+  currentAvatar: 'system-avatar',
+  level: -1,
+  isGuest: false,
+  isOnline: false
+};

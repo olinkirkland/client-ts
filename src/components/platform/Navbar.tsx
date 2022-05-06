@@ -3,22 +3,28 @@ import NavUserCard from './NavUserCard';
 export default function Navbar() {
   return (
     <nav>
-      <h1 className="logo">Don't Fall!</h1>
       <ul>
         <li>
-          <button>
+          <button className="bar-tile logo-tile">
+            <h1 className="logo">Don't Fall</h1>
             <i className="fas fa-gamepad" />
             <span>Play</span>
           </button>
         </li>
         <li>
-          <button>
-            <i className="fas fa-paint-brush" />
-            <span>Customize</span>
+          <button
+            className="bar-tile"
+            onClick={() => {
+              // PopupMediator.open(PopupShop);
+            }}
+          >
+            <i className="fas fa-shopping-cart" />
+            <span>Shop</span>
           </button>
         </li>
         <li>
           <button
+            className="bar-tile"
             onClick={() => {
               Terminal.show();
             }}

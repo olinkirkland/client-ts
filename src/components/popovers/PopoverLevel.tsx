@@ -9,11 +9,11 @@ export default function PopoverLevel() {
     <div className="popover popover-level">
       <div className="level-badge">
         <span className="level">{me.level}</span>
-        <ProgressBar
+        {/* <ProgressBar
           percent={Math.min(
             me.experience! / experienceNeededFromLevel(me.level!)
           )}
-        />
+        /> */}
       </div>
       <span className='experience'>{`${me.experience}/${experienceNeededFromLevel(
         me.level!

@@ -33,7 +33,7 @@ export default function Taskbar() {
   return (
     <div className="taskbar">
       <button
-        className="taskbar-tile"
+        className="bar-tile"
         onClick={(event) => {
           console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.LEVEL);
@@ -45,7 +45,7 @@ export default function Taskbar() {
         />
       </button>
       <button
-        className="taskbar-tile"
+        className="bar-tile"
         onClick={(event) => {
           console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.GOLD);
@@ -55,7 +55,7 @@ export default function Taskbar() {
         <span>{numberComma(gold)}</span>
       </button>
       <button
-        className="taskbar-tile"
+        className="bar-tile"
         onClick={(event) => {
           PopoverMediator.toggle(PopoverType.CHAT);
         }}
@@ -65,7 +65,7 @@ export default function Taskbar() {
       </button>
 
       <button
-        className="taskbar-tile friends"
+        className="bar-tile friends"
         onClick={(event) => {
           console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.FRIENDS);

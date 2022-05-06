@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
-import Connection from '../../connection/Connection';
+import { useEffect, useState } from 'react';
+import Connection, { ConnectionEventType } from '../../connection/Connection';
 import { GameOptions } from '../../controllers/Game';
 import PopupMediator from '../../controllers/PopupMediator';
+import { getItemById } from '../../models/Item';
 import { PopupBook, SectionType } from '../popups/PopupBook';
 import { PopupHostGame } from '../popups/PopupHostGame';
 import { PopupInput } from '../popups/PopupInput';
@@ -10,15 +11,23 @@ import { PopupPrompt } from '../popups/PopupPrompt';
 import HomePanel from './HomePanel';
 
 export default function Home() {
-  useEffect(() => {}, []);
+  const [wallpaper, setWallpaper] = useState(
+    Connection.instance.me?.currentWallpaper
+  );
 
-  const wallpaper: string = 'prism.png';
+  useEffect(() => {
+    Connection.instance.on(ConnectionEventType.USER_DATA_CHANGED, () => {
+      setWallpaper(Connection.instance.me?.currentWallpaper);
+    });
+  }, []);
 
   return (
     <div
       className="home"
       style={{
-        background: `url(${process.env.PUBLIC_URL}/assets/images/wallpapers/${wallpaper}) repeat center center`
+        background: `url(${process.env.PUBLIC_URL}/assets/${
+          getItemById(wallpaper!)?.value.url
+        }) repeat center center`
       }}
     >
       <div className="home-container">

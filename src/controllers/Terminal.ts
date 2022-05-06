@@ -1,5 +1,20 @@
 import EventEmitter from 'events';
+import Connection from '../connection/Connection';
 import { formatHelpString } from '../Util';
+
+const helpCommands = [
+  ['clear', 'Clear the terminal'],
+  ['help', 'Show this help message'],
+  ['login', 'Login [email, password]'],
+  ['register', 'Register [email, password]'],
+  ['logout', 'Logout'],
+  ['cheat', 'Set a resource [resource, amount]'],
+  ['chat', 'Send a chat message to the general-chat [message]'],
+  ['inventory, inv', 'View your inventory'],
+  ['game/host, gh', 'Host a game with default settings'],
+  ['game/join, gj', 'Join a game [gameId]'],
+  ['send', 'Send a custom event and payload to the backend [event, payload]']
+];
 
 export enum TerminalEventType {
   LOG = 'log',
@@ -38,43 +53,33 @@ export default class Terminal extends EventEmitter {
   }
 
   public static command(cmd: string): void {
-    if (cmd === 'clear') {
-      Terminal.clear();
-      return;
-    }
-
-    if (cmd === 'help') {
-      const helpCommands = [
-        ['clear', 'Clear the terminal'],
-        ['help', 'Show this help message'],
-        ['login', 'Login [email, password]'],
-        ['register', 'Register [email, password]'],
-        ['logout', 'Logout'],
-        ['cheat', 'Set a resource [resource, amount]'],
-        ['connect', 'Connect to the socket server'],
-        ['disconnect', 'Disconnect from the socket server'],
-        ['chat', 'Send a chat message to the general-chat [message]'],
-        ['game/host', 'Host a game with default settings'],
-        ['game/join', 'Join a game [gameId]'],
-        [
-          'send',
-          'Send a custom event and payload to the backend [event, payload]'
-        ]
-      ];
-
-      Terminal.log(
-        '📖 Terminal Commands',
-        `\n${helpCommands
-          .map((arr) => formatHelpString(arr[0], arr[1]))
-          .join('\n')}`
-      );
-
-      return;
-    }
-
     const log = new TerminalLog(cmd);
     log.cmd = true;
     Terminal.logs.push(log);
+
+    switch (cmd) {
+      case 'clear':
+        Terminal.clear();
+        return;
+      case 'inventory':
+      case 'inv':
+        Terminal.log(
+          `🗃️ Inventory (${Connection.instance.me?.inventory?.length})`,
+          Connection.instance.me?.inventory
+        );
+        return;
+      case 'help':
+        Terminal.log(
+          '📖 Terminal Commands',
+          `\n${helpCommands
+            .map((arr) => formatHelpString(arr[0], arr[1]))
+            .join('\n')}`
+        );
+        return;
+      default:
+        break;
+    }
+
     Terminal.instance.emit(TerminalEventType.LOG, log);
     Terminal.instance.emit(TerminalEventType.COMMAND, cmd);
   }

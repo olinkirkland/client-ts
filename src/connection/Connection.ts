@@ -1,7 +1,7 @@
 import axios from 'axios';
 import EventEmitter from 'events';
 import { io, Socket } from 'socket.io-client';
-import { PopupBook, SectionType } from '../components/popups/PopupBook';
+import { PopupBook } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
 import { cookie } from '../components/popups/PopupPresets';
@@ -9,7 +9,8 @@ import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
-import User from '../models/User';
+import Item, { getItemById } from '../models/Item';
+import { systemUser } from '../models/User';
 import { GameEventType } from './Game';
 
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
@@ -20,6 +21,7 @@ export enum ConnectionEventType {
   DISCONNECT = 'disconnect',
   USER_DATA_CHANGED = 'user-data-changed',
   CHAT_MESSAGE = 'chat-message',
+  ONLINE_USERS = 'online-users'
 }
 
 export default class Connection extends EventEmitter {
@@ -29,6 +31,7 @@ export default class Connection extends EventEmitter {
 
   // Data
   public me?: MyUserData;
+  public onlineUsers: number = 0;
   public chatMessages: Chat[] = [];
 
   // Callbacks
@@ -50,14 +53,6 @@ export default class Connection extends EventEmitter {
 
     // Use the login credentials to login
     this.login(loginCredentials.email, loginCredentials.password);
-
-    // Add a welcome message to chat
-    this.chatMessages.push({
-      user: systemUser,
-      message:
-        '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
-      time: new Date().getTime()
-    });
 
     this.addTerminalListeners();
   }
@@ -100,6 +95,7 @@ export default class Connection extends EventEmitter {
       .get(`${url}users/${this.me?.id}`, { withCredentials: true })
       .then((res) => {
         this.me = res.data;
+        if (!this.me!.inventory) this.me!.inventory = [];
         this.emit(ConnectionEventType.USER_DATA_CHANGED, res.data);
         Terminal.log('🔑', 'Me', res.data);
       })
@@ -128,6 +124,14 @@ export default class Connection extends EventEmitter {
       '...'
     );
 
+    // Add a welcome message to chat
+    this.chatMessages.push({
+      user: systemUser,
+      message:
+        '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
+      time: new Date().getTime()
+    });
+
     axios
       .post(
         url + 'users/login',
@@ -137,8 +141,8 @@ export default class Connection extends EventEmitter {
         { withCredentials: true }
       )
       .then((res) => {
-        const data = res.data;
-        if (!data.id) {
+        const userId = res.data;
+        if (!userId) {
           this.error('Login failed', 'Invalid username or password.');
           localStorage.removeItem('login');
           return;
@@ -147,22 +151,11 @@ export default class Connection extends EventEmitter {
         // Disconnect the socket server first
         if (this.socket && this.socket.connected) this.disconnect();
 
-        Terminal.log('✔️ Logged in as', data.id);
+        Terminal.log('✔️ Logged in as', userId);
 
         // Populate my user data
-        // Terminal.log('👀', JSON.stringify(data, null, 2));
-        this.me = {
-          id: data.id,
-          email: data.email,
-          gold: data.gold,
-          username: data.username,
-          avatar: data.currentAvatar,
-          level: data.level,
-          experience: data.experience,
-          isGuest: data.isGuest,
-        };
 
-        if (staySignedIn && !this.me.isGuest) {
+        if (staySignedIn && email && password) {
           // Save login data
           localStorage.setItem(
             'login',
@@ -174,6 +167,9 @@ export default class Connection extends EventEmitter {
 
           Terminal.log('🔑', 'Login credentials saved to local storage');
         }
+
+        this.me = new MyUserData();
+        this.me.id = userId;
 
         this.connect();
       })
@@ -191,22 +187,21 @@ export default class Connection extends EventEmitter {
     // Clear stored login credentials
     localStorage.removeItem('login');
 
-    // Reset my user data & login to anonymous user
-    this.me = undefined;
-    this.chatMessages = [];
-    this.login(null, null);
+    // Reload the page
+    window.location.reload();
   }
 
-  public cheat(type: string, value: number): void {
-    Terminal.log('⭐', 'Cheating', value, type, '...');
+  public cheat(type: string, value: string): void {
+    Terminal.log('⭐', 'Cheating', type, value, '...');
+
     axios
       .post(
-        `${url}cheat/?${type}=${value}`,
+        `${url}cheat/?type=${type}&value=${value}`,
         { userID: this.me?.id },
         { withCredentials: true }
       )
-      .then((res) => Terminal.log('✔️', res.data))
-      .catch((err) => Terminal.log('⚠️', err));
+      .then((res) => Terminal.log('✔️', 'Cheat successful'))
+      .catch((err) => Terminal.log('⚠️', 'Cheat failed'));
   }
 
   public register(email: string, password: string) {
@@ -246,11 +241,43 @@ export default class Connection extends EventEmitter {
   }
 
   public changeUsername(username: string) {
-    Terminal.log('🔤', 'Changing username to', username);
+    Terminal.log('🔤', 'Changing username to', username, '...');
     axios
-      .post(url + 'update', { username: username }, { withCredentials: true })
+      .post(
+        url + 'users/update',
+        { newUsername: username },
+        { withCredentials: true }
+      )
       .then((res) => {
-        // res == .SUCCESS;
+        Terminal.log('✔️ Username changed');
+      })
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
+  public changeAvatar(avatar: string) {
+    Terminal.log('🔤', 'Changing avatar to', avatar, '...');
+    axios
+      .post(
+        url + 'users/update',
+        { id: this.me?.id, newAvatar: avatar },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Avatar changed');
+      })
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
+  public changeWallpaper(wallpaper: string) {
+    Terminal.log('🔤', 'Changing wallpaper to', wallpaper, '...');
+    axios
+      .post(
+        url + 'users/update',
+        { id: this.me?.id, newWallpaper: wallpaper },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Wallpaper changed');
       })
       .catch((err) => Terminal.log('⚠️', err));
   }
@@ -305,6 +332,11 @@ export default class Connection extends EventEmitter {
       }, 500);
     });
 
+    this.socket?.on('online-users', (count) => {
+      this.onlineUsers = count;
+      this.emit(ConnectionEventType.ONLINE_USERS, count);
+    });
+
     this.socket?.on('chat', (data: Chat) => {
       // Terminal.log('💬', JSON.stringify(data));
       this.chatMessages.push(data);
@@ -322,16 +354,9 @@ export default class Connection extends EventEmitter {
         .get(url + `users/${this.me!.id}`, { withCredentials: true })
         .then((res) => {
           const data = res.data;
-          this.me = {
-            id: data.id,
-            email: data.email,
-            gold: data.gold,
-            username: data.username,
-            avatar: data.currentAvatar,
-            level: data.level,
-            experience: data.experience,
-            isGuest: data.isGuest,
-          };
+          this.me = MyUserData.create(data);
+
+          console.log('my data', this.me);
 
           Terminal.log('✔️', 'Validated user data');
           this.emit(ConnectionEventType.USER_DATA_CHANGED);
@@ -378,7 +403,7 @@ export default class Connection extends EventEmitter {
           this.logout();
           break;
         case 'cheat':
-          this.cheat(arr[0], parseInt(arr[1]));
+          this.cheat(arr[0], arr[1]);
           break;
         case 'connect':
           this.connect();
@@ -390,6 +415,7 @@ export default class Connection extends EventEmitter {
           this.chat(arr.join(' '));
           break;
         case 'game/host':
+        case 'gh':
           const gameOptions: GameOptions = {
             name: `${this.me?.username}'s Game`,
             description: 'This game was started from the terminal',
@@ -398,6 +424,7 @@ export default class Connection extends EventEmitter {
           this.hostGame(gameOptions);
           break;
         case 'game/join':
+        case 'gj':
           this.joinGame(arr[0]);
           break;
         case 'send':
@@ -434,7 +461,7 @@ export class UserData {
   id?: string;
   isGuest?: boolean;
   username?: string;
-  avatar?: string;
+  currentAvatar?: string;
   level?: number;
   status?: OnlineStatus.ONLINE | OnlineStatus.OFFLINE;
 }
@@ -442,18 +469,21 @@ export class UserData {
 export class MyUserData extends UserData {
   email?: string;
   currentSkin?: string;
+  currentWallpaper?: string;
   gold?: number;
   experience?: number;
   friends?: UserData[];
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
-}
+  inventory?: string[]; // Item IDs
 
-export const systemUser: User = {
-  id: 'system',
-  username: 'DontFall',
-  currentAvatar: 'assets/avatars/system.png',
-  level: -1,
-  isGuest: false,
-  isOnline: false,
-};
+  static create(data: Object) {
+    const myUserData = new MyUserData();
+    Object.assign(myUserData, data);
+    return myUserData;
+  }
+
+  public getItems(): Item[] {
+    return this.inventory!.map((itemId) => getItemById(itemId)!);
+  }
+}
