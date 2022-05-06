@@ -109,7 +109,7 @@ export default function Home() {
             onClick={() => {
               PopupMediator.open(PopupHostGame, {
                 onConfirm: (gameOptions: GameOptions) => {
-                  Connection.instance.game!.hostGame(gameOptions);
+                  Connection.instance.hostGame(gameOptions);
                 }
               });
             }}

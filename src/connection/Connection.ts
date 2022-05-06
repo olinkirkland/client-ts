@@ -523,7 +523,7 @@ export default class Connection extends EventEmitter {
     });
   }
 
-  private hostGame(gameOptions: GameOptions) {
+  public hostGame(gameOptions: GameOptions) {
     axios
       .post(
         url + 'game/host',
@@ -538,7 +538,7 @@ export default class Connection extends EventEmitter {
       });
   }
 
-  private joinGame(gameID: string) {
+  public joinGame(gameID: string) {
     axios
       .post(
         url + 'game/join',
@@ -553,7 +553,7 @@ export default class Connection extends EventEmitter {
       });
   }
 
-  private leaveGame() {
+  public leaveGame() {
     axios
       .post(
         url + 'game/leave',
@@ -568,7 +568,7 @@ export default class Connection extends EventEmitter {
       });
   }
 
-  private listGames() {
+  public listGames() {
     axios.get(url + 'game/list').then((res) => {
       const data = res.data;
       Terminal.log('✔️', JSON.stringify(data, null, 2));
@@ -604,6 +604,7 @@ export class MyUserData extends UserData {
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
   inventory?: string[]; // Item IDs
+  gameId?: string | null;
 
   static create(data: Object) {
     const myUserData = new MyUserData();
