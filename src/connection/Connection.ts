@@ -21,7 +21,7 @@ export enum ConnectionEventType {
   DISCONNECT = 'disconnect',
   USER_DATA_CHANGED = 'user-data-changed',
   CHAT_MESSAGE = 'chat-message',
-  ONLINE_USERS = 'online-users'
+  ONLINE_USERS = 'online-users',
 }
 
 export default class Connection extends EventEmitter {
@@ -129,7 +129,7 @@ export default class Connection extends EventEmitter {
       user: systemUser,
       message:
         '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
-      time: new Date().getTime()
+      time: new Date().getTime(),
     });
 
     axios
@@ -371,6 +371,22 @@ export default class Connection extends EventEmitter {
       Terminal.log('rooms', data);
     });
 
+    //! DEV KEVIN TESTING
+
+    this.socket?.on('game-round-setup', (data) => {
+      Terminal.log('game-setup', data);
+    });
+
+    this.socket?.on('game-round-result', (data) => {
+      Terminal.log('Result', data);
+    });
+
+    this.socket?.on('game-ended', (data) => {
+      Terminal.log('Final Result', data);
+    });
+
+    //! DEV KEVIN TESTING
+
     this.socket?.on('disconnect', () => {
       Terminal.log('✔️ Disconnected');
       this.setIsConnected(false);
@@ -419,7 +435,7 @@ export default class Connection extends EventEmitter {
           const gameOptions: GameOptions = {
             name: `${this.me?.username}'s Game`,
             description: 'This game was started from the terminal',
-            password: ''
+            password: '',
           };
           this.hostGame(gameOptions);
           break;
