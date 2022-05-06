@@ -19,6 +19,7 @@ import {
 import ProgressBar from '../platform/ProgressBar';
 import { PopupBook } from './PopupBook';
 import { PopupInput } from './PopupInput';
+import { PopupInputEmail } from './PopupInputEmail';
 import { PopupInputPassword } from './PopupInputPassword';
 import { cookie, impressum } from './PopupPresets';
 
@@ -83,7 +84,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
   }
 
   private editEmail() {
-    // PopupMediator.open(PopupInputEmail);
+    PopupMediator.open(PopupInputEmail);
   }
 
   private editPassword() {
@@ -163,7 +164,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
               {isMe && (
                 <div className="h-group center">
                   <button className="link" onClick={this.editUsername}>
-                    <i className="fas fa-pen" />
+                    <i className="fas fa-pen" onClick={this.editEmail} />
                     Edit username
                   </button>
                   <button className="link" onClick={this.editStatus}>

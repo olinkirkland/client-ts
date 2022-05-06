@@ -3,22 +3,20 @@ import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
 import Connection from '../../connection/Connection';
 import { rootElement } from '../../index';
-import { validatePassword } from '../../Util';
+import { validateEmail } from '../../Util';
 
 type State = {
-  currentPassword: '';
+  email: string;
   password: string;
-  confirmPassword: string;
   validationMessage: string | null;
 };
 
-interface PopupInputPasswordProps extends PopupProps {}
+interface PopupInputEmailProps extends PopupProps {}
 
-export class PopupInputPassword extends React.Component<PopupInputPasswordProps> {
+export class PopupInputEmail extends React.Component<PopupInputEmailProps> {
   public readonly state: State = {
-    currentPassword: '',
+    email: '',
     password: '',
-    confirmPassword: '',
     validationMessage: null
   };
 
@@ -26,26 +24,15 @@ export class PopupInputPassword extends React.Component<PopupInputPasswordProps>
     const { onClose } = this.props;
 
     // Validation
-    if (!validatePassword(this.state.password)) {
+    if (!validateEmail(this.state.email)) {
       this.setState((state, props) => ({
-        validationMessage:
-          'Please enter a valid password. Must be at least 8 characters long.'
-      }));
-      return;
-    }
-
-    if (this.state.password !== this.state.confirmPassword) {
-      this.setState((state, props) => ({
-        validationMessage: 'Passwords do not match.'
+        validationMessage: 'Please enter a valid email.'
       }));
       return;
     }
 
     // Submit
-    Connection.instance.changePassword(
-      this.state.currentPassword,
-      this.state.password
-    );
+    Connection.instance.changeEmail(this.state.password, this.state.email);
 
     onClose!();
   }
@@ -56,37 +43,16 @@ export class PopupInputPassword extends React.Component<PopupInputPasswordProps>
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">
           <div className="popup-header">
-            <span>Change Password</span>
+            <span>Change Email</span>
             <button className="button-close" onClick={onClose}>
               <i className="fas fa-times" />
             </button>
           </div>
           <div className="popup-content">
-            <p>
-              Enter your current password and your new password to change it.
-            </p>
+            <p>Enter your password and a new Email address.</p>
 
             <div className="input-group">
               <p>Current password</p>
-              <input
-                type="password"
-                placeholder="********"
-                onChange={(event) => {
-                  this.setState((state, props) => ({
-                    currentPassword: event.target.value
-                  }));
-                }}
-              />
-            </div>
-
-            <div className="alert warn">
-              <img src={'assets/avatars/system.png'} alt="" />
-              Make sure your password has a good mix of upper and lowercase
-              letters. Don't tell anyone your password!
-            </div>
-
-            <div className="input-group">
-              <p>New password</p>
               <input
                 type="password"
                 placeholder="********"
@@ -97,20 +63,22 @@ export class PopupInputPassword extends React.Component<PopupInputPasswordProps>
                 }}
               />
             </div>
+
+            <div className="alert warn">
+              <img src={'assets/avatars/system.png'} alt="" />
+              Make sure your Email is reachable. We don't send spam mail, we
+              promise!
+            </div>
+
             <div className="input-group">
-              <p>Confirm new password</p>
+              <p>Your new Email</p>
               <input
-                type="password"
-                placeholder="********"
+                type="text"
+                placeholder="john.doe@email.com"
                 onChange={(event) => {
                   this.setState((state, props) => ({
-                    confirmPassword: event.target.value
+                    email: event.target.value
                   }));
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    this.validateAndChangePassword();
-                  }
                 }}
               />
             </div>
@@ -133,7 +101,7 @@ export class PopupInputPassword extends React.Component<PopupInputPasswordProps>
           </div>
           <div className="popup-taskbar">
             <button onClick={this.validateAndChangePassword.bind(this)}>
-              Change Password
+              Change Email
             </button>
           </div>
         </div>

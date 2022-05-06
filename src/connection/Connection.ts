@@ -292,7 +292,33 @@ export default class Connection extends EventEmitter {
       .catch((err) => Terminal.log('⚠️', err));
   }
 
-  public changeEmail(email: string) {}
+  public changeEmail(currentPassword: string, email: string) {
+    axios
+      .post(
+        url + 'users/update',
+        {
+          id: this.me?.id,
+          password: currentPassword,
+          newEmail: email
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Email changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Email changed',
+          message: 'Your Email has been changed successfully.'
+        });
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', err);
+        PopupMediator.open(PopupError, {
+          title: 'Email change failed',
+          message:
+            'Your Email could not be changed. Did you enter your password correctly?'
+        });
+      });
+  }
 
   public changePassword(currentPassword: string, newPassword: string) {
     Terminal.log('🔤', 'Changing password', '...');
