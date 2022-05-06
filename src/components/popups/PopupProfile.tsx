@@ -64,7 +64,18 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
     });
   }
 
-  private editStatus() {}
+  private editStatus() {
+    const me = Connection.instance.me!;
+    PopupMediator.open(PopupInput, {
+      title: 'Edit your status',
+      message: '',
+      placeholder: me.status!,
+      confirm: 'Change',
+      cancel: 'Cancel',
+      onConfirm: (text: string) => {},
+      onCancel: () => {}
+    });
+  }
 
   private editEmail() {}
 
@@ -143,11 +154,11 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
 
               {isMe && (
                 <div className="h-group center">
-                  <button className="link" onClick={editUsername}>
+                  <button className="link" onClick={this.editUsername}>
                     <i className="fas fa-pen" />
                     Edit username
                   </button>
-                  <button className="link" onClick={editStatus}>
+                  <button className="link" onClick={this.editStatus}>
                     <i className="fas fa-pen" />
                     Edit status
                   </button>
