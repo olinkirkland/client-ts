@@ -5,6 +5,8 @@ import { PopupBook } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
 import { cookie } from '../components/popups/PopupPresets';
+import { PopupProfile } from '../components/popups/PopupProfile';
+import { PopupSuccess } from '../components/popups/PopupSuccess';
 import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
@@ -245,11 +247,15 @@ export default class Connection extends EventEmitter {
     axios
       .post(
         url + 'users/update',
-        { newUsername: username },
+        { id: this.me?.id, newUsername: username },
         { withCredentials: true }
       )
       .then((res) => {
         Terminal.log('✔️ Username changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Username changed',
+          message: 'Your username has been changed successfully.'
+        });
       })
       .catch((err) => Terminal.log('⚠️', err));
   }
@@ -267,6 +273,28 @@ export default class Connection extends EventEmitter {
       })
       .catch((err) => Terminal.log('⚠️', err));
   }
+
+  public changeStatus(status: string) {
+    Terminal.log('🔤', 'Changing status to', status, '...');
+    axios
+      .post(
+        url + 'users/update',
+        { id: this.me?.id, newStatus: status },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Status changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Status changed',
+          message: 'Your status has been changed successfully.'
+        });
+      })
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
+  public changeEmail(email: string) {}
+
+  public changePassword(password: string) {}
 
   public changeWallpaper(wallpaper: string) {
     Terminal.log('🔤', 'Changing wallpaper to', wallpaper, '...');

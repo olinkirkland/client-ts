@@ -55,11 +55,13 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
     const me = Connection.instance.me!;
     PopupMediator.open(PopupInput, {
       title: 'Edit your username',
-      message: '',
+      message: `Choose a new username for your profile.`,
       placeholder: me.username!,
       confirm: 'Change',
       cancel: 'Cancel',
-      onConfirm: (text: string) => {},
+      onConfirm: (text: string) => {
+        Connection.instance.changeUsername(text);
+      },
       onCancel: () => {}
     });
   }
@@ -68,11 +70,13 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
     const me = Connection.instance.me!;
     PopupMediator.open(PopupInput, {
       title: 'Edit your status',
-      message: '',
+      message: 'Enter a new status for your profile.',
       placeholder: me.status!,
       confirm: 'Change',
       cancel: 'Cancel',
-      onConfirm: (text: string) => {},
+      onConfirm: (text: string) => {
+        Connection.instance.changeStatus(text);
+      },
       onCancel: () => {}
     });
   }
@@ -124,8 +128,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
                     <span>
                       You are currently signed into a guest account.
                       <br />
-                      Sign up for a free account to save your progress and earn
-                      rewards.
+                      Sign up to save your progress and customize your profile.
                     </span>
                   </div>
                 </>
@@ -148,7 +151,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
 
               <span className="emphasized text-center h-group">
                 <i className="fas fa-quote-left muted" />
-                <span>Lorem ipsum dolor sit amet.</span>
+                <span>{this.state.user.status}</span>
                 <i className="fas fa-quote-right muted" />
               </span>
 

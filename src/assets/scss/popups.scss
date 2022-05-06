@@ -45,6 +45,11 @@
         color: $error;
       }
 
+      &.popup-success {
+        background-color: $success-muted;
+        color: $success;
+      }
+
       &.popup-loading {
         color: white;
         background-color: $text-muted;

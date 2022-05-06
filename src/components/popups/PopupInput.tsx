@@ -43,6 +43,7 @@ export class PopupInput extends React.Component<PopupInputProps> {
           <div className="popup-content">
             <p>{message}</p>
             <input
+              className="popup-input"
               type="text"
               placeholder={placeholder}
               onChange={(event) => {
