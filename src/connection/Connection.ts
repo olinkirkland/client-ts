@@ -356,8 +356,6 @@ export default class Connection extends EventEmitter {
           const data = res.data;
           this.me = MyUserData.create(data);
 
-          console.log('my data', this.me);
-
           Terminal.log('✔️', 'Validated user data');
           this.emit(ConnectionEventType.USER_DATA_CHANGED);
         });
