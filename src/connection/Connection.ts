@@ -294,7 +294,34 @@ export default class Connection extends EventEmitter {
 
   public changeEmail(email: string) {}
 
-  public changePassword(password: string) {}
+  public changePassword(currentPassword: string, newPassword: string) {
+    Terminal.log('🔤', 'Changing password', '...');
+    axios
+      .post(
+        url + 'users/update',
+        {
+          id: this.me?.id,
+          password: currentPassword,
+          newPassword: newPassword
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Password changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Password changed',
+          message: 'Your password has been changed successfully.'
+        });
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', err);
+        PopupMediator.open(PopupError, {
+          title: 'Password change failed',
+          message:
+            'Your password could not be changed. Did you enter your current password correctly?'
+        });
+      });
+  }
 
   public changeWallpaper(wallpaper: string) {
     Terminal.log('🔤', 'Changing wallpaper to', wallpaper, '...');

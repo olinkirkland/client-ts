@@ -19,6 +19,7 @@ import {
 import ProgressBar from '../platform/ProgressBar';
 import { PopupBook } from './PopupBook';
 import { PopupInput } from './PopupInput';
+import { PopupInputPassword } from './PopupInputPassword';
 import { cookie, impressum } from './PopupPresets';
 
 interface PopupProfileProps extends PopupProps {
@@ -81,9 +82,13 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
     });
   }
 
-  private editEmail() {}
+  private editEmail() {
+    // PopupMediator.open(PopupInputEmail);
+  }
 
-  private editPassword() {}
+  private editPassword() {
+    PopupMediator.open(PopupInputPassword);
+  }
 
   public componentDidMount() {
     if (!this.userId) this.userId = Connection.instance.me?.id;
@@ -184,14 +189,14 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
                   <div className="profile-editable-item">
                     <span className="muted">Email</span>
                     <span>{me.email}</span>
-                    <button className="link">
+                    <button className="link" onClick={this.editEmail}>
                       <i className="fas fa-pen" />
                     </button>
                   </div>
                   <div className="profile-editable-item">
                     <span className="muted">Password</span>
                     <span>********</span>
-                    <button className="link">
+                    <button className="link" onClick={this.editPassword}>
                       <i className="fas fa-pen" />
                     </button>
                   </div>
