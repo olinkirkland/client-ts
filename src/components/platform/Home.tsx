@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Connection, { ConnectionEventType } from '../../connection/Connection';
-import { GameOptions } from '../../controllers/Game';
+import { GameOptions } from '../../connection/Game';
 import PopupMediator from '../../controllers/PopupMediator';
 import { getItemById } from '../../models/Item';
 import { PopupBook, SectionType } from '../popups/PopupBook';
@@ -16,10 +16,22 @@ export default function Home() {
   );
 
   useEffect(() => {
-    Connection.instance.on(ConnectionEventType.USER_DATA_CHANGED, () => {
-      setWallpaper(Connection.instance.me?.currentWallpaper);
-    });
+    Connection.instance.addListener(
+      ConnectionEventType.USER_DATA_CHANGED,
+      onUserDataChanged
+    );
+
+    return () => {
+      Connection.instance.removeListener(
+        ConnectionEventType.USER_DATA_CHANGED,
+        onUserDataChanged
+      );
+    };
   }, []);
+
+  function onUserDataChanged() {
+    setWallpaper(Connection.instance.me?.currentWallpaper);
+  }
 
   return (
     <div
@@ -97,7 +109,7 @@ export default function Home() {
             onClick={() => {
               PopupMediator.open(PopupHostGame, {
                 onConfirm: (gameOptions: GameOptions) => {
-                  Connection.instance.hostGame(gameOptions);
+                  Connection.instance.game!.hostGame(gameOptions);
                 }
               });
             }}

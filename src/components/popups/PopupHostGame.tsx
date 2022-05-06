@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import { GameOptions } from '../../controllers/Game';
+import { GameOptions } from '../../connection/Game';
 import { rootElement } from '../../index';
 
 type State = {

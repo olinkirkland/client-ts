@@ -6,13 +6,12 @@ import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
 import { cookie } from '../components/popups/PopupPresets';
 import { PopupSuccess } from '../components/popups/PopupSuccess';
-import { GameOptions } from '../controllers/Game';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import Item, { getItemById } from '../models/Item';
 import { systemUser } from '../models/User';
-import Game, { GameEventType } from './Game';
+import Game, { GameOptions } from './Game';
 
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
 export const url: string = 'http://localhost:8000/';
@@ -65,29 +64,6 @@ export default class Connection extends EventEmitter {
       title: title,
       message: message
     });
-  }
-
-  public hostGame(gameOptions: GameOptions) {
-    Terminal.log('🕹️', 'Hosting game', '...');
-    const args = {
-      hostID: this.me?.id,
-      ...gameOptions
-    };
-
-    axios
-      .post(`${url}game/host`, args, { withCredentials: true })
-      .then((res) => {
-        Terminal.log('✔️', 'Game hosted with gameId', res.data.roomID);
-        Terminal.log(res.data);
-        this.joinGame(res.data.roomID);
-      })
-      .catch((err) => Terminal.log('⚠️', err));
-  }
-
-  public joinGame(gameId: string) {
-    Terminal.log('🕹️', 'Joining game', gameId, '...');
-    // Send socket message join-game-room
-    this.socket?.emit(GameEventType.JOIN, gameId);
   }
 
   public getMe() {
@@ -350,7 +326,7 @@ export default class Connection extends EventEmitter {
           title: 'Password changed',
           message: 'Your password has been changed successfully.'
         });
-        
+
         const loginData = localStorage.getItem('login');
         if (loginData)
           localStorage.setItem(
@@ -464,14 +440,6 @@ export default class Connection extends EventEmitter {
         });
     });
 
-    this.socket?.on('force-reload', (data) => {
-      document.location.reload();
-    });
-
-    this.socket?.on('rooms', (data) => {
-      Terminal.log('rooms', data);
-    });
-
     this.socket?.on('disconnect', () => {
       Terminal.log('✔️ Disconnected');
       this.setIsConnected(false);
@@ -515,6 +483,9 @@ export default class Connection extends EventEmitter {
         case 'chat':
           this.chat(arr.join(' '));
           break;
+        case 'game/list':
+          this.listGames();
+          break;
         case 'game/host':
         case 'gh':
           const gameOptions: GameOptions = {
@@ -527,6 +498,10 @@ export default class Connection extends EventEmitter {
         case 'game/join':
         case 'gj':
           this.joinGame(arr[0]);
+          break;
+        case 'game/leave':
+        case 'gl':
+          this.leaveGame();
           break;
         case 'send':
           if (arr.length === 0)
@@ -545,6 +520,58 @@ export default class Connection extends EventEmitter {
 
           this.sendCustomEvent(arr[0], payload);
       }
+    });
+  }
+
+  private hostGame(gameOptions: GameOptions) {
+    axios
+      .post(
+        url + 'game/host',
+        { userID: this.me?.id, gameOptions: gameOptions },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Game created successfully');
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Could not host game');
+      });
+  }
+
+  private joinGame(gameID: string) {
+    axios
+      .post(
+        url + 'game/join',
+        { userID: this.me?.id, gameID: gameID },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Game joined');
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Could not join game');
+      });
+  }
+
+  private leaveGame() {
+    axios
+      .post(
+        url + 'game/leave',
+        { userID: this.me?.id },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Game left');
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Could not leave game');
+      });
+  }
+
+  private listGames() {
+    axios.get(url + 'game/list').then((res) => {
+      const data = res.data;
+      Terminal.log('✔️', JSON.stringify(data, null, 2));
     });
   }
 
