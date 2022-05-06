@@ -3,3 +3,9 @@ export enum GameEventType {
   START = 'game-start',
   ANSWER = 'game-answer'
 }
+
+export default class Game {
+  constructor() {
+    
+  }
+}

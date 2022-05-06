@@ -12,7 +12,7 @@ import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import Item, { getItemById } from '../models/Item';
 import { systemUser } from '../models/User';
-import { GameEventType } from './Game';
+import Game, { GameEventType } from './Game';
 
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
 export const url: string = 'http://localhost:8000/';
@@ -34,6 +34,7 @@ export default class Connection extends EventEmitter {
   public me?: MyUserData;
   public onlineUsers: number = 0;
   public chatMessages: Chat[] = [];
+  public game: Game | undefined;
 
   // Callbacks
   setIsConnected!: Function;
@@ -175,9 +176,12 @@ export default class Connection extends EventEmitter {
         this.connect();
       })
       .catch((err) => {
-        console.log(err);
-        this.error('Login failed', 'Invalid username or password.');
-        localStorage.removeItem('login');
+        console.log(err.response);
+        if (err.response.status === 401 || err.response.status === 400) {
+          this.error('Login failed', 'Invalid username or password.');
+          localStorage.removeItem('login');
+        } else this.error('Login failed', `${err.code}: ${err.message}`);
+
         return;
       });
   }
@@ -313,7 +317,7 @@ export default class Connection extends EventEmitter {
           localStorage.setItem(
             'login',
             JSON.stringify({
-              email: this.me?.email,
+              email: email,
               password: JSON.parse(loginData).password
             })
           );
@@ -346,11 +350,13 @@ export default class Connection extends EventEmitter {
           title: 'Password changed',
           message: 'Your password has been changed successfully.'
         });
-        if (localStorage.getItem('login'))
+        
+        const loginData = localStorage.getItem('login');
+        if (loginData)
           localStorage.setItem(
             'login',
             JSON.stringify({
-              email: this.me?.email,
+              email: JSON.parse(loginData).email,
               password: newPassword
             })
           );
