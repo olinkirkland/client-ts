@@ -484,6 +484,7 @@ export default class Connection extends EventEmitter {
           this.chat(arr.join(' '));
           break;
         case 'game/list':
+        case 'gl':
           this.listGames();
           break;
         case 'game/host':
@@ -500,7 +501,7 @@ export default class Connection extends EventEmitter {
           this.joinGame(arr[0]);
           break;
         case 'game/leave':
-        case 'gl':
+        case 'ge':
           this.leaveGame();
           break;
         case 'send':
@@ -532,6 +533,8 @@ export default class Connection extends EventEmitter {
       )
       .then((res) => {
         Terminal.log('✔️', 'Game created successfully');
+        const gameId = res.data;
+        this.joinGame(gameId);
       })
       .catch((err) => {
         Terminal.log('⚠️', 'Could not host game');
@@ -561,7 +564,7 @@ export default class Connection extends EventEmitter {
         { withCredentials: true }
       )
       .then((res) => {
-        Terminal.log('✔️', 'Game left');
+        Terminal.log('✔️', 'Left game');
       })
       .catch((err) => {
         Terminal.log('⚠️', 'Could not leave game');
