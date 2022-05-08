@@ -165,7 +165,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
               </div>
               <div className="user-with-badge">
                 {me.isGuest && <span className="badge guest">Guest</span>}
-                <h1>{me.username}</h1>
+                <h1>{this.state.user.username}</h1>
               </div>
 
               <span className="emphasized text-center h-group">
