@@ -59,7 +59,7 @@ export default function Home() {
                 }
               });
             }}
-            titleText="Don't Fall Quick Play"
+            titleText="Play Now - Join a Random Match"
             buttonText="Play Now"
             image="assets/images/abstract-1.png"
             big={true}
@@ -82,10 +82,10 @@ export default function Home() {
               });
             }}
             titleText="Game Rules"
-            buttonText="Learn how to play"
+            buttonText="Learn to play"
             image="assets/images/abstract-2.png"
           />
-          <HomePanel
+          {/* <HomePanel
             onClick={() => {
               PopupMediator.open(PopupInput, {
                 title: 'Choose your name',
@@ -104,7 +104,7 @@ export default function Home() {
             titleText="Customize avatar"
             buttonText="Customize"
             image="assets/images/abstract-3.png"
-          />
+          /> */}
           <HomePanel
             onClick={() => {
               PopupMediator.open(PopupHostGame, {
@@ -113,7 +113,7 @@ export default function Home() {
                 }
               });
             }}
-            titleText="Host a public or private game"
+            titleText="Play with friends"
             buttonText="Host a game"
             image="assets/images/abstract-4.png"
           />

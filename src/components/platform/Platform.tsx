@@ -85,7 +85,7 @@ export default function Platform() {
   }
 
   return (
-    <div className="main">
+    <>
       <Navbar />
       <div className="home-popover-container">
         {currentScreen === SCREEN_TYPE.HOME && <Home />}
@@ -98,6 +98,6 @@ export default function Platform() {
         </div>
       </div>
       <Taskbar />
-    </div>
+    </>
   );
 }
