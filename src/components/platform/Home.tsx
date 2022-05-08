@@ -46,26 +46,6 @@ export default function Home() {
         <div className="home-grid">
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupPrompt, {
-                title: 'Are you sure?',
-                message: 'Lorem ipsum dolor sit amet.',
-                confirm: 'Yes',
-                cancel: 'No',
-                onConfirm: () => {
-                  console.log('confirm');
-                },
-                onCancel: () => {
-                  console.log('cancel');
-                }
-              });
-            }}
-            titleText="Play Now - Join a Random Match"
-            buttonText="Play Now"
-            image="assets/images/abstract-1.png"
-            big={true}
-          />
-          <HomePanel
-            onClick={() => {
               PopupMediator.open(PopupBook, {
                 title: 'How to Play',
                 sections: [
@@ -84,6 +64,26 @@ export default function Home() {
             titleText="Game Rules"
             buttonText="Learn to play"
             image="assets/images/abstract-2.png"
+          />
+          <HomePanel
+            onClick={() => {
+              PopupMediator.open(PopupPrompt, {
+                title: 'Are you sure?',
+                message: 'Lorem ipsum dolor sit amet.',
+                confirm: 'Yes',
+                cancel: 'No',
+                onConfirm: () => {
+                  console.log('confirm');
+                },
+                onCancel: () => {
+                  console.log('cancel');
+                }
+              });
+            }}
+            titleText="Play Now - Join a Random Match"
+            buttonText="Play Now"
+            image="assets/images/abstract-1.png"
+            big={true}
           />
           {/* <HomePanel
             onClick={() => {

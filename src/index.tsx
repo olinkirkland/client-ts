@@ -6,6 +6,7 @@ import './assets/css/general.css';
 import './assets/css/popups.css';
 import './assets/css/queries.css';
 import './assets/css/styles.css';
+import './assets/css/game.css';
 
 export const rootElement = document.getElementById('root');
 

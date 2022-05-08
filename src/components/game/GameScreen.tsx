@@ -4,5 +4,7 @@ import Connection, { ConnectionEventType } from '../../connection/Connection';
 export default function GameScreen() {
   useEffect(() => {}, []);
 
-  return <div>Game Screen</div>;
+  return <div className="game">Game Screen
+    <button>Leave game</button>
+  </div>;
 }
