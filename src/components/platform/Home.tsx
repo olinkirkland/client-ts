@@ -119,11 +119,7 @@ export default function Home() {
           />
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupJoinGame, {
-                onConfirm: () => {
-                  console.log('confirm');
-                }
-              });
+              PopupMediator.open(PopupJoinGame);
             }}
             titleText="View open games"
             buttonText="Join a game"
