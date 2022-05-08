@@ -423,21 +423,7 @@ export default class Connection extends EventEmitter {
     });
 
     this.socket?.on('invalidate-user', () => {
-      // User data invalidated, update it
-      Terminal.log(
-        '🔥',
-        'User data invalidated by server, validating my data',
-        '...'
-      );
-      axios
-        .get(url + `users/${this.me!.id}`, { withCredentials: true })
-        .then((res) => {
-          const data = res.data;
-          this.me = MyUserData.create(data);
-
-          Terminal.log('✔️', 'Validated user data');
-          this.emit(ConnectionEventType.USER_DATA_CHANGED);
-        });
+      this.invalidateUserData();
     });
 
     this.socket?.on('disconnect', () => {
@@ -446,6 +432,21 @@ export default class Connection extends EventEmitter {
       this.removeSocketListeners();
       this.socket = undefined;
     });
+  }
+
+  private invalidateUserData() {
+    // User data invalidated, update it
+    Terminal.log('🔥 User data invalidated, validating my data ...');
+
+    axios
+      .get(url + `users/${this.me!.id}`, { withCredentials: true })
+      .then((res) => {
+        const data = res.data;
+        this.me = MyUserData.create(data);
+
+        Terminal.log('✔️', 'Validated user data');
+        this.emit(ConnectionEventType.USER_DATA_CHANGED);
+      });
   }
 
   private removeSocketListeners() {
@@ -565,6 +566,7 @@ export default class Connection extends EventEmitter {
       )
       .then((res) => {
         Terminal.log('✔️', 'Left game');
+        this.invalidateUserData();
       })
       .catch((err) => {
         Terminal.log('⚠️', 'Could not leave game');
@@ -607,7 +609,7 @@ export class MyUserData extends UserData {
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
   inventory?: string[]; // Item IDs
-  gameId?: string | null;
+  gameID?: string | null;
 
   static create(data: Object) {
     const myUserData = new MyUserData();

@@ -4,6 +4,7 @@ import PopoverMediator, {
   PopoverMediatorEventType,
   PopoverType
 } from '../../controllers/PopoverMediator';
+import Terminal from '../../controllers/Terminal';
 import GameScreen from '../game/GameScreen';
 import PopoverChat from '../popovers/PopoverChat';
 import PopoverFriends from '../popovers/PopoverFriends';
@@ -30,8 +31,13 @@ export default function Platform() {
 
   useEffect(() => {
     Connection.instance.on(ConnectionEventType.USER_DATA_CHANGED, () => {
+      Terminal.log(
+        'Current game:',
+        Connection.instance.me?.gameID ? 'yes' : 'no'
+      );
+      Terminal.log(Connection.instance.me);
       setCurrentScreen(
-        Connection.instance.me?.gameId ? SCREEN_TYPE.GAME : SCREEN_TYPE.HOME
+        Connection.instance.me?.gameID ? SCREEN_TYPE.GAME : SCREEN_TYPE.HOME
       );
     });
 
