@@ -1,38 +1,31 @@
-import Modal from 'react-modal';
 import React from 'react';
+import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import { rootElement } from '../../index';
 import Connection from '../../connection/Connection';
-import { validateEmail, validatePassword } from '../../Util';
+import { rootElement } from '../../index';
+import { validatePassword } from '../../Util';
 
 type State = {
-  email: string;
+  currentPassword: '';
   password: string;
   confirmPassword: string;
   validationMessage: string | null;
 };
 
-interface PopupRegisterProps extends PopupProps {}
+interface PopupInputPasswordProps extends PopupProps {}
 
-export class PopupRegister extends React.Component<PopupRegisterProps> {
+export class PopupInputPassword extends React.Component<PopupInputPasswordProps> {
   public readonly state: State = {
-    email: '',
+    currentPassword: '',
     password: '',
     confirmPassword: '',
     validationMessage: null
   };
 
-  private validateAndRegister() {
+  private validateAndChangePassword() {
     const { onClose } = this.props;
 
     // Validation
-    if (!validateEmail(this.state.email)) {
-      this.setState((state, props) => ({
-        validationMessage: 'Please enter a valid email.'
-      }));
-      return;
-    }
-
     if (!validatePassword(this.state.password)) {
       this.setState((state, props) => ({
         validationMessage:
@@ -48,43 +41,52 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
       return;
     }
 
-    // Register
-    Connection.instance.register(this.state.email, this.state.password);
+    // Submit
+    Connection.instance.changePassword(
+      this.state.currentPassword,
+      this.state.password
+    );
+
     onClose!();
   }
 
   render() {
     const { isOpen, onClose } = this.props;
-    const me = Connection.instance.me;
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">
           <div className="popup-header">
-            <span>Create Account</span>
+            <span>Change Password</span>
             <button className="button-close" onClick={onClose}>
               <i className="fas fa-times" />
             </button>
           </div>
           <div className="popup-content">
             <p>
-              Enter a valid Email and password. You can change your username
-              once your account is created.
+              Enter your current password and your new password to change it.
             </p>
 
             <div className="input-group">
-              <p>Email</p>
+              <p>Current password</p>
               <input
-                type="text"
-                placeholder="john.doe@email.com"
+                type="password"
+                placeholder="********"
                 onChange={(event) => {
                   this.setState((state, props) => ({
-                    email: event.target.value
+                    currentPassword: event.target.value
                   }));
                 }}
               />
             </div>
+
+            <div className="alert warn">
+              <img src={'assets/avatars/system.png'} alt="" />
+              Make sure your password has a good mix of upper and lowercase
+              letters. Don't tell anyone your password!
+            </div>
+
             <div className="input-group">
-              <p>Password</p>
+              <p>New password</p>
               <input
                 type="password"
                 placeholder="********"
@@ -96,7 +98,7 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
               />
             </div>
             <div className="input-group">
-              <p>Confirm password</p>
+              <p>Confirm new password</p>
               <input
                 type="password"
                 placeholder="********"
@@ -107,7 +109,7 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
                 }}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter') {
-                    this.validateAndRegister();
+                    this.validateAndChangePassword();
                   }
                 }}
               />
@@ -128,15 +130,10 @@ export class PopupRegister extends React.Component<PopupRegisterProps> {
                 </button>
               </div>
             )}
-
-            <div className="alert warn">
-              <img src={'assets/avatars/system.png'} alt="" />
-              <span>{`Your new account will be created at level ${me?.level} with ${me?.experience} experience from your current session's progress.`}</span>
-            </div>
           </div>
           <div className="popup-taskbar">
-            <button onClick={this.validateAndRegister.bind(this)}>
-              Create Account
+            <button onClick={this.validateAndChangePassword.bind(this)}>
+              Change Password
             </button>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import Connection from '../connection/Connection';
-import Item from '../models/Item';
+import Item, { getItemById } from '../models/Item';
 
 type Props = {
   title: string;
@@ -27,6 +27,13 @@ export function AvatarItemCollection({ title, items }: Props) {
           </li>
         ))}
       </ul>
+
+      <div className="item-definition">
+        <h2>{getItemById(Connection.instance.me!.currentAvatar!)?.name}</h2>
+        <p className="muted">
+          {getItemById(Connection.instance.me!.currentAvatar!)?.description}
+        </p>
+      </div>
     </div>
   );
 }
@@ -52,6 +59,12 @@ export function WallpaperItemCollection({ title, items }: Props) {
           </li>
         ))}
       </ul>
+      <div className="item-definition">
+        <h2>{getItemById(Connection.instance.me!.currentWallpaper!)?.name}</h2>
+        <p className="muted">
+          {getItemById(Connection.instance.me!.currentWallpaper!)?.description}
+        </p>
+      </div>
     </div>
   );
 }

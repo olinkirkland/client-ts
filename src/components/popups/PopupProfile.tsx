@@ -18,6 +18,9 @@ import {
 } from '../ItemCollection';
 import ProgressBar from '../platform/ProgressBar';
 import { PopupBook } from './PopupBook';
+import { PopupInput } from './PopupInput';
+import { PopupInputEmail } from './PopupInputEmail';
+import { PopupInputPassword } from './PopupInputPassword';
 import { cookie, impressum } from './PopupPresets';
 
 interface PopupProfileProps extends PopupProps {
@@ -37,17 +40,54 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
 
   constructor(props: PopupProfileProps) {
     super(props);
-
-    const connection = Connection.instance;
-    connection.on(ConnectionEventType.USER_DATA_CHANGED, () => {
-      if (this.userId === connection.me?.id) {
-        this.setState({
-          user: connection.me
-        });
-      }
-    });
-
     this.userId = props.id;
+  }
+
+  private onUserDataChanged() {
+    const connection = Connection.instance;
+    if (this.userId === connection.me?.id) {
+      this.setState({
+        user: connection.me
+      });
+    }
+  }
+
+  private editUsername() {
+    const me = Connection.instance.me!;
+    PopupMediator.open(PopupInput, {
+      title: 'Edit your username',
+      message: `Choose a new username for your profile.`,
+      placeholder: me.username!,
+      confirm: 'Change',
+      cancel: 'Cancel',
+      onConfirm: (text: string) => {
+        Connection.instance.changeUsername(text);
+      },
+      onCancel: () => {}
+    });
+  }
+
+  private editStatus() {
+    const me = Connection.instance.me!;
+    PopupMediator.open(PopupInput, {
+      title: 'Edit your status',
+      message: 'Enter a new status for your profile.',
+      placeholder: me.status!,
+      confirm: 'Change',
+      cancel: 'Cancel',
+      onConfirm: (text: string) => {
+        Connection.instance.changeStatus(text);
+      },
+      onCancel: () => {}
+    });
+  }
+
+  private editEmail() {
+    PopupMediator.open(PopupInputEmail);
+  }
+
+  private editPassword() {
+    PopupMediator.open(PopupInputPassword);
   }
 
   public componentDidMount() {
@@ -64,6 +104,20 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
       .catch((err) => {
         Terminal.log('⚠️', err);
       });
+
+    const connection = Connection.instance;
+    connection.addListener(
+      ConnectionEventType.USER_DATA_CHANGED,
+      this.onUserDataChanged.bind(this)
+    );
+  }
+
+  public componentWillUnmount() {
+    // const connection = Connection.instance;
+    // connection.removeListener(
+    //   ConnectionEventType.USER_DATA_CHANGED,
+    //   this.onUserDataChanged
+    // );
   }
 
   render() {
@@ -93,8 +147,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
                     <span>
                       You are currently signed into a guest account.
                       <br />
-                      Sign up for a free account to save your progress and earn
-                      rewards.
+                      Sign up to save your progress and customize your profile.
                     </span>
                   </div>
                 </>
@@ -112,13 +165,27 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
               </div>
               <div className="user-with-badge">
                 {me.isGuest && <span className="badge guest">Guest</span>}
-                <span>{me.username}</span>
+                <h1>{this.state.user.username}</h1>
               </div>
+
               <span className="emphasized text-center h-group">
                 <i className="fas fa-quote-left muted" />
-                <span>Lorem ipsum dolor sit amet.</span>
+                <span>{this.state.user.status}</span>
                 <i className="fas fa-quote-right muted" />
               </span>
+
+              {isMe && !me.isGuest && (
+                <div className="h-group center">
+                  <button className="link" onClick={this.editUsername}>
+                    <i className="fas fa-pen" onClick={this.editEmail} />
+                    Edit username
+                  </button>
+                  <button className="link" onClick={this.editStatus}>
+                    <i className="fas fa-pen" />
+                    Edit status
+                  </button>
+                </div>
+              )}
 
               <div className="level-group v-group center">
                 <span>{`Level ${me.level}`}</span>
@@ -136,14 +203,14 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
                   <div className="profile-editable-item">
                     <span className="muted">Email</span>
                     <span>{me.email}</span>
-                    <button className="link">
+                    <button className="link" onClick={this.editEmail}>
                       <i className="fas fa-pen" />
                     </button>
                   </div>
                   <div className="profile-editable-item">
                     <span className="muted">Password</span>
                     <span>********</span>
-                    <button className="link">
+                    <button className="link" onClick={this.editPassword}>
                       <i className="fas fa-pen" />
                     </button>
                   </div>

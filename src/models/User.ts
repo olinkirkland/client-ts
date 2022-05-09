@@ -6,6 +6,7 @@ export default interface User {
   level: number;
   isGuest: boolean;
   isOnline: boolean;
+  status: string;
 
   // User-md
 
@@ -15,6 +16,7 @@ export default interface User {
 export const systemUser: User = {
   id: 'system',
   username: 'FallBot',
+  status: '',
   currentAvatar: 'system-avatar',
   level: -1,
   isGuest: false,

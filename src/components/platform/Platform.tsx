@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import Connection, { ConnectionEventType } from '../../connection/Connection';
 import PopoverMediator, {
   PopoverMediatorEventType,
   PopoverType
 } from '../../controllers/PopoverMediator';
+import Terminal from '../../controllers/Terminal';
+import GameScreen from '../game/GameScreen';
 import PopoverChat from '../popovers/PopoverChat';
 import PopoverFriends from '../popovers/PopoverFriends';
 import PopoverGold from '../popovers/PopoverGold';
@@ -10,13 +13,29 @@ import PopoverLevel from '../popovers/PopoverLevel';
 import Home from './Home';
 import Navbar from './Navbar';
 import Taskbar from './Taskbar';
+
+enum SCREEN_TYPE {
+  HOME = 'home',
+  GAME = 'game'
+}
+
 export default function Platform() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isGoldOpen, setIsGoldOpen] = useState(false);
   const [isLevelOpen, setIsLevelOpen] = useState(false);
   const [isFriendsOpen, setIsFriendsOpen] = useState(false);
 
+  const [currentScreen, setCurrentScreen] = useState<SCREEN_TYPE>(
+    SCREEN_TYPE.HOME
+  );
+
   useEffect(() => {
+    Connection.instance.on(ConnectionEventType.USER_DATA_CHANGED, () => {
+      setCurrentScreen(
+        Connection.instance.me?.gameID ? SCREEN_TYPE.GAME : SCREEN_TYPE.HOME
+      );
+    });
+
     addPopoverMediatorListeners();
   }, []);
 
@@ -67,10 +86,11 @@ export default function Platform() {
   }
 
   return (
-    <div className="main">
+    <>
       <Navbar />
       <div className="home-popover-container">
-        <Home />
+        {currentScreen === SCREEN_TYPE.HOME && <Home />}
+        {currentScreen === SCREEN_TYPE.GAME && <GameScreen />}
         <div className="popover-container">
           {isChatOpen && <PopoverChat />}
           {isGoldOpen && <PopoverGold />}
@@ -79,6 +99,6 @@ export default function Platform() {
         </div>
       </div>
       <Taskbar />
-    </div>
+    </>
   );
 }

@@ -5,13 +5,13 @@ import { PopupBook } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
 import { PopupLoading } from '../components/popups/PopupLoading';
 import { cookie } from '../components/popups/PopupPresets';
-import { GameOptions } from '../controllers/Game';
+import { PopupSuccess } from '../components/popups/PopupSuccess';
 import PopupMediator from '../controllers/PopupMediator';
 import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import Item, { getItemById } from '../models/Item';
 import { systemUser } from '../models/User';
-import { GameEventType } from './Game';
+import Game, { GameOptions } from './Game';
 
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
 export const url: string = 'http://localhost:8000/';
@@ -33,6 +33,7 @@ export default class Connection extends EventEmitter {
   public me?: MyUserData;
   public onlineUsers: number = 0;
   public chatMessages: Chat[] = [];
+  public game: Game | undefined;
 
   // Callbacks
   setIsConnected!: Function;
@@ -63,29 +64,6 @@ export default class Connection extends EventEmitter {
       title: title,
       message: message,
     });
-  }
-
-  public hostGame(gameOptions: GameOptions) {
-    Terminal.log('🕹️', 'Hosting game', '...');
-    const args = {
-      hostID: this.me?.id,
-      ...gameOptions,
-    };
-
-    axios
-      .post(`${url}game/host`, args, { withCredentials: true })
-      .then((res) => {
-        Terminal.log('✔️', 'Game hosted with gameId', res.data.roomID);
-        Terminal.log(res.data);
-        this.joinGame(res.data.roomID);
-      })
-      .catch((err) => Terminal.log('⚠️', err));
-  }
-
-  public joinGame(gameId: string) {
-    Terminal.log('🕹️', 'Joining game', gameId, '...');
-    // Send socket message join-game-room
-    this.socket?.emit(GameEventType.JOIN, gameId);
   }
 
   public getMe() {
@@ -174,9 +152,12 @@ export default class Connection extends EventEmitter {
         this.connect();
       })
       .catch((err) => {
-        console.log(err);
-        this.error('Login failed', 'Invalid username or password.');
-        localStorage.removeItem('login');
+        console.log(err.response);
+        if (err.response.status === 401 || err.response.status === 400) {
+          this.error('Login failed', 'Invalid username or password.');
+          localStorage.removeItem('login');
+        } else this.error('Login failed', `${err.code}: ${err.message}`);
+
         return;
       });
   }
@@ -245,11 +226,15 @@ export default class Connection extends EventEmitter {
     axios
       .post(
         url + 'users/update',
-        { newUsername: username },
+        { id: this.me?.id, newUsername: username },
         { withCredentials: true }
       )
       .then((res) => {
         Terminal.log('✔️ Username changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Username changed',
+          message: 'Your username has been changed successfully.'
+        });
       })
       .catch((err) => Terminal.log('⚠️', err));
   }
@@ -266,6 +251,100 @@ export default class Connection extends EventEmitter {
         Terminal.log('✔️', 'Avatar changed');
       })
       .catch((err) => Terminal.log('⚠️', err));
+  }
+
+  public changeStatus(status: string) {
+    Terminal.log('🔤', 'Changing status to', status, '...');
+    axios
+      .post(
+        url + 'users/update',
+        { id: this.me?.id, newStatus: status },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Status changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Status changed',
+          message: 'Your status has been changed successfully.'
+        });
+      })
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
+  public changeEmail(currentPassword: string, email: string) {
+    axios
+      .post(
+        url + 'users/update',
+        {
+          id: this.me?.id,
+          password: currentPassword,
+          newEmail: email
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Email changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Email changed',
+          message: 'Your Email has been changed successfully.'
+        });
+        const loginData = localStorage.getItem('login');
+        if (loginData)
+          localStorage.setItem(
+            'login',
+            JSON.stringify({
+              email: email,
+              password: JSON.parse(loginData).password
+            })
+          );
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', err);
+        PopupMediator.open(PopupError, {
+          title: 'Email change failed',
+          message:
+            'Your Email could not be changed. Did you enter your password correctly?'
+        });
+      });
+  }
+
+  public changePassword(currentPassword: string, newPassword: string) {
+    Terminal.log('🔤', 'Changing password', '...');
+    axios
+      .post(
+        url + 'users/update',
+        {
+          id: this.me?.id,
+          password: currentPassword,
+          newPassword: newPassword
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Password changed');
+        PopupMediator.open(PopupSuccess, {
+          title: 'Password changed',
+          message: 'Your password has been changed successfully.'
+        });
+
+        const loginData = localStorage.getItem('login');
+        if (loginData)
+          localStorage.setItem(
+            'login',
+            JSON.stringify({
+              email: JSON.parse(loginData).email,
+              password: newPassword
+            })
+          );
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', err);
+        PopupMediator.open(PopupError, {
+          title: 'Password change failed',
+          message:
+            'Your password could not be changed. Did you enter your current password correctly?'
+        });
+      });
   }
 
   public changeWallpaper(wallpaper: string) {
@@ -344,31 +423,7 @@ export default class Connection extends EventEmitter {
     });
 
     this.socket?.on('invalidate-user', () => {
-      // User data invalidated, update it
-      Terminal.log(
-        '🔥',
-        'User data invalidated by server, validating my data',
-        '...'
-      );
-      axios
-        .get(url + `users/${this.me!.id}`, { withCredentials: true })
-        .then((res) => {
-          const data = res.data;
-          this.me = MyUserData.create(data);
-
-          console.log('my data', this.me);
-
-          Terminal.log('✔️', 'Validated user data');
-          this.emit(ConnectionEventType.USER_DATA_CHANGED);
-        });
-    });
-
-    this.socket?.on('force-reload', (data) => {
-      document.location.reload();
-    });
-
-    this.socket?.on('rooms', (data) => {
-      Terminal.log('rooms', data);
+      this.invalidateUserData();
     });
 
     this.socket?.on('disconnect', () => {
@@ -377,6 +432,21 @@ export default class Connection extends EventEmitter {
       this.removeSocketListeners();
       this.socket = undefined;
     });
+  }
+
+  private invalidateUserData() {
+    // User data invalidated, update it
+    Terminal.log('🔥 User data invalidated, validating my data ...');
+
+    axios
+      .get(url + `users/${this.me!.id}`, { withCredentials: true })
+      .then((res) => {
+        const data = res.data;
+        this.me = MyUserData.create(data);
+
+        Terminal.log('✔️', 'Validated user data');
+        this.emit(ConnectionEventType.USER_DATA_CHANGED);
+      });
   }
 
   private removeSocketListeners() {
@@ -414,6 +484,10 @@ export default class Connection extends EventEmitter {
         case 'chat':
           this.chat(arr.join(' '));
           break;
+        case 'game/list':
+        case 'gl':
+          this.listGames();
+          break;
         case 'game/host':
         case 'gh':
           const gameOptions: GameOptions = {
@@ -426,6 +500,10 @@ export default class Connection extends EventEmitter {
         case 'game/join':
         case 'gj':
           this.joinGame(arr[0]);
+          break;
+        case 'game/leave':
+        case 'ge':
+          this.leaveGame();
           break;
         case 'send':
           if (arr.length === 0)
@@ -444,6 +522,61 @@ export default class Connection extends EventEmitter {
 
           this.sendCustomEvent(arr[0], payload);
       }
+    });
+  }
+
+  public hostGame(gameOptions: GameOptions) {
+    axios
+      .post(
+      url + 'game/host',
+        { userID: this.me?.id, gameOptions: gameOptions },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Game created successfully');
+        const gameId = res.data;
+        this.joinGame(gameId);
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Could not host game');
+      });
+  }
+
+  public joinGame(gameID: string) {
+    axios
+      .post(
+        url + 'game/join',
+        { userID: this.me?.id, gameID: gameID },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Game joined');
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Could not join game');
+      });
+  }
+
+  public leaveGame() {
+    axios
+      .post(
+        url + 'game/leave',
+        { userID: this.me?.id },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Left game');
+        this.invalidateUserData();
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Could not leave game');
+      });
+  }
+
+  public listGames() {
+    axios.get(url + 'game/list').then((res) => {
+      const data = res.data;
+      Terminal.log('✔️', JSON.stringify(data, null, 2));
     });
   }
 
@@ -476,6 +609,7 @@ export class MyUserData extends UserData {
   friendRequestsIncoming?: UserData[];
   friendRequestsOutgoing?: UserData[];
   inventory?: string[]; // Item IDs
+  gameID?: string | null;
 
   static create(data: Object) {
     const myUserData = new MyUserData();

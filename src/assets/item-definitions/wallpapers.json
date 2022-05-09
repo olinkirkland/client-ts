@@ -20,23 +20,13 @@
     }
   },
   {
-    "id": "7c83d4BwbheZ127zCA9hr",
-    "type": "wallpaper",
-    "name": "Terrazzo",
-    "description": "A dark pattern that looks like it contains chips of marble and granite.",
-    "tags": [],
-    "value": {
-      "url": "wallpapers/terrazzo.png"
-    }
-  },
-  {
     "id": "bWlODlitPpTpauqu7egQW",
     "type": "wallpaper",
-    "name": "Hotel",
-    "description": "This dark pattern is a perfect fit for your hotel room.",
+    "name": "Love",
+    "description": "Show your love by using this pattern.",
     "tags": [],
     "value": {
-      "url": "wallpapers/hotel.png"
+      "url": "wallpapers/love.png"
     }
   },
   {
@@ -47,6 +37,16 @@
     "tags": [],
     "value": {
       "url": "wallpapers/floral.png"
+    }
+  },
+  {
+    "id": "nhXUB0VIsA7ST25S-wG6e",
+    "type": "wallpaper",
+    "name": "Cosmic",
+    "description": "In deep space, there is no one who can't see the stars.",
+    "tags": [],
+    "value": {
+      "url": "wallpapers/cosmic.png"
     }
   }
 ]

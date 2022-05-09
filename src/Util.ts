@@ -35,3 +35,18 @@ export function formatHelpString(cmd: string, description: string): string {
   while (cmd.length < 20) cmd += '.';
   return cmd + ' ' + description;
 }
+
+export function extractUrlsFromString(str: string) {
+  const parts = str.split(' ');
+  return parts.map((part, index) => {
+    return {
+      text: part + (index < parts.length - 1 ? ' ' : ''),
+      isUrl: isUrl(part)
+    };
+  });
+}
+
+function isUrl(str: string) {
+  // Ends with any domain extension
+  return str.match(/.+\.[A-Za-z]{2,}/);
+}

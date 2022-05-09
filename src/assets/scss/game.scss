@@ -1,0 +1,13 @@
+@import 'colors';
+
+.game {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  height: 100%;
+  background-color: lightskyblue;
+  transition: all 0.3s;
+}

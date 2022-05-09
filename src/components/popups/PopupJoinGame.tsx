@@ -1,54 +1,74 @@
-import Modal from 'react-modal';
+import axios from 'axios';
 import React from 'react';
+import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
+import Connection, { url } from '../../connection/Connection';
 import { rootElement } from '../../index';
 
 type State = {
-  gameId: string | null;
+  games: any[] | null;
 };
 
-interface PopupJoinGameProps extends PopupProps {
-  onConfirm: (gameId: string) => void;
-}
+interface PopupJoinGameProps extends PopupProps {}
 
 export class PopupJoinGame extends React.Component<PopupJoinGameProps> {
   public readonly state: State = {
-    gameId: null
+    games: null
   };
 
   constructor(props: PopupJoinGameProps) {
     super(props);
-    console.log('init');
+    this.refreshList();
+  }
+
+  private refreshList() {
+    axios.get(url + 'game/list').then((res) => {
+      const data = res.data;
+      this.setState({ games: data });
+    });
   }
 
   render() {
-    const { isOpen, onConfirm, onClose } = this.props;
+    const { isOpen, onClose } = this.props;
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">
           <div className="popup-header">
             <span>Join a Game</span>
-            <button className="button-close" onClick={onClose}>
-              <i className="fas fa-times" />
-            </button>
+            <div className="h-group">
+              <button
+                className="button-close"
+                onClick={() => this.refreshList()}
+              >
+                <i className="fas fa-sync"></i>
+              </button>
+              <button className="button-close" onClick={onClose}>
+                <i className="fas fa-times" />
+              </button>
+            </div>
           </div>
-          <div className="popup-content"></div>
-          <div className="popup-taskbar">
-            <button
-              onClick={() => {
-                onClose!();
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                onConfirm!(this.state.gameId!);
-                onClose!();
-              }}
-            >
-              Join Game
-            </button>
+          <div className="popup-content">
+            <ul>
+              {this.state.games?.map((game, index) => (
+                <li
+                  onClick={() => {
+                    Connection.instance.joinGame(game.gameID);
+                    onClose!();
+                  }}
+                  className="join-game-tile"
+                  key={index}
+                >
+                  <div>
+                    <p>{game.name}</p>
+                    <h2>{game.host.username}</h2>
+                  </div>
+                  <span className="player-count">
+                    <p className="muted">{game.playerCount}</p>
+                    <i className="fas fa-user-friends muted" />
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </Modal>

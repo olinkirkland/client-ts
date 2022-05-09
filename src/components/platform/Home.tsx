@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Connection, { ConnectionEventType } from '../../connection/Connection';
-import { GameOptions } from '../../controllers/Game';
+import { GameOptions } from '../../connection/Game';
 import PopupMediator from '../../controllers/PopupMediator';
 import { getItemById } from '../../models/Item';
 import { PopupBook, SectionType } from '../popups/PopupBook';
@@ -16,10 +16,22 @@ export default function Home() {
   );
 
   useEffect(() => {
-    Connection.instance.on(ConnectionEventType.USER_DATA_CHANGED, () => {
-      setWallpaper(Connection.instance.me?.currentWallpaper);
-    });
+    Connection.instance.addListener(
+      ConnectionEventType.USER_DATA_CHANGED,
+      onUserDataChanged
+    );
+
+    return () => {
+      Connection.instance.removeListener(
+        ConnectionEventType.USER_DATA_CHANGED,
+        onUserDataChanged
+      );
+    };
   }, []);
+
+  function onUserDataChanged() {
+    setWallpaper(Connection.instance.me?.currentWallpaper);
+  }
 
   return (
     <div
@@ -32,26 +44,6 @@ export default function Home() {
     >
       <div className="home-container">
         <div className="home-grid">
-          <HomePanel
-            onClick={() => {
-              PopupMediator.open(PopupPrompt, {
-                title: 'Are you sure?',
-                message: 'Lorem ipsum dolor sit amet.',
-                confirm: 'Yes',
-                cancel: 'No',
-                onConfirm: () => {
-                  console.log('confirm');
-                },
-                onCancel: () => {
-                  console.log('cancel');
-                }
-              });
-            }}
-            titleText="Don't Fall Quick Play"
-            buttonText="Play Now"
-            image="assets/images/abstract-1.png"
-            big={true}
-          />
           <HomePanel
             onClick={() => {
               PopupMediator.open(PopupBook, {
@@ -70,10 +62,30 @@ export default function Home() {
               });
             }}
             titleText="Game Rules"
-            buttonText="Learn how to play"
+            buttonText="Learn to play"
             image="assets/images/abstract-2.png"
           />
           <HomePanel
+            onClick={() => {
+              PopupMediator.open(PopupPrompt, {
+                title: 'Are you sure?',
+                message: 'Lorem ipsum dolor sit amet.',
+                confirm: 'Yes',
+                cancel: 'No',
+                onConfirm: () => {
+                  console.log('confirm');
+                },
+                onCancel: () => {
+                  console.log('cancel');
+                }
+              });
+            }}
+            titleText="Play Now - Join a Random Match"
+            buttonText="Play Now"
+            image="assets/images/abstract-1.png"
+            big={true}
+          />
+          {/* <HomePanel
             onClick={() => {
               PopupMediator.open(PopupInput, {
                 title: 'Choose your name',
@@ -92,26 +104,18 @@ export default function Home() {
             titleText="Customize avatar"
             buttonText="Customize"
             image="assets/images/abstract-3.png"
-          />
+          /> */}
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupHostGame, {
-                onConfirm: (gameOptions: GameOptions) => {
-                  Connection.instance.hostGame(gameOptions);
-                }
-              });
+              PopupMediator.open(PopupHostGame);
             }}
-            titleText="Host a public or private game"
+            titleText="Play with friends"
             buttonText="Host a game"
             image="assets/images/abstract-4.png"
           />
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupJoinGame, {
-                onConfirm: () => {
-                  console.log('confirm');
-                }
-              });
+              PopupMediator.open(PopupJoinGame);
             }}
             titleText="View open games"
             buttonText="Join a game"
