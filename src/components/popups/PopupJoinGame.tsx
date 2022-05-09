@@ -1,21 +1,19 @@
-import Modal from 'react-modal';
-import React from 'react';
-import { PopupProps } from 'react-popup-manager';
-import { rootElement } from '../../index';
 import axios from 'axios';
+import React from 'react';
+import Modal from 'react-modal';
+import { PopupProps } from 'react-popup-manager';
 import Connection, { url } from '../../connection/Connection';
+import { rootElement } from '../../index';
 
 type State = {
   games: any[] | null;
-  selectedGame: any | null;
 };
 
 interface PopupJoinGameProps extends PopupProps {}
 
 export class PopupJoinGame extends React.Component<PopupJoinGameProps> {
   public readonly state: State = {
-    games: null,
-    selectedGame: null
+    games: null
   };
 
   constructor(props: PopupJoinGameProps) {
@@ -52,28 +50,25 @@ export class PopupJoinGame extends React.Component<PopupJoinGameProps> {
           <div className="popup-content">
             <ul>
               {this.state.games?.map((game, index) => (
-                <li key={index}>
-                  <pre>{JSON.stringify(game, null, 2)}</pre>
+                <li
+                  onClick={() => {
+                    Connection.instance.joinGame(game.gameID);
+                    onClose!();
+                  }}
+                  className="join-game-tile"
+                  key={index}
+                >
+                  <div>
+                    <p>{game.name}</p>
+                    <h2>{game.host.username}</h2>
+                  </div>
+                  <span className="player-count">
+                    <p className="muted">{game.playerCount}</p>
+                    <i className="fas fa-users muted"></i>
+                  </span>
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="popup-taskbar">
-            <button
-              onClick={() => {
-                onClose!();
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                Connection.instance.joinGame(this.state.selectedGame!.id);
-                onClose!();
-              }}
-            >
-              Join Game
-            </button>
           </div>
         </div>
       </Modal>
