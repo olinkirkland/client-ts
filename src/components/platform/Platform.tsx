@@ -31,11 +31,6 @@ export default function Platform() {
 
   useEffect(() => {
     Connection.instance.on(ConnectionEventType.USER_DATA_CHANGED, () => {
-      Terminal.log(
-        'Current game:',
-        Connection.instance.me?.gameID ? 'yes' : 'no'
-      );
-      Terminal.log(Connection.instance.me);
       setCurrentScreen(
         Connection.instance.me?.gameID ? SCREEN_TYPE.GAME : SCREEN_TYPE.HOME
       );
