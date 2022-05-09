@@ -64,7 +64,7 @@ export class PopupJoinGame extends React.Component<PopupJoinGameProps> {
                   </div>
                   <span className="player-count">
                     <p className="muted">{game.playerCount}</p>
-                    <i className="fas fa-users muted"></i>
+                    <i className="fas fa-user-friends muted" />
                   </span>
                 </li>
               ))}
