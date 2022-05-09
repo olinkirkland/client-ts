@@ -528,7 +528,7 @@ export default class Connection extends EventEmitter {
   public hostGame(gameOptions: GameOptions) {
     axios
       .post(
-        url + 'game/host',
+      url + 'game/host',
         { userID: this.me?.id, gameOptions: gameOptions },
         { withCredentials: true }
       )

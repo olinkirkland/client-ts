@@ -1,28 +1,28 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import { GameOptions } from '../../connection/Game';
+import Connection from '../../connection/Connection';
 import { rootElement } from '../../index';
 
 type State = {
   gameName: string;
   gameDescription: string;
   gamePassword: string;
+  validationMessage: string | null;
 };
 
-interface PopupHostGameProps extends PopupProps {
-  onConfirm: (gameOptions: GameOptions) => void;
-}
+interface PopupHostGameProps extends PopupProps {}
 
 export class PopupHostGame extends React.Component<PopupHostGameProps> {
   public readonly state: State = {
     gameName: '',
     gameDescription: '',
-    gamePassword: ''
+    gamePassword: '',
+    validationMessage: null
   };
 
   render() {
-    const { isOpen, onConfirm, onClose } = this.props;
+    const { isOpen, onClose } = this.props;
     return (
       <Modal isOpen={isOpen!} appElement={rootElement!} className="modal">
         <div className="popup">
@@ -69,7 +69,23 @@ export class PopupHostGame extends React.Component<PopupHostGameProps> {
                 }}
               />
             </div>
+            {this.state.validationMessage && (
+              <div className="alert error">
+                {this.state.validationMessage}
+                <button
+                  className="button-close"
+                  onClick={() => {
+                    this.setState((state, props) => ({
+                      validationMessage: null
+                    }));
+                  }}
+                >
+                  <i className="fas fa-times" />
+                </button>
+              </div>
+            )}
           </div>
+
           <div className="popup-taskbar">
             <button
               onClick={() => {
@@ -78,21 +94,25 @@ export class PopupHostGame extends React.Component<PopupHostGameProps> {
             >
               Cancel
             </button>
-            <button
-              onClick={() => {
-                onConfirm!({
-                  name: this.state.gameName,
-                  description: this.state.gameDescription,
-                  password: this.state.gamePassword
-                });
-                onClose!();
-              }}
-            >
-              Host Game
-            </button>
+            <button onClick={this.validateAndHost.bind(this)}>Host Game</button>
           </div>
         </div>
       </Modal>
     );
+  }
+
+  validateAndHost() {
+    if (this.state.gameName === '') {
+      this.setState((state, props) => ({
+        validationMessage: 'Game name cannot be empty'
+      }));
+      return;
+    }
+
+    Connection.instance.hostGame({
+      name: this.state.gameName,
+      description: this.state.gameDescription,
+      password: this.state.gamePassword
+    });
   }
 }

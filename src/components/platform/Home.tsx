@@ -107,11 +107,7 @@ export default function Home() {
           /> */}
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupHostGame, {
-                onConfirm: (gameOptions: GameOptions) => {
-                  Connection.instance.hostGame(gameOptions);
-                }
-              });
+              PopupMediator.open(PopupHostGame);
             }}
             titleText="Play with friends"
             buttonText="Host a game"
