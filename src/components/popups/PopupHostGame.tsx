@@ -102,6 +102,8 @@ export class PopupHostGame extends React.Component<PopupHostGameProps> {
   }
 
   validateAndHost() {
+    const { onClose } = this.props;
+
     if (this.state.gameName === '') {
       this.setState((state, props) => ({
         validationMessage: 'Game name cannot be empty'
@@ -114,5 +116,7 @@ export class PopupHostGame extends React.Component<PopupHostGameProps> {
       description: this.state.gameDescription,
       password: this.state.gamePassword
     });
+
+    onClose!();
   }
 }
