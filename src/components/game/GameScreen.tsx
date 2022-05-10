@@ -102,13 +102,24 @@ export default function GameScreen() {
           >
             Leave game
           </button>
-          <Hint
-            mode={mode!} // Lobby or Game
-            answerProvided={question?.hasOwnProperty('correctAnswer') || false} // Backend provided an answer
-            selected={myAnswerIndex !== -1} // Has selected an answer
-            correct={myAnswerIndex === question?.correctAnswer} // Selected answer is correct
-            isHost={game.hostId === Connection.instance.me?.id} // Is host
-          />
+          <div className="h-group center">
+            <Hint
+              mode={mode!} // Lobby or Game
+              answerProvided={
+                question?.hasOwnProperty('correctAnswer') || false
+              } // Backend provided an answer
+              selected={myAnswerIndex !== -1} // Has selected an answer
+              correct={myAnswerIndex === question?.correctAnswer} // Selected answer is correct
+              isHost={game.hostId === Connection.instance.me?.id} // Is host
+            />
+            {mode === GameMode.GAME && (
+              <p className='score'>
+                {`${
+                  players.find((p: any) => p.user.id === game.me!.id)?.points
+                } points`}
+              </p>
+            )}
+          </div>
           {game.hostId === Connection.instance.me?.id &&
             mode === GameMode.LOBBY && (
               <button

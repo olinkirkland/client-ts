@@ -1,4 +1,3 @@
-import Connection from '../../connection/Connection';
 import Game from '../../connection/Game';
 import PopupMediator from '../../controllers/PopupMediator';
 import { getItemById } from '../../models/Item';
