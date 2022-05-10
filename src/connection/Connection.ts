@@ -576,7 +576,9 @@ export default class Connection extends EventEmitter {
       )
       .then((res) => {
         Terminal.log('✔️', 'Left game');
+        this.game?.dispose();
         this.game = undefined;
+        console.log('🗑️', 'Game disposed');
         this.invalidateUserData();
       })
       .catch((err) => {
