@@ -6,6 +6,7 @@ interface Props {
   answerProvided: boolean;
   selected: boolean;
   correct: boolean;
+  isHost: boolean;
 }
 
 const areYouSureMessages = [
@@ -42,7 +43,8 @@ export default function Hint({
   selected,
   answerProvided,
   mode,
-  correct
+  correct,
+  isHost
 }: Props) {
   const [message, setMessage] = useState('');
 
@@ -76,10 +78,11 @@ export default function Hint({
     } else setMessage('Choose an answer. Guess if you have to!');
 
     if (mode === GameMode.LOBBY)
-      setMessage('Waiting for the host to start the game');
+      if (isHost) setMessage('Start the game when you are ready.');
+      else setMessage('Waiting for the host to start the game.');
 
     return () => {};
-  }, [mode, selected, correct, answerProvided]);
+  }, [mode, selected, correct, answerProvided, isHost]);
 
   return (
     <p

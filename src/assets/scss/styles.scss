@@ -72,33 +72,6 @@ nav {
     gap: 1.2rem;
     padding: 0 1rem;
 
-    .profile-button {
-      display: flex;
-      align-items: center;
-      margin-right: 1rem;
-      padding: 1rem;
-      cursor: pointer;
-      background-color: #00000010;
-      border-radius: 5px;
-      transition: all 0.3s;
-      color: $text-muted;
-      padding-left: 5.4rem;
-
-      h2 {
-        font-weight: 500;
-        text-transform: none;
-        font-size: 1.6rem;
-      }
-
-      &:hover {
-        background-color: #00000020;
-      }
-
-      &:active {
-        background-color: #00000040;
-      }
-    }
-
     button {
       padding: 0;
       background-color: transparent;
@@ -126,6 +99,33 @@ nav {
         color: $text;
       }
     }
+  }
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  background-color: #00000010;
+  border-radius: 5px;
+  transition: all 0.3s;
+  color: $text-muted;
+  padding-left: 5.4rem;
+
+  h2 {
+    font-weight: 500;
+    text-transform: none;
+    font-size: 1.6rem;
+  }
+
+  &:hover {
+    background-color: #00000020;
+  }
+
+  &:active {
+    background-color: #00000040;
   }
 }
 

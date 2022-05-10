@@ -3,6 +3,7 @@ import Connection from '../../connection/Connection';
 import Game, { GameEventType, GameMode } from '../../connection/Game';
 import { getItemById } from '../../models/Item';
 import AnswerTile from './AnswerTile';
+import GameLobby from './GameLobby';
 import Hint from './Hint';
 
 export default function GameScreen() {
@@ -63,6 +64,7 @@ export default function GameScreen() {
         </div>
 
         <div className="game-body">
+          {mode === GameMode.LOBBY && <GameLobby game={game} />}
           {mode === GameMode.GAME && (
             <>
               <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
@@ -105,6 +107,7 @@ export default function GameScreen() {
             answerProvided={question?.hasOwnProperty('correctAnswer') || false} // Backend provided an answer
             selected={myAnswerIndex !== -1} // Has selected an answer
             correct={myAnswerIndex === question?.correctAnswer} // Selected answer is correct
+            isHost={game.hostId === Connection.instance.me?.id} // Is host
           />
           {game.hostId === Connection.instance.me?.id &&
             mode === GameMode.LOBBY && (
