@@ -32,13 +32,15 @@ export default function GameScreen() {
       <p>{`Round: ${roundIndex}/${numberOfRounds}`}</p>
       <pre>{JSON.stringify(question)}</pre>
       <div className="h-group">
-        <button
-          onClick={() => {
-            Connection.instance.startGame();
-          }}
-        >
-          Start Game
-        </button>
+        {game.hostId === Connection.instance.me?.id && (
+          <button
+            onClick={() => {
+              Connection.instance.startGame();
+            }}
+          >
+            Start Game
+          </button>
+        )}
         <button
           onClick={() => {
             Connection.instance.leaveGame();
