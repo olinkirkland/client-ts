@@ -19,6 +19,7 @@ export const url: string =
   location.hostname === 'localhost'
     ? 'http://localhost:8000/'
     : 'https://dontfall-backend.herokuapp.com/';
+console.log('Backend base url:', url);
 
 export let mouseCoords = {
   x: 0,

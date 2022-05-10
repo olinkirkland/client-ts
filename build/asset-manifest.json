@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dont-fall/static/css/main.d7396b10.css",
+    "main.js": "/dont-fall/static/js/main.16e95b6d.js",
+    "index.html": "/dont-fall/index.html",
+    "main.d7396b10.css.map": "/dont-fall/static/css/main.d7396b10.css.map",
+    "main.16e95b6d.js.map": "/dont-fall/static/js/main.16e95b6d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d7396b10.css",
+    "static/js/main.16e95b6d.js"
+  ]
+}
