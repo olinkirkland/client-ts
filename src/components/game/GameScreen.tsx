@@ -32,7 +32,7 @@ export default function GameScreen() {
     setQuestion(game.question);
     setPlayers(game.players);
 
-    console.log(game);
+    console.log(game.question);
   }
 
   function onGameTick() {
@@ -61,8 +61,11 @@ export default function GameScreen() {
             <>
               <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
               <p className="prompt">{question?.prompt}</p>
-              {question?.correctAnswer && (
-                <p>{question.answers[question.correctAnswer]}</p>
+              {question?.hasOwnProperty('correctAnswer') && (
+                <>
+                  <p>{JSON.stringify(question.answers)}</p>
+                  <p>{question.answers[question.correctAnswer!]}</p>
+                </>
               )}
               <ul className="answers">
                 {question?.answers.map((answer, index) => (
