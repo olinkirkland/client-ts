@@ -44,7 +44,7 @@ export default class Game extends EventEmitter {
   players: any;
   maxPlayers: any;
   numberOfRounds: any;
-  question?: { prompt: string; answers: string[] };
+  question?: { prompt: string; answers: string[]; correctAnswer?: number };
   playerCoordinates: PlayerCoordinates = {};
 
   public constructor(socket: Socket) {
@@ -121,8 +121,7 @@ export default class Game extends EventEmitter {
       .get(url + `game/${this.id}`, { withCredentials: true })
       .then((res) => {
         const data = res.data;
-        Terminal.log(JSON.stringify(data, null, 2));
-        console.log(JSON.stringify(data));
+        // console.log(data);
 
         this.mode = data.gameMode;
         this.name = data.name;

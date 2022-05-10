@@ -31,6 +31,8 @@ export default function GameScreen() {
     setNumberOfRounds(game.numberOfRounds);
     setQuestion(game.question);
     setPlayers(game.players);
+
+    console.log(game);
   }
 
   function onGameTick() {
@@ -59,6 +61,9 @@ export default function GameScreen() {
             <>
               <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
               <p className="prompt">{question?.prompt}</p>
+              {question?.correctAnswer && (
+                <p>{question.answers[question.correctAnswer]}</p>
+              )}
               <ul className="answers">
                 {question?.answers.map((answer, index) => (
                   <li
