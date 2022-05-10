@@ -82,6 +82,22 @@ export default class Game extends EventEmitter {
     this.socket.off(GameEventType.GAME_TICK);
   }
 
+  public answer(index: number) {
+    Terminal.log('💬 Answer:', index);
+    axios
+      .post(
+        url + 'game/answer',
+        { userID: this.me?.id, answer: index },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Answered!');
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Error when answering');
+      });
+  }
+
   private onGameTick(data: PlayerCoordinates) {
     // Update the locations of all player's cursors
     this.playerCoordinates = data;
