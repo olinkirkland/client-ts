@@ -1,5 +1,6 @@
 {
-  "homepage": "https://olinkirk.land/dont-fall",
+  "homepage": "https://localhost:3000/",
+  "homepage2": "https://olinkirk.land/dont-fall",
   "name": "dontfall",
   "version": "0.1.0",
   "private": true,

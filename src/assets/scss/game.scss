@@ -45,11 +45,15 @@
 
     ul.answers {
       display: flex;
-      gap: 0.4rem;
+      gap: 1rem;
       flex: 1;
       justify-content: space-between;
 
       li {
+        width: 100%;
+      }
+
+      .answer-tile {
         cursor: pointer;
         border-radius: 5px;
         background-color: white;
@@ -67,12 +71,17 @@
         font-size: 2rem;
         border: 3px solid transparent;
 
-        &:hover {
+        &.disabled {
+          box-shadow: none;
+          cursor: inherit;
+        }
+
+        &:hover:not(.disabled) {
           bottom: 0.3rem;
           box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
         }
 
-        &:active {
+        &:active:not(.disabled) {
           bottom: 0;
           box-shadow: none;
         }
@@ -89,6 +98,27 @@
         }
 
         &.correct {
+          background: repeating-linear-gradient(
+            45deg,
+            $success-very-muted,
+            $success-very-muted 20px,
+            $success-muted 20px,
+            $success-muted 40px
+          );
+          border: 3px solid $success;
+          bottom: 0.3rem;
+          box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+        }
+
+        &.incorrect {
+          background: repeating-linear-gradient(
+            45deg,
+            $error-very-muted,
+            $error-very-muted 20px,
+            $error-muted 20px,
+            $error-muted 40px
+          );
+          border: 3px solid $error-muted;
         }
       }
     }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Connection from '../../connection/Connection';
 import Game, { GameEventType, GameMode } from '../../connection/Game';
 import { getItemById } from '../../models/Item';
+import AnswerTile from './AnswerTile';
 
 export default function GameScreen() {
   const game: Game = Connection.instance.game!;
@@ -33,7 +34,7 @@ export default function GameScreen() {
     setQuestion(game.question);
     setPlayers(game.players);
 
-    const myPlayer = game.players.find((p:any) => p.user.id === game.me!.id);
+    const myPlayer = game.players.find((p: any) => p.user.id === game.me!.id);
     setMyAnswerIndex(myPlayer.answer);
 
     console.log(game.players);
@@ -67,20 +68,28 @@ export default function GameScreen() {
               <p className="prompt">{question?.prompt}</p>
               {question?.hasOwnProperty('correctAnswer') && (
                 <>
-                  <p>{JSON.stringify(question.answers)}</p>
-                  <p>{question.answers[question.correctAnswer!]}</p>
+                  {/* <p>{JSON.stringify(question.answers)}</p>
+                  <p>{question.answers[question.correctAnswer!]}</p> */}
                 </>
               )}
               <ul className="answers">
                 {question?.answers.map((answer, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      onClickAnswer(index);
-                    }}
-                    className={myAnswerIndex === index ? 'selected' : ''}
-                  >
-                    <span>{answer}</span>
+                  <li key={index}>
+                    <AnswerTile
+                      text={answer}
+                      selected={myAnswerIndex === index}
+                      correct={
+                        question?.hasOwnProperty('correctAnswer') &&
+                        index === question.correctAnswer
+                      }
+                      incorrect={
+                        question?.hasOwnProperty('correctAnswer') &&
+                        index !== question.correctAnswer &&
+                        myAnswerIndex === index
+                      }
+                      disabled={question?.hasOwnProperty('correctAnswer')}
+                      onClick={() => onClickAnswer(index)}
+                    />
                   </li>
                 ))}
               </ul>
