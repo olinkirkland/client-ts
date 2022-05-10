@@ -31,7 +31,12 @@ export default function GameScreen() {
     <div className="game">
       <div className="game-panel">
         <div className="header">
-          <p>{game.name}</p>
+          <div className='h-group'>
+            <p>{game.name}</p>
+            {game.hostId === Connection.instance.me!.id && (
+              <span className="badge system">Host</span>
+            )}
+          </div>
           <p className="muted">{mode === GameMode.LOBBY ? 'Lobby' : 'Game'}</p>
         </div>
         <pre>{players.map((p: any) => JSON.stringify(p)).join('\n')}</pre>
