@@ -12,6 +12,7 @@ import Chat from '../models/Chat';
 import Item, { getItemById } from '../models/Item';
 import { systemUser } from '../models/User';
 import Game, { GameOptions } from './Game';
+import { doAfterLogin as testAtStart } from './Test';
 
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
 export const url: string = 'http://localhost:8000/';
@@ -378,6 +379,9 @@ export default class Connection extends EventEmitter {
         online: true,
       },
     });
+
+    setTimeout(testAtStart, 500);
+
     this.addSocketListeners();
   }
 
@@ -501,6 +505,10 @@ export default class Connection extends EventEmitter {
         case 'gj':
           this.joinGame(arr[0]);
           break;
+        case 'game/start':
+        case 'gs':
+          this.startGame();
+          break;
         case 'game/leave':
         case 'ge':
           this.leaveGame();
@@ -528,7 +536,7 @@ export default class Connection extends EventEmitter {
   public hostGame(gameOptions: GameOptions) {
     axios
       .post(
-      url + 'game/host',
+        url + 'game/host',
         { userID: this.me?.id, gameOptions: gameOptions },
         { withCredentials: true }
       )
@@ -551,6 +559,8 @@ export default class Connection extends EventEmitter {
       )
       .then((res) => {
         Terminal.log('✔️', 'Game joined');
+        this.me!.gameID = gameID;
+        this.game = new Game(this.socket!);
       })
       .catch((err) => {
         Terminal.log('⚠️', 'Could not join game');
@@ -566,6 +576,7 @@ export default class Connection extends EventEmitter {
       )
       .then((res) => {
         Terminal.log('✔️', 'Left game');
+        this.game = undefined;
         this.invalidateUserData();
       })
       .catch((err) => {
@@ -578,6 +589,21 @@ export default class Connection extends EventEmitter {
       const data = res.data;
       Terminal.log('✔️', JSON.stringify(data, null, 2));
     });
+  }
+
+  public startGame() {
+    axios
+      .post(
+        url + 'game/start',
+        { userID: this.me?.id },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Game started');
+      })
+      .catch((err) => {
+        Terminal.log('⚠️', 'Could not start game');
+      });
   }
 
   private sendCustomEvent(eventType: string, payload: any) {
