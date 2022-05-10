@@ -156,6 +156,12 @@ div.user-with-badge {
   flex-direction: column;
 }
 
+ul.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
 li.join-game-tile {
   padding: 1rem;
   background-color: white;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import EventEmitter from 'events';
 import { Socket } from 'socket.io-client';
 import Terminal from '../controllers/Terminal';
-import Connection, { MyUserData, url } from './Connection';
+import Connection, { mouseCoords, MyUserData, url } from './Connection';
 
 export type GameOptions = {
   name: string;
@@ -15,7 +15,9 @@ export enum GameEventType {
   SETUP = 'game-round-setup', // BE -> FE Send information for the current game round, e.g. Questions
   RESULT = 'game-round-result', // BE -> FE Send Results from the Round to FE. Also start next round or goto END
   END = 'game-ended', // BE -> FE Send information about the round, e.g. Ranking for the ended Round
-  GAME_DATA_CHANGED = 'game-data-changed' // FE-INTERNAL Game data changed
+  GAME_DATA_CHANGED = 'game-data-changed', // FE-INTERNAL Game data changed
+  MOVE_CURSOR = 'game-move-cursor', // FE -> BE -> FE Move the cursor
+  GAME_TICK = 'game-tick' // BE -> FE Tick the game
 }
 
 export enum GameMode {
@@ -23,8 +25,13 @@ export enum GameMode {
   GAME = 'mode-game'
 }
 
+interface PlayerCoordinates {
+  [key: string]: { x: number; y: number };
+}
+
 export default class Game extends EventEmitter {
   // Callbacks
+  moveInterval: NodeJS.Timer;
   setIsConnected!: Function;
   socket: Socket;
   me: MyUserData;
@@ -38,12 +45,17 @@ export default class Game extends EventEmitter {
   maxPlayers: any;
   numberOfRounds: any;
   question?: { prompt: string; answer: string[] };
+  playerCoordinates: PlayerCoordinates = {};
 
   public constructor(socket: Socket) {
     super();
 
     this.socket = socket;
     this.addSocketListeners();
+    this.moveInterval = setInterval(() => {
+      this.sendMoveCursorUpdate();
+    }, 100);
+
     this.me = Connection.instance.me!;
     this.id = this.me.gameID!;
   }
@@ -54,16 +66,34 @@ export default class Game extends EventEmitter {
       GameEventType.INVALIDATE,
       this.invalidateGameData.bind(this)
     );
+
+    this.socket!.on(GameEventType.GAME_TICK, this.onGameTick.bind(this));
   }
 
   public dispose() {
     Terminal.log('🗑️ Disposing game ...');
+    clearInterval(this.moveInterval);
     this.removeSocketListeners();
   }
 
   private removeSocketListeners() {
     Terminal.log('Removing socket listeners');
     this.socket.off(GameEventType.INVALIDATE);
+    this.socket.off(GameEventType.GAME_TICK);
+  }
+
+  private onGameTick(data: PlayerCoordinates) {
+    // Update the locations of all player's cursors
+    this.playerCoordinates = data;
+    this.emit(GameEventType.GAME_TICK);
+  }
+
+  private sendMoveCursorUpdate() {
+    this.socket.emit(GameEventType.MOVE_CURSOR, {
+      userID: this.me.id,
+      x: mouseCoords.x,
+      y: mouseCoords.y
+    });
   }
 
   private invalidateGameData() {

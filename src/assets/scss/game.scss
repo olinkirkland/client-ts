@@ -24,9 +24,28 @@
   .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.4rem;
     padding-bottom: 2rem;
     margin-bottom: 2rem;
     border-bottom: 1px dashed $dark;
   }
+}
+
+.game-player-cursor {
+  border-radius: 15px;
+  position: absolute;
+  background-color: lightcoral;
+  padding: 2rem;
+  transition: all 0.5s linear;
+  border: 1px solid red;
+}
+
+.cursor-container {
+  border: 3px solid green;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
 }
