@@ -9,13 +9,18 @@ export default function GameScreen() {
   const [roundIndex, setRoundIndex] = useState(game.roundIndex);
   const [numberOfRounds, setNumberOfRounds] = useState(game.numberOfRounds);
   const [question, setQuestion] = useState(game.question);
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState(game.players);
+  const [playerCoordinates, setPlayerCoordinates] = useState(
+    game.playerCoordinates
+  );
 
   useEffect(() => {
     game.addListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
+    game.addListener(GameEventType.GAME_TICK, onGameTick);
 
     return () => {
       game.removeListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
+      game.removeListener(GameEventType.GAME_TICK, onGameTick);
     };
   }, []);
 
@@ -27,11 +32,15 @@ export default function GameScreen() {
     setPlayers(game.players);
   }
 
+  function onGameTick() {
+    setPlayerCoordinates(game.playerCoordinates);
+  }
+
   return (
     <div className="game">
       <div className="game-panel">
         <div className="header">
-          <div className='h-group'>
+          <div className="h-group">
             <p>{game.name}</p>
             {game.hostId === Connection.instance.me!.id && (
               <span className="badge system">Host</span>
@@ -61,6 +70,30 @@ export default function GameScreen() {
             Leave game
           </button>
         </div>
+      </div>
+      <div className="cursor-container">
+        {players.map(
+          (p: any, index: number) =>
+            playerCoordinates[p.user.id] && (
+              <div
+                key={index}
+                className="game-player-cursor"
+                style={{
+                  left: playerCoordinates[p.user.id].x,
+                  top:
+                    playerCoordinates[p.user.id].y -
+                    document
+                      .querySelector('.cursor-container')!
+                      .getBoundingClientRect().top
+                }}
+              >
+                {p.user.username}
+                {playerCoordinates[p.user.id] && (
+                  <pre>{JSON.stringify(playerCoordinates[p.user.id])}</pre>
+                )}
+              </div>
+            )
+        )}
       </div>
     </div>
   );

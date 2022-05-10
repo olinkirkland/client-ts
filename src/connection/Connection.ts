@@ -17,6 +17,18 @@ import { doAfterLogin as testAtStart } from './Test';
 //export const url: string = 'https://dontfall-backend.herokuapp.com/';
 export const url: string = 'http://localhost:8000/';
 
+export let mouseCoords = {
+  x: 0,
+  y: 0
+};
+
+document.addEventListener('mousemove', (e) => {
+  mouseCoords = {
+    x: e.clientX,
+    y: e.clientY
+  };
+});
+
 export enum ConnectionEventType {
   CONNECT = 'connect',
   DISCONNECT = 'disconnect',
