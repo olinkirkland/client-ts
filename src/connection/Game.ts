@@ -44,7 +44,7 @@ export default class Game extends EventEmitter {
   players: any;
   maxPlayers: any;
   numberOfRounds: any;
-  question?: { prompt: string; answer: string[] };
+  question?: { prompt: string; answers: string[] };
   playerCoordinates: PlayerCoordinates = {};
 
   public constructor(socket: Socket) {
