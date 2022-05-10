@@ -14,6 +14,7 @@ export default function GameScreen() {
   const [playerCoordinates, setPlayerCoordinates] = useState(
     game.playerCoordinates
   );
+  const [myAnswerIndex, setMyAnswerIndex] = useState(-1);
 
   useEffect(() => {
     game.addListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
@@ -32,7 +33,10 @@ export default function GameScreen() {
     setQuestion(game.question);
     setPlayers(game.players);
 
-    console.log(game.question);
+    const myPlayer = game.players.find((p:any) => p.user.id === game.me!.id);
+    setMyAnswerIndex(myPlayer.answer);
+
+    console.log(game.players);
   }
 
   function onGameTick() {
@@ -74,6 +78,7 @@ export default function GameScreen() {
                     onClick={() => {
                       onClickAnswer(index);
                     }}
+                    className={myAnswerIndex === index ? 'selected' : ''}
                   >
                     <span>{answer}</span>
                   </li>
