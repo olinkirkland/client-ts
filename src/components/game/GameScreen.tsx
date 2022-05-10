@@ -37,6 +37,10 @@ export default function GameScreen() {
     setPlayerCoordinates(game.playerCoordinates);
   }
 
+  function onClickAnswer(index: number) {
+    game.answer(index);
+  }
+
   return (
     <div className="game">
       <div className="game-panel">
@@ -51,15 +55,24 @@ export default function GameScreen() {
         </div>
 
         <div className="game-body">
-          <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
-          <p className="prompt">{question?.prompt}</p>
-          <ul className="answers">
-            {question?.answers.map((answer, index) => (
-              <li key={index}>
-                <span>{answer}</span>
-              </li>
-            ))}
-          </ul>
+          {mode === GameMode.GAME && (
+            <>
+              <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
+              <p className="prompt">{question?.prompt}</p>
+              <ul className="answers">
+                {question?.answers.map((answer, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      onClickAnswer(index);
+                    }}
+                  >
+                    <span>{answer}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
 
         <div className="game-footer h-group">
