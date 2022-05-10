@@ -49,10 +49,27 @@ export default function GameScreen() {
           </div>
           <p className="muted">{mode === GameMode.LOBBY ? 'Lobby' : 'Game'}</p>
         </div>
-        <pre>{players.map((p: any) => JSON.stringify(p)).join('\n')}</pre>
-        <p>{`Round: ${roundIndex}/${numberOfRounds}`}</p>
-        <pre>{JSON.stringify(question)}</pre>
-        <div className="h-group">
+
+        <div className="game-body">
+          <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
+          <p className="prompt">{question?.prompt}</p>
+          <ul className="answers">
+            {question?.answers.map((answer, index) => (
+              <li key={index}>
+                <span>{answer}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="game-footer h-group">
+          <button
+            onClick={() => {
+              Connection.instance.leaveGame();
+            }}
+          >
+            Leave game
+          </button>
           {game.hostId === Connection.instance.me?.id &&
             mode === GameMode.LOBBY && (
               <button
@@ -63,20 +80,14 @@ export default function GameScreen() {
                 Start Game
               </button>
             )}
-          <button
-            onClick={() => {
-              Connection.instance.leaveGame();
-            }}
-          >
-            Leave game
-          </button>
         </div>
       </div>
       <div className="cursor-container">
         {document.querySelector('.cursor-container') &&
           players.map(
             (p: any, index: number) =>
-              playerCoordinates[p.user.id] && (
+              playerCoordinates[p.user.id] &&
+              p.user.id !== game.me.id && (
                 <div
                   key={index}
                   className="game-player-cursor"
