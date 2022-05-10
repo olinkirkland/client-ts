@@ -14,8 +14,11 @@ import { systemUser } from '../models/User';
 import Game, { GameOptions } from './Game';
 import { doAfterLogin as testAtStart } from './Test';
 
-//export const url: string = 'https://dontfall-backend.herokuapp.com/';
-export const url: string = 'http://localhost:8000/';
+export const url: string =
+  // eslint-disable-next-line no-restricted-globals
+  location.hostname === 'localhost'
+    ? 'http://localhost:8000/'
+    : 'https://dontfall-backend.herokuapp.com/';
 
 export let mouseCoords = {
   x: 0,

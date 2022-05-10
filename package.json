@@ -1,6 +1,6 @@
 {
-  "homepage": "https://olinkirk.land",
-  "name": "olin-website",
+  "homepage": "https://olinkirk.land/dont-fall",
+  "name": "dontfall",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
