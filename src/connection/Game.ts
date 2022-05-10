@@ -76,6 +76,7 @@ export default class Game extends EventEmitter {
       .then((res) => {
         const data = res.data;
         Terminal.log(JSON.stringify(data, null, 2));
+        console.log(JSON.stringify(data));
 
         this.mode = data.gameMode;
         this.name = data.name;

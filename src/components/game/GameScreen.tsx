@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Connection from '../../connection/Connection';
-import Game, { GameEventType } from '../../connection/Game';
+import Game, { GameEventType, GameMode } from '../../connection/Game';
 
 export default function GameScreen() {
   const game: Game = Connection.instance.game!;
@@ -9,6 +9,7 @@ export default function GameScreen() {
   const [roundIndex, setRoundIndex] = useState(game.roundIndex);
   const [numberOfRounds, setNumberOfRounds] = useState(game.numberOfRounds);
   const [question, setQuestion] = useState(game.question);
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     game.addListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
@@ -23,31 +24,38 @@ export default function GameScreen() {
     setRoundIndex(game.roundIndex);
     setNumberOfRounds(game.numberOfRounds);
     setQuestion(game.question);
+    setPlayers(game.players);
   }
 
   return (
     <div className="game">
-      Game Screen
-      <p>{`Mode: ${mode}`}</p>
-      <p>{`Round: ${roundIndex}/${numberOfRounds}`}</p>
-      <pre>{JSON.stringify(question)}</pre>
-      <div className="h-group">
-        {game.hostId === Connection.instance.me?.id && (
+      <div className="game-panel">
+        <div className="header">
+          <p>{game.name}</p>
+          <p className="muted">{mode === GameMode.LOBBY ? 'Lobby' : 'Game'}</p>
+        </div>
+        <pre>{players.map((p: any) => JSON.stringify(p)).join('\n')}</pre>
+        <p>{`Round: ${roundIndex}/${numberOfRounds}`}</p>
+        <pre>{JSON.stringify(question)}</pre>
+        <div className="h-group">
+          {game.hostId === Connection.instance.me?.id &&
+            mode === GameMode.LOBBY && (
+              <button
+                onClick={() => {
+                  Connection.instance.startGame();
+                }}
+              >
+                Start Game
+              </button>
+            )}
           <button
             onClick={() => {
-              Connection.instance.startGame();
+              Connection.instance.leaveGame();
             }}
           >
-            Start Game
+            Leave game
           </button>
-        )}
-        <button
-          onClick={() => {
-            Connection.instance.leaveGame();
-          }}
-        >
-          Leave game
-        </button>
+        </div>
       </div>
     </div>
   );
