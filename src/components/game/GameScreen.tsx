@@ -3,6 +3,7 @@ import Connection from '../../connection/Connection';
 import Game, { GameEventType, GameMode } from '../../connection/Game';
 import { getItemById } from '../../models/Item';
 import AnswerTile from './AnswerTile';
+import Hint from './Hint';
 
 export default function GameScreen() {
   const game: Game = Connection.instance.game!;
@@ -66,12 +67,6 @@ export default function GameScreen() {
             <>
               <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
               <p className="prompt">{question?.prompt}</p>
-              {question?.hasOwnProperty('correctAnswer') && (
-                <>
-                  {/* <p>{JSON.stringify(question.answers)}</p>
-                  <p>{question.answers[question.correctAnswer!]}</p> */}
-                </>
-              )}
               <ul className="answers">
                 {question?.answers.map((answer, index) => (
                   <li key={index}>
@@ -105,6 +100,12 @@ export default function GameScreen() {
           >
             Leave game
           </button>
+          <Hint
+            mode={mode!} // Lobby or Game
+            answerProvided={question?.hasOwnProperty('correctAnswer') || false} // Backend provided an answer
+            selected={myAnswerIndex !== -1} // Has selected an answer
+            correct={myAnswerIndex === question?.correctAnswer} // Selected answer is correct
+          />
           {game.hostId === Connection.instance.me?.id &&
             mode === GameMode.LOBBY && (
               <button
