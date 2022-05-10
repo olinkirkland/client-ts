@@ -32,15 +32,6 @@
   }
 }
 
-.game-player-cursor {
-  border-radius: 15px;
-  position: absolute;
-  background-color: lightcoral;
-  padding: 2rem;
-  transition: all 0.5s linear;
-  border: 1px solid red;
-}
-
 .cursor-container {
   border: 3px solid green;
   width: 100%;
@@ -48,4 +39,30 @@
   position: absolute;
   overflow: hidden;
   pointer-events: none;
+}
+
+.game-player-cursor {
+  position: absolute;
+  padding: 0.2rem 0.4rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 99px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 0px;
+  border: 1px solid $dark;
+  // transform: translateY(-50%);
+
+  h2 {
+    padding: 1rem;
+    color: $text-muted;
+    font-weight: 500;
+    opacity: 1;
+  }
+}
+
+.game-avatar {
+  z-index: 1;
+  width: 3rem;
 }

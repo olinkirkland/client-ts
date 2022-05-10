@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Connection from '../../connection/Connection';
 import Game, { GameEventType, GameMode } from '../../connection/Game';
+import { getItemById } from '../../models/Item';
 
 export default function GameScreen() {
   const game: Game = Connection.instance.game!;
@@ -72,28 +73,37 @@ export default function GameScreen() {
         </div>
       </div>
       <div className="cursor-container">
-        {players.map(
-          (p: any, index: number) =>
-            playerCoordinates[p.user.id] && (
-              <div
-                key={index}
-                className="game-player-cursor"
-                style={{
-                  left: playerCoordinates[p.user.id].x,
-                  top:
-                    playerCoordinates[p.user.id].y -
-                    document
-                      .querySelector('.cursor-container')!
-                      .getBoundingClientRect().top
-                }}
-              >
-                {p.user.username}
-                {playerCoordinates[p.user.id] && (
-                  <pre>{JSON.stringify(playerCoordinates[p.user.id])}</pre>
-                )}
-              </div>
-            )
-        )}
+        {document.querySelector('.cursor-container') &&
+          players.map(
+            (p: any, index: number) =>
+              playerCoordinates[p.user.id] && (
+                <div
+                  key={index}
+                  className="game-player-cursor"
+                  style={{
+                    left: playerCoordinates[p.user.id].x,
+                    top:
+                      playerCoordinates[p.user.id].y -
+                      document
+                        .querySelector('.cursor-container')!
+                        .getBoundingClientRect().top
+                  }}
+                >
+                  <img
+                    className="game-avatar"
+                    src={
+                      'assets/' + getItemById(p.user.currentAvatar)?.value.url
+                    }
+                    alt=""
+                  />
+
+                  <h2>{p.user.username}</h2>
+                  {/* {playerCoordinates[p.user.id] && (
+                    <pre>{JSON.stringify(playerCoordinates[p.user.id])}</pre>
+                  )} */}
+                </div>
+              )
+          )}
       </div>
     </div>
   );
