@@ -11,6 +11,6 @@ export default interface Item {
 }
 
 const itemDefinitions: Item[] = [...avatarDefinitions, ...wallpaperDefinitions];
-export function getItemById(id: string) {
+export function getItemById(id: string): Item | undefined {
   return itemDefinitions.find((item) => item.id === id);
 }
