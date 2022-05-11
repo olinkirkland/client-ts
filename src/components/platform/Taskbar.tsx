@@ -77,7 +77,7 @@ export default function Taskbar() {
       </button>
 
       <button
-        className="bar-tile friends"
+        className="bar-tile friends hidden"
         onClick={(event) => {
           console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.FRIENDS);
