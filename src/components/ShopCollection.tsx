@@ -41,9 +41,9 @@ export function ShopCollection({ name, description = '', items }: Props) {
         {items.map((item, index) => (
           <li className="shop-card" key={index}>
             <div className="shop-card-body">
-              <p>{item.name}</p>
-              <p>{item.description}</p>
+              <p className="item-name">{item.name}</p>
               <img src={`assets/${item.value.url}`} alt="[Not found]" />
+              <p className="item-description">{item.description}</p>
             </div>
             <div className="shop-card-footer">
               {inventory!.indexOf(item.id) === -1 && (
