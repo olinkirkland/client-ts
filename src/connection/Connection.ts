@@ -554,6 +554,19 @@ export default class Connection extends EventEmitter {
     });
   }
 
+  public buyItem(id: string) {
+    axios
+      .post(
+        url + 'shop/buy',
+        { userID: this.me?.id, itemID: id },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        Terminal.log('✔️', 'Item bought');
+      })
+      .catch((err) => Terminal.log('⚠️', err));
+  }
+
   public hostGame(gameOptions: GameOptions) {
     axios
       .post(

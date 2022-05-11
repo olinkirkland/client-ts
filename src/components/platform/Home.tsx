@@ -8,6 +8,7 @@ import { PopupHostGame } from '../popups/PopupHostGame';
 import { PopupInput } from '../popups/PopupInput';
 import { PopupJoinGame } from '../popups/PopupJoinGame';
 import { PopupPrompt } from '../popups/PopupPrompt';
+import { PopupShop } from '../popups/PopupShop';
 import HomePanel from './HomePanel';
 
 export default function Home() {
@@ -46,23 +47,10 @@ export default function Home() {
         <div className="home-grid">
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupBook, {
-                title: 'How to Play',
-                sections: [
-                  { type: SectionType.TITLE, data: 'Foo bar' },
-                  {
-                    type: SectionType.BODY,
-                    data: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia omnis eum distinctio culpa rem asperiores a optio perferendis numquam obcaecati?'
-                  },
-                  {
-                    type: SectionType.IMAGE,
-                    data: 'https://i.imgur.com/CxeYuCs.png'
-                  }
-                ]
-              });
+              PopupMediator.open(PopupShop);
             }}
-            titleText="Game Rules"
-            buttonText="Learn to play"
+            titleText="Avatars &amp; Wallpapers"
+            buttonText="Shop"
             image="assets/images/abstract-2.png"
           />
           <HomePanel
@@ -80,7 +68,7 @@ export default function Home() {
                 }
               });
             }}
-            titleText="Play Now - Join a Random Match"
+            titleText="Play Now &amp; Join a Random Match"
             buttonText="Play Now"
             image="assets/images/abstract-1.png"
             big={true}

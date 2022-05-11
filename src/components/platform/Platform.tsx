@@ -39,6 +39,10 @@ export default function Platform() {
     addPopoverMediatorListeners();
   }, []);
 
+  useEffect(() => {
+    PopoverMediator.isChatOpen = isChatOpen;
+  }, [isChatOpen]);
+
   function addPopoverMediatorListeners() {
     PopoverMediator.instance.on(
       PopoverMediatorEventType.OPEN,

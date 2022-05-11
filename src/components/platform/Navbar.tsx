@@ -1,4 +1,6 @@
+import PopupMediator from '../../controllers/PopupMediator';
 import Terminal from '../../controllers/Terminal';
+import { PopupShop } from '../popups/PopupShop';
 import NavUserCard from './NavUserCard';
 export default function Navbar() {
   return (
@@ -15,7 +17,7 @@ export default function Navbar() {
           <button
             className="bar-tile"
             onClick={() => {
-              // PopupMediator.open(PopupShop);
+              PopupMediator.open(PopupShop);
             }}
           >
             <i className="fas fa-shopping-cart" />

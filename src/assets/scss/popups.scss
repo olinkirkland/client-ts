@@ -32,6 +32,21 @@
       width: 80rem;
     }
 
+    &.popup-shop {
+      width: 120rem;
+      max-width: 120rem;
+
+      .gold-box {
+        img {
+          height: 2rem;
+        }
+
+        .gold-text {
+          color: $text-muted;
+        }
+      }
+    }
+
     .popup-header {
       display: flex;
       justify-content: space-between;
