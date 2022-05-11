@@ -453,6 +453,9 @@ export default class Connection extends EventEmitter {
       this.setIsConnected(false);
       this.removeSocketListeners();
       this.socket = undefined;
+
+      // Reload the page
+      window.location.reload();
     });
   }
 

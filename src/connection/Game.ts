@@ -55,7 +55,7 @@ export default class Game extends EventEmitter {
     this.addSocketListeners();
     this.moveInterval = setInterval(() => {
       this.sendMoveCursorUpdate();
-    }, 100);
+    }, 20);
 
     this.me = Connection.instance.me!;
     this.id = this.me.gameID!;
