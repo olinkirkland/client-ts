@@ -81,7 +81,7 @@ export default class Connection extends EventEmitter {
     Terminal.log('❌', title);
     PopupMediator.open(PopupError, {
       title: title,
-      message: message,
+      message: message
     });
   }
 
@@ -158,7 +158,7 @@ export default class Connection extends EventEmitter {
             'login',
             JSON.stringify({
               email: email,
-              password: password,
+              password: password
             })
           );
 
@@ -222,7 +222,7 @@ export default class Connection extends EventEmitter {
           'login',
           JSON.stringify({
             email: email,
-            password: password,
+            password: password
           })
         );
 
@@ -394,8 +394,8 @@ export default class Connection extends EventEmitter {
     this.socket = io(url, {
       query: {
         userID: this.me!.id,
-        online: true,
-      },
+        online: true
+      }
     });
 
     if (DEV_MODE) setTimeout(doAfterLogin, 500);
@@ -601,6 +601,31 @@ export default class Connection extends EventEmitter {
       });
   }
 
+  public joinRandomGame() {
+    // Join a random game from the game list
+    // Get the game list
+    console.log('play now');
+    axios.get(url + 'game/list').then((res) => {
+      const list = res.data;
+      console.log(list);
+      if (list.length === 0) {
+        // Host a game
+        console.log('hosting');
+        const gameOptions: GameOptions = {
+          name: `${this.me?.username}'s Game`,
+          description: `I can't wait to play!`,
+          password: ''
+        };
+        this.hostGame(gameOptions);
+      } else {
+        // Join a random game
+        const gameId = list[Math.floor(Math.random() * list.length)].gameID;
+        console.log('joining', gameId);
+        this.joinGame(gameId);
+      }
+    });
+  }
+
   public leaveGame() {
     axios
       .post(
@@ -649,7 +674,7 @@ export default class Connection extends EventEmitter {
 
 export enum OnlineStatus {
   ONLINE = 'online',
-  OFFLINE = 'offline',
+  OFFLINE = 'offline'
 }
 
 export class UserData {

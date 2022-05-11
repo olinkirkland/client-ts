@@ -55,18 +55,7 @@ export default function Home() {
           />
           <HomePanel
             onClick={() => {
-              PopupMediator.open(PopupPrompt, {
-                title: 'Are you sure?',
-                message: 'Lorem ipsum dolor sit amet.',
-                confirm: 'Yes',
-                cancel: 'No',
-                onConfirm: () => {
-                  console.log('confirm');
-                },
-                onCancel: () => {
-                  console.log('cancel');
-                }
-              });
+              Connection.instance.joinRandomGame();
             }}
             titleText="Play Now &amp; Join a Random Match"
             buttonText="Play Now"
