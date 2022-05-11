@@ -61,8 +61,8 @@ export default function Home() {
                 ]
               });
             }}
-            titleText="Game Rules"
-            buttonText="Learn to play"
+            titleText="Avatars &amp; Wallpapers"
+            buttonText="Shop"
             image="assets/images/abstract-2.png"
           />
           <HomePanel
@@ -80,7 +80,7 @@ export default function Home() {
                 }
               });
             }}
-            titleText="Play Now - Join a Random Match"
+            titleText="Play Now &amp; Join a Random Match"
             buttonText="Play Now"
             image="assets/images/abstract-1.png"
             big={true}
