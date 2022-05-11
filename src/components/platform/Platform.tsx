@@ -5,6 +5,7 @@ import PopoverMediator, {
   PopoverType
 } from '../../controllers/PopoverMediator';
 import Terminal from '../../controllers/Terminal';
+import { getItemById } from '../../models/Item';
 import GameScreen from '../game/GameScreen';
 import PopoverChat from '../popovers/PopoverChat';
 import PopoverFriends from '../popovers/PopoverFriends';
@@ -29,11 +30,17 @@ export default function Platform() {
     SCREEN_TYPE.HOME
   );
 
+  const [wallpaper, setWallpaper] = useState(
+    Connection.instance.me?.currentWallpaper
+  );
+
   useEffect(() => {
     Connection.instance.on(ConnectionEventType.USER_DATA_CHANGED, () => {
       setCurrentScreen(
         Connection.instance.me?.gameID ? SCREEN_TYPE.GAME : SCREEN_TYPE.HOME
       );
+
+      setWallpaper(Connection.instance.me?.currentWallpaper);
     });
 
     addPopoverMediatorListeners();
@@ -92,7 +99,14 @@ export default function Platform() {
   return (
     <>
       <Navbar />
-      <div className="home-popover-container">
+      <div
+        className="home-popover-container"
+        style={{
+          background: `url(${process.env.PUBLIC_URL}/assets/${
+            getItemById(wallpaper!)?.value.url
+          }) repeat center center`
+        }}
+      >
         {currentScreen === SCREEN_TYPE.HOME && <Home />}
         {currentScreen === SCREEN_TYPE.GAME && <GameScreen />}
         <div className="popover-container">

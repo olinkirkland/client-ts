@@ -23,7 +23,9 @@ export class PopupLevelUp extends React.Component<PopupLevelUpProps> {
           <div className="popup-content">
             <p>Welcome to level {level}!</p>
             <p>
-              You have received {gold} <img className="icon" src="/assets/icons/coin.png" alt=""/> as a reward.
+              You have received <span className='gold-text'>{gold}</span>
+              <img className="icon" src="/assets/icons/coin.png" alt="" /> as a
+              reward.
             </p>
           </div>
         </div>

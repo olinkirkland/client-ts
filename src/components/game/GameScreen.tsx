@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Connection from '../../connection/Connection';
+import Connection, { ConnectionEventType } from '../../connection/Connection';
 import Game, { GameEventType, GameMode } from '../../connection/Game';
 import { getItemById } from '../../models/Item';
 import ProgressBar from '../platform/ProgressBar';
@@ -25,7 +25,9 @@ export default function GameScreen() {
   useEffect(() => {
     game.addListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
     game.addListener(GameEventType.GAME_TICK, onGameTick);
+    console.log('mount');
     return () => {
+      console.log('dispose');
       game.removeListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
       game.removeListener(GameEventType.GAME_TICK, onGameTick);
     };
@@ -41,8 +43,6 @@ export default function GameScreen() {
 
     const myPlayer = game.players.find((p: any) => p.user.id === game.me!.id);
     setMyAnswerIndex(myPlayer.answer);
-
-    console.log(game.players);
   }
 
   useEffect(() => {
