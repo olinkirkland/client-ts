@@ -37,7 +37,7 @@ export default function GameScreen() {
     setNumberOfRounds(game.numberOfRounds);
     setQuestion(game.question);
     setPlayers(game.players);
-    setCountdownSeconds(game.seconds * 1000);
+    setCountdownSeconds(game.seconds > 0 ? (game.seconds - 1) * 1000 : -1);
 
     const myPlayer = game.players.find((p: any) => p.user.id === game.me!.id);
     setMyAnswerIndex(myPlayer.answer);
@@ -46,7 +46,6 @@ export default function GameScreen() {
   }
 
   useEffect(() => {
-    setTimeLeft(countdownSeconds);
     setTimeLeft(countdownSeconds);
   }, [countdownSeconds]);
 
@@ -84,7 +83,13 @@ export default function GameScreen() {
             <>
               <div className="v-group">
                 <p className="muted">{`${roundIndex}/${numberOfRounds}`}</p>
-                <ProgressBar percent={1 - timeLeft / countdownSeconds} />
+                <ProgressBar
+                  percent={
+                    countdownSeconds === -1
+                      ? 1
+                      : 1 - timeLeft / countdownSeconds
+                  }
+                />
               </div>
               <p className="prompt">{question?.prompt}</p>
               <ul className="answers">
