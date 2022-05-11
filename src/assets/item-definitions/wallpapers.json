@@ -43,10 +43,20 @@
     "id": "nhXUB0VIsA7ST25S-wG6e",
     "type": "wallpaper",
     "name": "Cosmic",
-    "description": "In deep space, there is no one who can't see the stars.",
+    "description": "Swirling stars and planets.",
     "tags": [],
     "value": {
       "url": "wallpapers/cosmic.png"
+    }
+  },
+  {
+    "id": "absdidf9xc-sdf98xiddk",
+    "type": "wallpaper",
+    "name": "Sky",
+    "description": "A relaxing solid blue wallpaper.",
+    "tags": [],
+    "value": {
+      "url": "wallpapers/sky.png"
     }
   }
 ]
