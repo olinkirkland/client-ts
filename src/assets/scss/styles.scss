@@ -233,6 +233,14 @@ button.bar-tile {
   gap: 1rem;
   border-right: 1px dashed $text-muted;
 
+  span.chat-unread {
+    background-color: $primary;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    min-width: 2.4rem;
+    border-radius: 5px;
+  }
+
   &.friends {
     margin-left: auto;
     border-right: none;

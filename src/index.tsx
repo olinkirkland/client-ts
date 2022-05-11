@@ -7,6 +7,7 @@ import './assets/css/popups.css';
 import './assets/css/queries.css';
 import './assets/css/styles.css';
 import './assets/css/game.css';
+import './assets/css/shop.css';
 
 export const rootElement = document.getElementById('root');
 

@@ -21,6 +21,7 @@ export enum PopoverPosition {
 
 export default class PopoverMediator extends EventEmitter {
   private static _instance: PopoverMediator;
+  public static isChatOpen: boolean = false;
 
   private constructor() {
     // Private constructor to enforce singleton
@@ -40,10 +41,12 @@ export default class PopoverMediator extends EventEmitter {
     anchor: ReactElement,
     position: PopoverPosition
   ) {
+    console.log('type', PopoverMediator.isChatOpen);
     PopoverMediator.instance.emit(PopoverMediatorEventType.OPEN, type);
   }
 
   public static close(type: PopoverType) {
+    console.log('type', PopoverMediator.isChatOpen);
     PopoverMediator.instance.emit(PopoverMediatorEventType.CLOSE, type);
   }
 }
