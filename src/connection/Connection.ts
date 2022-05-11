@@ -15,10 +15,10 @@ import Game, { GameOptions } from './Game';
 import { doAfterLogin } from './Test';
 
 // eslint-disable-next-line no-restricted-globals
-const DEV_MODE: boolean = location.hostname === 'localhost';
+const DEV_MODE: boolean = /* location.hostname === 'localhost' */ false;
 export const url: string = DEV_MODE
   ? 'http://localhost:8000/'
-  : 'https://dontfall-backend.herokuapp.com/';
+  : 'https://dontfall-bugfixing.herokuapp.com/';
 
 console.log('Development mode?', DEV_MODE);
 console.log('Base-url:', url);
