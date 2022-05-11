@@ -58,10 +58,6 @@ export class PopupShop extends React.Component<PopupShopProps> {
     });
   }
 
-  private buyItem() {
-    // TODO: buy item via route
-  }
-
   public componentDidMount() {
     // Get shop data
 
