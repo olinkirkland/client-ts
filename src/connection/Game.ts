@@ -46,6 +46,7 @@ export default class Game extends EventEmitter {
   numberOfRounds: any;
   question?: { prompt: string; answers: string[]; correctAnswer?: number };
   playerCoordinates: PlayerCoordinates = {};
+  seconds: number = -1;
 
   public constructor(socket: Socket) {
     super();
@@ -131,6 +132,7 @@ export default class Game extends EventEmitter {
         this.roundIndex = data.roundIndex;
         this.numberOfRounds = data.numberOfRounds;
         this.question = data.question;
+        this.seconds = data.seconds;
 
         Terminal.log('✔️', 'Validated game data');
 

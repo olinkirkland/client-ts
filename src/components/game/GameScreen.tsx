@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Connection from '../../connection/Connection';
 import Game, { GameEventType, GameMode } from '../../connection/Game';
 import { getItemById } from '../../models/Item';
+import ProgressBar from '../platform/ProgressBar';
+import AnswerTile from './AnswerTile';
+import GameLobby from './GameLobby';
+import Hint from './Hint';
 
 export default function GameScreen() {
   const game: Game = Connection.instance.game!;
@@ -15,11 +19,12 @@ export default function GameScreen() {
     game.playerCoordinates
   );
   const [myAnswerIndex, setMyAnswerIndex] = useState(-1);
+  const [countdownSeconds, setCountdownSeconds] = useState(game.seconds);
+  const [timeLeft, setTimeLeft] = useState(game.seconds);
 
   useEffect(() => {
     game.addListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
     game.addListener(GameEventType.GAME_TICK, onGameTick);
-
     return () => {
       game.removeListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
       game.removeListener(GameEventType.GAME_TICK, onGameTick);
@@ -32,12 +37,25 @@ export default function GameScreen() {
     setNumberOfRounds(game.numberOfRounds);
     setQuestion(game.question);
     setPlayers(game.players);
+    setCountdownSeconds(game.seconds > 0 ? (game.seconds - 1) * 1000 : -1);
 
-    const myPlayer = game.players.find((p:any) => p.user.id === game.me!.id);
+    const myPlayer = game.players.find((p: any) => p.user.id === game.me!.id);
     setMyAnswerIndex(myPlayer.answer);
 
     console.log(game.players);
   }
+
+  useEffect(() => {
+    setTimeLeft(countdownSeconds);
+  }, [countdownSeconds]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (!Connection.instance.game) return;
+      if (timeLeft > 0) setTimeLeft(timeLeft - 100);
+    }, 100);
+    return () => clearTimeout(t);
+  }, [timeLeft]);
 
   function onGameTick() {
     setPlayerCoordinates(game.playerCoordinates);
@@ -61,26 +79,38 @@ export default function GameScreen() {
         </div>
 
         <div className="game-body">
+          {mode === GameMode.LOBBY && <GameLobby game={game} />}
           {mode === GameMode.GAME && (
             <>
-              <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
+              <div className="v-group">
+                <p className="muted">{`${roundIndex}/${numberOfRounds}`}</p>
+                <ProgressBar
+                  percent={
+                    countdownSeconds === -1
+                      ? 1
+                      : 1 - timeLeft / countdownSeconds
+                  }
+                />
+              </div>
               <p className="prompt">{question?.prompt}</p>
-              {question?.hasOwnProperty('correctAnswer') && (
-                <>
-                  <p>{JSON.stringify(question.answers)}</p>
-                  <p>{question.answers[question.correctAnswer!]}</p>
-                </>
-              )}
               <ul className="answers">
                 {question?.answers.map((answer, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      onClickAnswer(index);
-                    }}
-                    className={myAnswerIndex === index ? 'selected' : ''}
-                  >
-                    <span>{answer}</span>
+                  <li key={index}>
+                    <AnswerTile
+                      text={answer}
+                      selected={myAnswerIndex === index}
+                      correct={
+                        question?.hasOwnProperty('correctAnswer') &&
+                        index === question.correctAnswer
+                      }
+                      incorrect={
+                        question?.hasOwnProperty('correctAnswer') &&
+                        index !== question.correctAnswer &&
+                        myAnswerIndex === index
+                      }
+                      disabled={question?.hasOwnProperty('correctAnswer')}
+                      onClick={() => onClickAnswer(index)}
+                    />
                   </li>
                 ))}
               </ul>
@@ -96,6 +126,24 @@ export default function GameScreen() {
           >
             Leave game
           </button>
+          <div className="h-group center">
+            <Hint
+              mode={mode!} // Lobby or Game
+              answerProvided={
+                question?.hasOwnProperty('correctAnswer') || false
+              } // Backend provided an answer
+              selected={myAnswerIndex !== -1} // Has selected an answer
+              correct={myAnswerIndex === question?.correctAnswer} // Selected answer is correct
+              isHost={game.hostId === Connection.instance.me?.id} // Is host
+            />
+            {mode === GameMode.GAME && (
+              <p className="score">
+                {`${
+                  players.find((p: any) => p.user.id === game.me!.id)?.points
+                } points`}
+              </p>
+            )}
+          </div>
           {game.hostId === Connection.instance.me?.id &&
             mode === GameMode.LOBBY && (
               <button

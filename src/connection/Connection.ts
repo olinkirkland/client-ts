@@ -12,10 +12,16 @@ import Chat from '../models/Chat';
 import Item, { getItemById } from '../models/Item';
 import { systemUser } from '../models/User';
 import Game, { GameOptions } from './Game';
-import { doAfterLogin as testAtStart } from './Test';
+import { doAfterLogin } from './Test';
 
-//export const url: string = 'https://dontfall-backend.herokuapp.com/';
-export const url: string = 'http://localhost:8000/';
+// eslint-disable-next-line no-restricted-globals
+const DEV_MODE: boolean = location.hostname === 'localhost';
+export const url: string = DEV_MODE
+  ? 'http://localhost:8000/'
+  : 'https://dontfall-backend.herokuapp.com/';
+
+console.log('Development mode?', DEV_MODE);
+console.log('Base-url:', url);
 
 export let mouseCoords = {
   x: 0,
@@ -392,7 +398,7 @@ export default class Connection extends EventEmitter {
       },
     });
 
-    setTimeout(testAtStart, 500);
+    if (DEV_MODE) setTimeout(doAfterLogin, 500);
 
     this.addSocketListeners();
   }
