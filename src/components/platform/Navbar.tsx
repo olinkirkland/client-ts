@@ -1,3 +1,4 @@
+import { DEV_MODE } from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
 import Terminal from '../../controllers/Terminal';
 import { PopupShop } from '../popups/PopupShop';
@@ -24,17 +25,20 @@ export default function Navbar() {
             <span>Shop</span>
           </button>
         </li>
-        <li>
-          <button
-            className="bar-tile"
-            onClick={() => {
-              Terminal.show();
-            }}
-          >
-            <i className="fas fa-keyboard" />
-            <span>Terminal</span>
-          </button>
-        </li>
+
+        {DEV_MODE && (
+          <li>
+            <button
+              className="bar-tile"
+              onClick={() => {
+                Terminal.show();
+              }}
+            >
+              <i className="fas fa-keyboard" />
+              <span>Terminal</span>
+            </button>
+          </li>
+        )}
       </ul>
 
       <NavUserCard />
