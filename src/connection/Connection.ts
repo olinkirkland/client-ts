@@ -3,6 +3,7 @@ import EventEmitter from 'events';
 import { io, Socket } from 'socket.io-client';
 import { PopupBook } from '../components/popups/PopupBook';
 import { PopupError } from '../components/popups/PopupError';
+import { PopupLevelUp } from '../components/popups/PopupLevel';
 import { PopupLoading } from '../components/popups/PopupLoading';
 import { cookie } from '../components/popups/PopupPresets';
 import { PopupSuccess } from '../components/popups/PopupSuccess';
@@ -431,6 +432,11 @@ export default class Connection extends EventEmitter {
         if (!localStorage.getItem('cookie-popup-viewed'))
           PopupMediator.open(PopupBook, cookie);
       }, 500);
+    });
+
+    this.socket?.on('level-up', (data: { level: number; gold: number }) => {
+      Terminal.log('✔️', 'Level up');
+      PopupMediator.open(PopupLevelUp, data);
     });
 
     this.socket?.on('online-users', (count) => {

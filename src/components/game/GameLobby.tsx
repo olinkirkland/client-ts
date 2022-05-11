@@ -11,6 +11,11 @@ export default function GameLobby({ game }: Props) {
   return (
     <div className="game-lobby v-group">
       <h2>Scoreboard</h2>
+      {/* <pre>
+        {game.players.map(
+          (p: any) => p.user.username + ': ' + JSON.stringify(p.rewards) + '\n'
+        )}
+      </pre> */}
       <ul>
         {game.players.map((p: any, index: number) => (
           // User badge
@@ -37,7 +42,20 @@ export default function GameLobby({ game }: Props) {
               </div>
 
               {/* <p>{`${index}/${game.players.length - 1}`}</p> */}
-              <p className="score">{p.points}</p>
+              <div className="score-group h-group">
+                <p className="score">{p.points}</p>
+                {p.rewards && (
+                  <div className="v-group">
+                    <div className="reward-group">
+                      <p className="score-gold">{`+${p.rewards.gold}`}</p>
+                      <img src="assets/icons/coin.png" alt="" />
+                    </div>
+                    <div className="reward-group">
+                      <p className="score-experience">{`+${p.rewards.experience} XP`}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </li>
         ))}

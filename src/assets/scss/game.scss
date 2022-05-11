@@ -221,11 +221,36 @@
           padding: 0.2rem;
         }
 
-        .score {
-          font-size: 4rem;
+        .score-group {
+          gap: 2rem;
           color: $text-muted;
-          font-weight: bold;
-          letter-spacing: 1px;
+          align-items: center;
+
+          .v-group {
+            padding: 1rem;
+            border-radius: 5px;
+            width: 9rem;
+            display: flex;
+            align-items: flex-end;
+            border: 1px solid $dark;
+          }
+          .reward-group {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            letter-spacing: 1px;
+
+            img {
+              width: 2.4rem;
+              border-radius: 50%;
+            }
+          }
+
+          .score {
+            font-weight: bold;
+            font-size: 4rem;
+            letter-spacing: 1px;
+          }
         }
 
         .user-with-badge {

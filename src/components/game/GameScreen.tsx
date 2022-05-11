@@ -83,7 +83,7 @@ export default function GameScreen() {
           {mode === GameMode.GAME && (
             <>
               <div className="v-group">
-                <p className="muted">{`${roundIndex}/${numberOfRounds}`}</p>
+                <p className="muted">{`Round ${roundIndex}/${numberOfRounds}`}</p>
                 <ProgressBar
                   percent={
                     countdownSeconds === -1
