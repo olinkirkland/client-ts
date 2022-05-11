@@ -18,7 +18,7 @@ import { doAfterLogin } from './Test';
 export const DEV_MODE: boolean = location.hostname === 'localhost';
 export const url: string = DEV_MODE
   ? 'http://localhost:8000/'
-  : 'https://dontfall-bugfixing.herokuapp.com/';
+  : 'https://dontfall-backend.herokuapp.com/';
 
 console.log('Development mode?', DEV_MODE);
 console.log('Base-url:', url);
