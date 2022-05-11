@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Connection from '../../connection/Connection';
 import Game, { GameEventType, GameMode } from '../../connection/Game';
 import { getItemById } from '../../models/Item';
+import ProgressBar from '../platform/ProgressBar';
 import AnswerTile from './AnswerTile';
 import GameLobby from './GameLobby';
 import Hint from './Hint';
@@ -18,11 +19,12 @@ export default function GameScreen() {
     game.playerCoordinates
   );
   const [myAnswerIndex, setMyAnswerIndex] = useState(-1);
+  const [countdownSeconds, setCountdownSeconds] = useState(game.seconds);
+  const [timeLeft, setTimeLeft] = useState(game.seconds);
 
   useEffect(() => {
     game.addListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
     game.addListener(GameEventType.GAME_TICK, onGameTick);
-
     return () => {
       game.removeListener(GameEventType.GAME_DATA_CHANGED, onGameDataChanged);
       game.removeListener(GameEventType.GAME_TICK, onGameTick);
@@ -35,12 +37,25 @@ export default function GameScreen() {
     setNumberOfRounds(game.numberOfRounds);
     setQuestion(game.question);
     setPlayers(game.players);
+    setCountdownSeconds(game.seconds * 1000);
 
     const myPlayer = game.players.find((p: any) => p.user.id === game.me!.id);
     setMyAnswerIndex(myPlayer.answer);
 
     console.log(game.players);
   }
+
+  useEffect(() => {
+    setTimeLeft(countdownSeconds);
+    setTimeLeft(countdownSeconds);
+  }, [countdownSeconds]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (timeLeft > 0) setTimeLeft(timeLeft - 100);
+    }, 100);
+    return () => clearTimeout(t);
+  }, [timeLeft]);
 
   function onGameTick() {
     setPlayerCoordinates(game.playerCoordinates);
@@ -67,7 +82,10 @@ export default function GameScreen() {
           {mode === GameMode.LOBBY && <GameLobby game={game} />}
           {mode === GameMode.GAME && (
             <>
-              <p className="muted">{`Round: ${roundIndex}/${numberOfRounds}`}</p>
+              <div className="v-group">
+                <p className="muted">{`${roundIndex}/${numberOfRounds}`}</p>
+                <ProgressBar percent={1 - timeLeft / countdownSeconds} />
+              </div>
               <p className="prompt">{question?.prompt}</p>
               <ul className="answers">
                 {question?.answers.map((answer, index) => (
@@ -113,7 +131,7 @@ export default function GameScreen() {
               isHost={game.hostId === Connection.instance.me?.id} // Is host
             />
             {mode === GameMode.GAME && (
-              <p className='score'>
+              <p className="score">
                 {`${
                   players.find((p: any) => p.user.id === game.me!.id)?.points
                 } points`}
