@@ -1,4 +1,4 @@
-import { DEV_MODE } from '../../connection/Connection';
+import Connection, { DEV_MODE } from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
 import Terminal from '../../controllers/Terminal';
 import { PopupShop } from '../popups/PopupShop';
@@ -8,7 +8,12 @@ export default function Navbar() {
     <nav>
       <ul>
         <li>
-          <button className="bar-tile logo-tile">
+          <button
+            onClick={() => {
+              Connection.instance.joinRandomGame();
+            }}
+            className="bar-tile logo-tile"
+          >
             <h1 className="logo">Don't Fall</h1>
             <i className="fas fa-gamepad" />
             <span>Play</span>
