@@ -617,6 +617,10 @@ span.badge {
     color: white;
     background-color: $text;
   }
+  &.category {
+    color: $primary;
+    background-color: $primary-muted;
+  }
 }
 
 // Item Collection

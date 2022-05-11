@@ -1,6 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
-import Connection, { ConnectionEventType } from '../../connection/Connection';
-import Game, { GameEventType, GameMode } from '../../connection/Game';
+import { useEffect, useState } from 'react';
+import Connection from '../../connection/Connection';
+import Game, {
+  GameCategory,
+  gameCategoryNames,
+  GameEventType,
+  GameMode
+} from '../../connection/Game';
 import { getItemById } from '../../models/Item';
 import ProgressBar from '../platform/ProgressBar';
 import AnswerTile from './AnswerTile';
@@ -15,6 +20,7 @@ export default function GameScreen() {
   const [numberOfRounds, setNumberOfRounds] = useState(game.numberOfRounds);
   const [question, setQuestion] = useState(game.question);
   const [players, setPlayers] = useState(game.players);
+  const [categories, setCategories] = useState(game.categories);
   const [playerCoordinates, setPlayerCoordinates] = useState(
     game.playerCoordinates
   );
@@ -40,6 +46,7 @@ export default function GameScreen() {
     setQuestion(game.question);
     setPlayers(game.players);
     setCountdownSeconds(game.seconds > 0 ? (game.seconds - 1) * 1000 : -1);
+    setCategories(game.categories);
 
     const myPlayer = game.players.find((p: any) => p.user.id === game.me!.id);
     setMyAnswerIndex(myPlayer.answer);
@@ -69,11 +76,21 @@ export default function GameScreen() {
     <div className="game">
       <div className="game-panel">
         <div className="header">
-          <div className="h-group">
+          <div className="h-group center">
             <p>{game.name}</p>
             {game.hostId === Connection.instance.me!.id && (
               <span className="badge system">Host</span>
             )}
+            <div className="wrap">
+              {categories.map((category: string, index) => (
+                <span key={index} className="badge category">
+                  {
+                    gameCategoryNames.find((c) => c.id === parseInt(category))
+                      ?.name
+                  }
+                </span>
+              ))}
+            </div>
           </div>
           <p className="muted">{mode === GameMode.LOBBY ? 'Lobby' : 'Game'}</p>
         </div>

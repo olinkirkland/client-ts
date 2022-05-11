@@ -129,6 +129,12 @@ button.link {
   background: $primary-muted;
 }
 
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
 pre {
   user-select: text;
   color: $text;

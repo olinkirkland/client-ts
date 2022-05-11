@@ -32,30 +32,30 @@ export enum GameCategory {
 }
 
 export const gameCategoryNames = [
-  { id: [GameCategory.GENERAL_KNOWLEDGE], name: 'General Knowledge' },
-  { id: [GameCategory.BOOKS], name: 'Books' },
-  { id: [GameCategory.FILM], name: 'Film' },
-  { id: [GameCategory.MUSIC], name: 'Music' },
-  { id: [GameCategory.MUSICALS_AND_THEATRES], name: 'Musicals & Theatres' },
-  { id: [GameCategory.TV], name: 'TV' },
-  { id: [GameCategory.VIDEO_GAMES], name: 'Video Games' },
-  { id: [GameCategory.BOARD_GAMES], name: 'Board Games' },
-  { id: [GameCategory.SCIENCE_AND_NATURE], name: 'Science & Nature' },
-  { id: [GameCategory.COMPUTERS], name: 'Computers' },
-  { id: [GameCategory.MATHEMATICS], name: 'Mathematics' },
-  { id: [GameCategory.MYTHOLOGY], name: 'Mythology' },
-  { id: [GameCategory.SPORTS], name: 'Sports' },
-  { id: [GameCategory.GEOGRAPHY], name: 'Geography' },
-  { id: [GameCategory.HISTORY], name: 'History' },
-  { id: [GameCategory.POLITICS], name: 'Politics' },
-  { id: [GameCategory.ART], name: 'Art' },
-  { id: [GameCategory.CELEBRITIES], name: 'Celebrities' },
-  { id: [GameCategory.GADGETS], name: 'Gadgets' },
-  { id: [GameCategory.ANIMALS], name: 'Animals' },
-  { id: [GameCategory.VEHICLES], name: 'Vehicles' },
-  { id: [GameCategory.COMICS], name: 'Comics' },
-  { id: [GameCategory.ANIME_AND_MANGA], name: 'Anime & Manga' },
-  { id: [GameCategory.CARTOON_AND_ANIMATIONS], name: 'Cartoon & Animations' }
+  { id: GameCategory.GENERAL_KNOWLEDGE, name: 'General Knowledge' },
+  { id: GameCategory.BOOKS, name: 'Books' },
+  { id: GameCategory.FILM, name: 'Film' },
+  { id: GameCategory.MUSIC, name: 'Music' },
+  { id: GameCategory.MUSICALS_AND_THEATRES, name: 'Musicals & Theatres' },
+  { id: GameCategory.TV, name: 'TV' },
+  { id: GameCategory.VIDEO_GAMES, name: 'Video Games' },
+  { id: GameCategory.BOARD_GAMES, name: 'Board Games' },
+  { id: GameCategory.SCIENCE_AND_NATURE, name: 'Science & Nature' },
+  { id: GameCategory.COMPUTERS, name: 'Computers' },
+  { id: GameCategory.MATHEMATICS, name: 'Mathematics' },
+  { id: GameCategory.MYTHOLOGY, name: 'Mythology' },
+  { id: GameCategory.SPORTS, name: 'Sports' },
+  { id: GameCategory.GEOGRAPHY, name: 'Geography' },
+  { id: GameCategory.HISTORY, name: 'History' },
+  { id: GameCategory.POLITICS, name: 'Politics' },
+  { id: GameCategory.ART, name: 'Art' },
+  { id: GameCategory.CELEBRITIES, name: 'Celebrities' },
+  { id: GameCategory.GADGETS, name: 'Gadgets' },
+  { id: GameCategory.ANIMALS, name: 'Animals' },
+  { id: GameCategory.VEHICLES, name: 'Vehicles' },
+  { id: GameCategory.COMICS, name: 'Comics' },
+  { id: GameCategory.ANIME_AND_MANGA, name: 'Anime & Manga' },
+  { id: GameCategory.CARTOON_AND_ANIMATIONS, name: 'Cartoon & Animations' }
 ];
 
 export type GameOptions = {
@@ -101,6 +101,7 @@ export default class Game extends EventEmitter {
   numberOfRounds: any;
   question?: { prompt: string; answers: string[]; correctAnswer?: number };
   playerCoordinates: PlayerCoordinates = {};
+  categories: string[] = [];
   seconds: number = -1;
 
   public constructor(socket: Socket) {
@@ -188,6 +189,7 @@ export default class Game extends EventEmitter {
         this.numberOfRounds = data.numberOfRounds;
         this.question = data.question;
         this.seconds = data.seconds;
+        this.categories = data.categories;
 
         Terminal.log('✔️', 'Validated game data');
 
