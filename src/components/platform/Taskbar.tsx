@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Connection, { ConnectionEventType } from '../../connection/Connection';
 import PopoverMediator, {
+  PopoverMediatorEventType,
   PopoverType
 } from '../../controllers/PopoverMediator';
 import {
@@ -14,11 +15,22 @@ export default function Taskbar() {
   const [level, setLevel] = useState(0);
   const [experience, setExperience] = useState(0);
   const [experienceToNextLevel, setExperienceToNextLevel] = useState(0);
+  const [unread, setUnread] = useState(0);
 
   useEffect(() => {
-    connection.on(ConnectionEventType.USER_DATA_CHANGED, () => {
+    connection.addListener(ConnectionEventType.USER_DATA_CHANGED, () => {
       update();
     });
+    connection.addListener(ConnectionEventType.CHAT_MESSAGE, () => {
+      setUnread((u) => (PopoverMediator.isChatOpen ? u : u + 1));
+    });
+
+    PopoverMediator.instance.addListener(
+      PopoverMediatorEventType.OPEN,
+      (type: PopoverType) => {
+        if (type === PopoverType.CHAT) setUnread(0);
+      }
+    );
   }, []);
 
   function update() {
@@ -53,13 +65,15 @@ export default function Taskbar() {
         <span>{numberComma(gold)}</span>
       </button>
       <button
-        className="bar-tile"
+        className="bar-tile chat-tile"
         onClick={(event) => {
           PopoverMediator.toggle(PopoverType.CHAT);
+          setUnread(0);
         }}
       >
         <i className="fas fa-comment-alt" />
         <span>Chat Room</span>
+        {unread > 0 && <span className="chat-unread">{unread}</span>}
       </button>
 
       <button
