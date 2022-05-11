@@ -16,8 +16,7 @@ export class PopupJoinGame extends React.Component<PopupJoinGameProps> {
     games: null
   };
 
-  constructor(props: PopupJoinGameProps) {
-    super(props);
+  public componentDidMount() {
     this.refreshList();
   }
 
@@ -48,6 +47,11 @@ export class PopupJoinGame extends React.Component<PopupJoinGameProps> {
             </div>
           </div>
           <div className="popup-content">
+            {this.state.games?.length === 0 && (
+              <div className="center h-group">
+                <p className="muted">No open games. Host one instead.</p>
+              </div>
+            )}
             <ul className="game-list">
               {this.state.games?.map((game, index) => (
                 <li
