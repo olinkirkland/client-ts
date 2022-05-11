@@ -1,4 +1,6 @@
-import Connection from '../connection/Connection';
+import { useEffect, useState } from 'react';
+import Connection, { ConnectionEventType } from '../connection/Connection';
+import { numberComma } from '../Util';
 import { ShopItem } from './popups/PopupShop';
 
 type Props = {
@@ -8,6 +10,29 @@ type Props = {
 };
 
 export function ShopCollection({ name, description = '', items }: Props) {
+  const [inventory, setInventory] = useState(Connection.instance.me!.inventory);
+  const [gold, setGold] = useState(Connection.instance.me!.gold);
+
+  useEffect(() => {
+    Connection.instance.addListener(
+      ConnectionEventType.USER_DATA_CHANGED,
+      onUserDataChanged
+    );
+
+    return () => {
+      Connection.instance.removeListener(
+        ConnectionEventType.USER_DATA_CHANGED,
+        onUserDataChanged
+      );
+    };
+  });
+
+  function onUserDataChanged() {
+    console.log('ShopCollection: onUserDataChanged');
+    setInventory(Connection.instance.me!.inventory);
+    setGold(Connection.instance.me!.gold);
+  }
+
   return (
     <div className="shop-collection">
       <h2>{name}</h2>
@@ -21,7 +46,7 @@ export function ShopCollection({ name, description = '', items }: Props) {
               <img src={`assets/${item.value.url}`} alt="[Not found]" />
             </div>
             <div className="shop-card-footer">
-              {Connection.instance.me?.inventory!.indexOf(item.id) === -1 && (
+              {inventory!.indexOf(item.id) === -1 && (
                 <>
                   <div className="price-box">
                     {item.price - item.price * (item.discount / 100) === 0 && (
@@ -30,7 +55,11 @@ export function ShopCollection({ name, description = '', items }: Props) {
                     {item.price - item.price * (item.discount / 100) > 0 && (
                       <>
                         <img src="assets/icons/coin.png" alt="" />
-                        <p>{item.price - item.price * (item.discount / 100)}</p>
+                        <p>
+                          {numberComma(
+                            item.price - item.price * (item.discount / 100)
+                          )}
+                        </p>
                       </>
                     )}
                   </div>
@@ -43,9 +72,7 @@ export function ShopCollection({ name, description = '', items }: Props) {
                   }`}</button>
                 </>
               )}
-              {Connection.instance.me?.inventory!.indexOf(item.id)! >= 0 && (
-                <p>Owned</p>
-              )}
+              {inventory!.indexOf(item.id)! >= 0 && <p>Owned</p>}
             </div>
           </li>
         ))}

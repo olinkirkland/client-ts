@@ -2,7 +2,11 @@ import axios from 'axios';
 import React from 'react';
 import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import Connection, { MyUserData, url } from '../../connection/Connection';
+import Connection, {
+  ConnectionEventType,
+  MyUserData,
+  url
+} from '../../connection/Connection';
 import Terminal from '../../controllers/Terminal';
 import { rootElement } from '../../index';
 import Item, { getItemById } from '../../models/Item';
@@ -59,8 +63,12 @@ export class PopupShop extends React.Component<PopupShopProps> {
   }
 
   public componentDidMount() {
-    // Get shop data
+    Connection.instance.addListener(
+      ConnectionEventType.USER_DATA_CHANGED,
+      this.onUserDataChanged.bind(this)
+    );
 
+    // Get shop data
     axios
       .get(`${url}shop/`)
       .then((res) => {
@@ -104,11 +112,11 @@ export class PopupShop extends React.Component<PopupShopProps> {
   }
 
   public componentWillUnmount() {
-    // const connection = Connection.instance;
-    // connection.removeListener(
-    //   ConnectionEventType.USER_DATA_CHANGED,
-    //   this.onUserDataChanged
-    // );
+    const connection = Connection.instance;
+    connection.removeListener(
+      ConnectionEventType.USER_DATA_CHANGED,
+      this.onUserDataChanged
+    );
   }
 
   render() {
@@ -124,7 +132,9 @@ export class PopupShop extends React.Component<PopupShopProps> {
             <span>Shop</span>
             <div className="gold-box h-group">
               <img src="assets/icons/coin.png" alt="" />
-              <span className="gold-text">{numberComma(me.gold!)}</span>
+              <span className="gold-text">
+                {numberComma(this.state.user.gold!)}
+              </span>
             </div>
             <button className="button-close" onClick={onClose}>
               <i className="fas fa-times" />
