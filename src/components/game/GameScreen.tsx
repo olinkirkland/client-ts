@@ -83,7 +83,13 @@ export default function GameScreen() {
           {mode === GameMode.GAME && (
             <>
               <div className="v-group">
-                <p className="muted">{`Round ${roundIndex}/${numberOfRounds}`}</p>
+                <div className="h-group">
+                  {!players.find((p: any) => p.user.id === game.me!.id)
+                    .isPlaying && (
+                    <span className="badge system">Not playing</span>
+                  )}
+                  <p className="muted">{`Round ${roundIndex}/${numberOfRounds}`}</p>
+                </div>
                 <ProgressBar
                   percent={
                     countdownSeconds === -1
@@ -108,7 +114,11 @@ export default function GameScreen() {
                         index !== question.correctAnswer &&
                         myAnswerIndex === index
                       }
-                      disabled={question?.hasOwnProperty('correctAnswer')}
+                      disabled={
+                        question?.hasOwnProperty('correctAnswer') ||
+                        !players.find((p: any) => p.user.id === game.me!.id)
+                          .isPlaying
+                      }
                       onClick={() => onClickAnswer(index)}
                     />
                   </li>
