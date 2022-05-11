@@ -48,7 +48,7 @@ export class PopupJoinGame extends React.Component<PopupJoinGameProps> {
             </div>
           </div>
           <div className="popup-content">
-            <ul>
+            <ul className="game-list">
               {this.state.games?.map((game, index) => (
                 <li
                   onClick={() => {

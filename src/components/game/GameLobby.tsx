@@ -14,7 +14,10 @@ export default function GameLobby({ game }: Props) {
       <ul>
         {game.players.map((p: any, index: number) => (
           // User badge
-          <li key={index}>
+          <li
+            key={index}
+            className={`${index === game.players.length - 1 ? 'last' : ''}`}
+          >
             <div className="user-score-card">
               <div
                 className="profile-button user-with-badge"
@@ -33,6 +36,7 @@ export default function GameLobby({ game }: Props) {
                 <p>{p.user.username}</p>
               </div>
 
+              {/* <p>{`${index}/${game.players.length - 1}`}</p> */}
               <p className="score">{p.points}</p>
             </div>
           </li>
