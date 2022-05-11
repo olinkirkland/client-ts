@@ -51,6 +51,7 @@ export default function GameScreen() {
 
   useEffect(() => {
     const t = setTimeout(() => {
+      if (!Connection.instance.game) return;
       if (timeLeft > 0) setTimeLeft(timeLeft - 100);
     }, 100);
     return () => clearTimeout(t);
