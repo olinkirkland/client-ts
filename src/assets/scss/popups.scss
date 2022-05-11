@@ -200,3 +200,9 @@ li.join-game-tile {
     opacity: 1;
   }
 }
+
+ul.game-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}

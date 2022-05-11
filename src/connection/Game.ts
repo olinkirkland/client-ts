@@ -4,10 +4,65 @@ import { Socket } from 'socket.io-client';
 import Terminal from '../controllers/Terminal';
 import Connection, { mouseCoords, MyUserData, url } from './Connection';
 
+export enum GameCategory {
+  GENERAL_KNOWLEDGE = 9,
+  BOOKS = 10,
+  FILM = 11,
+  MUSIC = 12,
+  MUSICALS_AND_THEATRES = 13,
+  TV = 14,
+  VIDEO_GAMES = 15,
+  BOARD_GAMES = 16,
+  SCIENCE_AND_NATURE = 17,
+  COMPUTERS = 18,
+  MATHEMATICS = 19,
+  MYTHOLOGY = 20,
+  SPORTS = 21,
+  GEOGRAPHY = 22,
+  HISTORY = 23,
+  POLITICS = 24,
+  ART = 25,
+  CELEBRITIES = 26,
+  GADGETS = 27,
+  ANIMALS = 28,
+  VEHICLES = 29,
+  COMICS = 30,
+  ANIME_AND_MANGA = 31,
+  CARTOON_AND_ANIMATIONS = 32
+}
+
+export const gameCategoryNames = [
+  { id: [GameCategory.GENERAL_KNOWLEDGE], name: 'General Knowledge' },
+  { id: [GameCategory.BOOKS], name: 'Books' },
+  { id: [GameCategory.FILM], name: 'Film' },
+  { id: [GameCategory.MUSIC], name: 'Music' },
+  { id: [GameCategory.MUSICALS_AND_THEATRES], name: 'Musicals & Theatres' },
+  { id: [GameCategory.TV], name: 'TV' },
+  { id: [GameCategory.VIDEO_GAMES], name: 'Video Games' },
+  { id: [GameCategory.BOARD_GAMES], name: 'Board Games' },
+  { id: [GameCategory.SCIENCE_AND_NATURE], name: 'Science & Nature' },
+  { id: [GameCategory.COMPUTERS], name: 'Computers' },
+  { id: [GameCategory.MATHEMATICS], name: 'Mathematics' },
+  { id: [GameCategory.MYTHOLOGY], name: 'Mythology' },
+  { id: [GameCategory.SPORTS], name: 'Sports' },
+  { id: [GameCategory.GEOGRAPHY], name: 'Geography' },
+  { id: [GameCategory.HISTORY], name: 'History' },
+  { id: [GameCategory.POLITICS], name: 'Politics' },
+  { id: [GameCategory.ART], name: 'Art' },
+  { id: [GameCategory.CELEBRITIES], name: 'Celebrities' },
+  { id: [GameCategory.GADGETS], name: 'Gadgets' },
+  { id: [GameCategory.ANIMALS], name: 'Animals' },
+  { id: [GameCategory.VEHICLES], name: 'Vehicles' },
+  { id: [GameCategory.COMICS], name: 'Comics' },
+  { id: [GameCategory.ANIME_AND_MANGA], name: 'Anime & Manga' },
+  { id: [GameCategory.CARTOON_AND_ANIMATIONS], name: 'Cartoon & Animations' }
+];
+
 export type GameOptions = {
   name: string;
   description: string;
   password: string;
+  categories: number[];
 };
 
 export enum GameEventType {

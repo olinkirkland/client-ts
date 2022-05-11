@@ -12,7 +12,7 @@ import Terminal, { TerminalEventType } from '../controllers/Terminal';
 import Chat from '../models/Chat';
 import Item, { getItemById } from '../models/Item';
 import { systemUser } from '../models/User';
-import Game, { GameOptions } from './Game';
+import Game, { GameCategory, GameOptions } from './Game';
 import { doAfterLogin } from './Test';
 
 // eslint-disable-next-line no-restricted-globals
@@ -524,7 +524,8 @@ export default class Connection extends EventEmitter {
           const gameOptions: GameOptions = {
             name: `${this.me?.username}'s Game`,
             description: 'This game was started from the terminal',
-            password: ''
+            password: '',
+            categories: [GameCategory.GENERAL_KNOWLEDGE]
           };
           this.hostGame(gameOptions);
           break;
@@ -616,11 +617,11 @@ export default class Connection extends EventEmitter {
       console.log(list);
       if (list.length === 0) {
         // Host a game
-        console.log('hosting');
         const gameOptions: GameOptions = {
           name: `${this.me?.username}'s Game`,
           description: `I can't wait to play!`,
-          password: ''
+          password: '',
+          categories: [GameCategory.GENERAL_KNOWLEDGE]
         };
         this.hostGame(gameOptions);
       } else {

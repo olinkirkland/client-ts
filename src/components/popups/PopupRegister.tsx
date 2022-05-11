@@ -1,8 +1,8 @@
-import Modal from 'react-modal';
 import React from 'react';
+import Modal from 'react-modal';
 import { PopupProps } from 'react-popup-manager';
-import { rootElement } from '../../index';
 import Connection from '../../connection/Connection';
+import { rootElement } from '../../index';
 import { validateEmail, validatePassword } from '../../Util';
 
 type State = {
