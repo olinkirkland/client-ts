@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/bugFixes/static/css/main.8fca0cea.css",
+    "main.js": "/bugFixes/static/js/main.e1cc633e.js",
+    "index.html": "/bugFixes/index.html",
+    "main.8fca0cea.css.map": "/bugFixes/static/css/main.8fca0cea.css.map",
+    "main.e1cc633e.js.map": "/bugFixes/static/js/main.e1cc633e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8fca0cea.css",
+    "static/js/main.e1cc633e.js"
+  ]
+}

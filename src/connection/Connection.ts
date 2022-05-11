@@ -15,7 +15,7 @@ import Game, { GameOptions } from './Game';
 import { doAfterLogin } from './Test';
 
 // eslint-disable-next-line no-restricted-globals
-const DEV_MODE: boolean = /* location.hostname === 'localhost' */ false;
+const DEV_MODE: boolean = /* location.hostname === 'localhost' */ true;
 export const url: string = DEV_MODE
   ? 'http://localhost:8000/'
   : 'https://dontfall-bugfixing.herokuapp.com/';
