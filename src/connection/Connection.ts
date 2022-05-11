@@ -15,10 +15,10 @@ import Game, { GameOptions } from './Game';
 import { doAfterLogin } from './Test';
 
 // eslint-disable-next-line no-restricted-globals
-const DEV_MODE: boolean = location.hostname === 'localhost';
+const DEV_MODE: boolean = /* location.hostname === 'localhost' */ false;
 export const url: string = DEV_MODE
   ? 'http://localhost:8000/'
-  : 'https://dontfall-backend.herokuapp.com/';
+  : 'https://dontfall-bugfixing.herokuapp.com/';
 
 console.log('Development mode?', DEV_MODE);
 console.log('Base-url:', url);
@@ -81,7 +81,7 @@ export default class Connection extends EventEmitter {
     Terminal.log('❌', title);
     PopupMediator.open(PopupError, {
       title: title,
-      message: message
+      message: message,
     });
   }
 
@@ -158,7 +158,7 @@ export default class Connection extends EventEmitter {
             'login',
             JSON.stringify({
               email: email,
-              password: password
+              password: password,
             })
           );
 
@@ -222,7 +222,7 @@ export default class Connection extends EventEmitter {
           'login',
           JSON.stringify({
             email: email,
-            password: password
+            password: password,
           })
         );
 
@@ -394,8 +394,8 @@ export default class Connection extends EventEmitter {
     this.socket = io(url, {
       query: {
         userID: this.me!.id,
-        online: true
-      }
+        online: true,
+      },
     });
 
     if (DEV_MODE) setTimeout(doAfterLogin, 500);
@@ -649,7 +649,7 @@ export default class Connection extends EventEmitter {
 
 export enum OnlineStatus {
   ONLINE = 'online',
-  OFFLINE = 'offline'
+  OFFLINE = 'offline',
 }
 
 export class UserData {
