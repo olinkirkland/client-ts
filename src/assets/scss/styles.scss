@@ -554,6 +554,10 @@ button.bar-tile {
     .chat-text {
       color: white;
       background-color: $primary;
+
+      button.chat-link {
+        color: white;
+      }
     }
   }
 
@@ -574,12 +578,13 @@ button.bar-tile {
       display: inline-flex;
       align-items: center;
       gap: 1rem;
-      color: white;
+      color: $primary;
       background-color: transparent;
       padding: 0;
       border-radius: 0;
       text-decoration: none;
-      border-bottom: 1px dashed white;
+      text-align: left;
+      border-bottom: 1px dashed currentColor;
       text-transform: none;
       margin-right: 0.4rem;
       opacity: 1;
