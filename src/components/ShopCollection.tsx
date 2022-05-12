@@ -65,7 +65,7 @@ export function ShopCollection({ name, description = '', items }: Props) {
                         <img src="assets/icons/coin.png" alt="" />
                         <p>
                           {numberComma(
-                            item.price - item.price * (item.discount / 100)
+                            Math.floor(item.price - item.price * (item.discount / 100))
                           )}
                         </p>
                       </>
