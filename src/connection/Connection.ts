@@ -16,8 +16,8 @@ import Game, { GameCategory, GameOptions } from './Game';
 import { doAfterLogin } from './Test';
 
 // eslint-disable-next-line no-restricted-globals
-export const DEV_MODE: boolean = location.hostname === 'localhost';
-// export const DEV_MODE : boolean = false;
+// export const DEV_MODE: boolean = location.hostname === 'localhost';
+export const DEV_MODE : boolean = false;
 export const url: string = DEV_MODE
   ? 'http://localhost:8000/'
   : 'https://dontfall-backend.herokuapp.com/';
@@ -127,7 +127,7 @@ export default class Connection extends EventEmitter {
     this.chatMessages.push({
       user: systemUser,
       message:
-        '👋 Welcome to the DontFall public chat room! Any messages you send here will be broadcasted to all users.',
+        '👋 Welcome to the Knobel Ninja public chat room! Any messages you send here will be broadcasted to all users.',
       time: new Date().getTime()
     });
 

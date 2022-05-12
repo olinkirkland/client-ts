@@ -14,7 +14,7 @@ export default function Navbar() {
             }}
             className="bar-tile logo-tile"
           >
-            <h1 className="logo">Don't Fall</h1>
+            <h1 className="logo">Knobel Ninja</h1>
             <i className="fas fa-gamepad" />
             <span>Play</span>
           </button>
