@@ -1,3 +1,4 @@
+import Connection from '../../connection/Connection';
 import Game from '../../connection/Game';
 import PopupMediator from '../../controllers/PopupMediator';
 import { getItemById } from '../../models/Item';
@@ -26,7 +27,15 @@ export default function GameLobby({ game }: Props) {
             <div className="user-score-card">
               <div
                 className="profile-button user-with-badge"
-                onClick={() => PopupMediator.open(PopupProfile)}
+                onClick={() => {
+                  if (p.user.id === Connection.instance.me!.id) {
+                    PopupMediator.open(PopupProfile);
+                  } else {
+                    PopupMediator.open(PopupProfile, {
+                      id: p.user.id
+                    });
+                  }
+                }}
               >
                 {p.user.username && (
                   <img

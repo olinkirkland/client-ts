@@ -188,7 +188,7 @@ export class PopupProfile extends React.Component<PopupProfileProps> {
               )}
 
               <div className="level-group v-group center">
-                <span>{`Level ${me.level}`}</span>
+                <span>{`Level ${this.state.user.level}`}</span>
                 {isMe && (
                   <ProgressBar
                     percent={Math.min(
