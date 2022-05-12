@@ -21,11 +21,28 @@
 
       .shop-card-body {
         flex: 1;
+        position: relative;
         padding: 2rem;
         display: flex;
         flex-direction: column;
         gap: 1rem;
         align-items: center;
+        width: 100%;
+
+        .sale-banner {
+          position: absolute;
+          width: 12rem;
+          top: 1.4rem;
+          right: -3rem;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          background-color: $primary;
+          color: white;
+          padding: 0.4rem 0;
+          transform: rotate(45deg);
+        }
+
         .item-name {
           font-size: 2rem;
           color: $text;
@@ -68,5 +85,18 @@
         }
       }
     }
+  }
+}
+
+.old-price {
+  position: relative;
+  color: $dark;
+
+  &:before {
+    content: '';
+    width: 100%;
+    position: absolute;
+    top: calc(50%);
+    border-bottom: 2px solid $dark;
   }
 }

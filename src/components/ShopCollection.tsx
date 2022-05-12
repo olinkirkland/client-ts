@@ -44,11 +44,19 @@ export function ShopCollection({ name, description = '', items }: Props) {
               <p className="item-name">{item.name}</p>
               <img src={`assets/${item.value.url}`} alt="[Not found]" />
               <p className="item-description">{item.description}</p>
+              {item.discount > 0 && (
+                <span className="sale-banner">-{item.discount}%</span>
+              )}
             </div>
             <div className="shop-card-footer">
               {inventory!.indexOf(item.id) === -1 && (
                 <>
                   <div className="price-box">
+                    {item.discount > 0 && (
+                      <span className="old-price">
+                        &nbsp;{numberComma(item.price)}&nbsp;
+                      </span>
+                    )}
                     {item.price - item.price * (item.discount / 100) === 0 && (
                       <p>FREE!</p>
                     )}
