@@ -209,7 +209,7 @@ export default function GameScreen() {
                     alt=""
                   />
 
-                  <h2>{p.user.username}</h2>
+                  {/* <h2>{p.user.username}</h2> */}
                   {/* {playerCoordinates[p.user.id] && (
                     <pre>{JSON.stringify(playerCoordinates[p.user.id])}</pre>
                   )} */}
