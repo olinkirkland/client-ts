@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import Connection, { ConnectionEventType } from '../../connection/Connection';
+import PopoverMediator, {
+  PopoverType
+} from '../../controllers/PopoverMediator';
 import Chat from '../../models/Chat';
 import ChatMessage from './ChatMessage';
 
@@ -66,11 +69,17 @@ export default function PopoverChat() {
   return (
     <div className="popover popover-chat">
       <span className="chat-header">
-        <span>Chat Room</span>
-        <div className="online-users">
-          <span>{onlineUsers}</span>
-          <i className="fas fa-user-friends" />
+        <div className="h-group">
+          <span>{`Chat Room (${onlineUsers} here now)`}</span>
         </div>
+        <button
+          className="button-close"
+          onClick={() => {
+            PopoverMediator.close(PopoverType.CHAT);
+          }}
+        >
+          <i className="fas fa-times" />
+        </button>
       </span>
       <ul className="chat-messages">
         {chatMessages.map((chatMessage, index) => (
