@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import Connection, { ConnectionEventType } from '../../connection/Connection';
+import Connection, {
+  ConnectionEventType,
+  VERSION
+} from '../../connection/Connection';
 import PopoverMediator, {
   PopoverMediatorEventType,
   PopoverType
 } from '../../controllers/PopoverMediator';
-import Terminal from '../../controllers/Terminal';
 import { getItemById } from '../../models/Item';
 import GameScreen from '../game/GameScreen';
 import PopoverChat from '../popovers/PopoverChat';
@@ -114,6 +116,7 @@ export default function Platform() {
           {isGoldOpen && <PopoverGold />}
           {isLevelOpen && <PopoverLevel />}
           {isFriendsOpen && <PopoverFriends />}
+          <span className="version">version {VERSION}</span>
         </div>
       </div>
       <Taskbar />

@@ -697,10 +697,10 @@ span.badge {
 }
 
 .version {
-  padding: 1rem;
   position: absolute;
   bottom: 0;
   right: 0;
+  padding: 1rem;
   pointer-events: none;
-  color: $text-muted;
+  color: $lighter;
 }

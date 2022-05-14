@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import Connection, {
-  ConnectionEventType,
-  VERSION
-} from '../../connection/Connection';
+import { PopupManager, PopupProvider } from 'react-popup-manager';
+import Connection, { ConnectionEventType } from '../../connection/Connection';
 import PopoverMediator, {
   PopoverMediatorEventType,
   PopoverType
 } from '../../controllers/PopoverMediator';
+import PopupMediator from '../../controllers/PopupMediator';
 import {
   experienceNeededFromLevel as experienceNeededForNextLevel,
   numberComma
 } from '../../Util';
+import { PopupSettings } from '../popups/PopupSettings';
 import ProgressBar from './ProgressBar';
 export default function Taskbar() {
   const connection = Connection.instance;
@@ -80,7 +80,7 @@ export default function Taskbar() {
       </button>
 
       <button
-        className="bar-tile friends hidden"
+        className="bar-tile friends"
         onClick={(event) => {
           console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.FRIENDS);
@@ -89,7 +89,15 @@ export default function Taskbar() {
         <i className="fas fa-user-friends" />
         <span>{`${connection.me?.friends?.length || 0} Friends`}</span>
       </button>
-      <span className='version'>version {VERSION}</span>
+
+      <button
+        className="bar-tile"
+        onClick={(event) => {
+          PopupMediator.open(PopupSettings);
+        }}
+      >
+        <i className="fas fa-cog" />
+      </button>
     </div>
   );
 }
