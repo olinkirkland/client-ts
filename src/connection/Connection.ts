@@ -15,6 +15,8 @@ import { systemUser } from '../models/User';
 import Game, { GameCategory, GameOptions } from './Game';
 import { doAfterLogin } from './Test';
 
+export const VERSION: string = '1.0.0';
+
 // eslint-disable-next-line no-restricted-globals
 // export const DEV_MODE: boolean = location.hostname === 'localhost';
 export const DEV_MODE: boolean = false;

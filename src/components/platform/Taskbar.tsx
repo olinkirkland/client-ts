@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import Connection, { ConnectionEventType } from '../../connection/Connection';
+import Connection, {
+  ConnectionEventType,
+  VERSION
+} from '../../connection/Connection';
 import PopoverMediator, {
   PopoverMediatorEventType,
   PopoverType
@@ -86,6 +89,7 @@ export default function Taskbar() {
         <i className="fas fa-user-friends" />
         <span>{`${connection.me?.friends?.length || 0} Friends`}</span>
       </button>
+      <span className='version'>version {VERSION}</span>
     </div>
   );
 }
