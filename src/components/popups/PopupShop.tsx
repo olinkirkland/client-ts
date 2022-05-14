@@ -45,7 +45,7 @@ export interface ShopItem extends Item {
 
 type State = {
   shopItems: ShopItem[];
-  featuredSales: Sale[];
+  featuredSales: { sale: Sale; items: ShopItem[] }[];
   user: MyUserData | null;
 };
 
@@ -106,13 +106,28 @@ export class PopupShop extends React.Component<PopupShopProps> {
       return item;
     });
 
-    const saleItems = shopItems.filter((item: ShopItem) => {
-      return item.discount > 0;
+    data.sales.forEach((sale: Sale) => {
+      if (sale.featured) {
+        const saleItems: ShopItem[] = [];
+        sale.discounts.forEach((discount: Discount) => {
+          const item: ShopItem = shopItems.find((i: ShopItem) => {
+            return i.id === discount.id;
+          })!;
+
+          saleItems.push(item);
+        });
+
+        this.setState({
+          featuredSales: [
+            ...this.state.featuredSales,
+            { sale: sale, items: saleItems }
+          ]
+        });
+      }
     });
 
     this.setState({
-      shopItems,
-      saleItems
+      shopItems
     });
   }
 
@@ -144,6 +159,26 @@ export class PopupShop extends React.Component<PopupShopProps> {
             </button>
           </div>
           <div className="popup-content">
+            {/* {this.state.featuredSales.length > 0 &&
+              this.state.featuredSales.map((saleAndItems) => {
+                return (
+                  <div className="v-group">
+                    <div className="sale-header v-group">
+                      <span>{saleAndItems.sale.name}</span>
+                      <span className="muted">
+                        {saleAndItems.sale.description}
+                      </span>
+                    </div>
+                    <ShopCollection
+                      sale={true}
+                      name={saleAndItems.sale.name}
+                      items={saleAndItems.items}
+                      // countdownDate={saleAndItems.sale.countdownDate}
+                    />
+                  </div>
+                );
+              })} */}
+
             {this.state.shopItems.length > 0 && (
               <ShopCollection name="Shop" items={this.state.shopItems} />
             )}

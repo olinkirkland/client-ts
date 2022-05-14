@@ -10,6 +10,8 @@ type Props = {
   name: string;
   description?: string;
   items: ShopItem[];
+  sale?: boolean;
+  countdownDate?: Date;
 };
 
 enum PRICE_FILTER {
@@ -23,7 +25,12 @@ enum TYPE_FILTER {
   WALLPAPERS = 'wallpapers'
 }
 
-export function ShopCollection({ name, description = '', items }: Props) {
+export function ShopCollection({
+  sale = false,
+  name,
+  description = '',
+  items
+}: Props) {
   const [inventory, setInventory] = useState(Connection.instance.me!.inventory);
   const [gold, setGold] = useState(Connection.instance.me!.gold);
   const [filter, setFilter] = useState({
@@ -94,78 +101,80 @@ export function ShopCollection({ name, description = '', items }: Props) {
 
   return (
     <div className="shop-collection">
-      <div className="h-group controls">
-        <div className="h-group">
-          <ButtonBar>
-            <button
-              onClick={() => {
-                setFilter({
-                  ...filter,
-                  priceFilter: PRICE_FILTER.ALL
-                });
-              }}
-              className="selected"
-            >
-              All
-            </button>
-            <button
-              onClick={() => {
-                setFilter({
-                  ...filter,
-                  priceFilter: PRICE_FILTER.ON_SALE
-                });
-              }}
-            >
-              <img src="assets/icons/sale.png" alt="" />
-              On Sale
-            </button>
-            <button
-              onClick={() => {
-                setFilter({
-                  ...filter,
-                  priceFilter: PRICE_FILTER.AFFORDABLE
-                });
-              }}
-            >
-              Affordable
-            </button>
-          </ButtonBar>
-          <VerticalSeparator />
-          <ButtonBar>
-            <button
-              onClick={() => {
-                setFilter({
-                  ...filter,
-                  typeFilter: TYPE_FILTER.AVATARS
-                });
-              }}
-              className="selected"
-            >
-              Avatars
-            </button>
-            <button
-              onClick={() => {
-                setFilter({
-                  ...filter,
-                  typeFilter: TYPE_FILTER.WALLPAPERS
-                });
-              }}
-            >
-              Wallpapers
-            </button>
-          </ButtonBar>
+      {!sale && (
+        <div className="h-group controls">
+          <div className="h-group">
+            <ButtonBar>
+              <button
+                onClick={() => {
+                  setFilter({
+                    ...filter,
+                    priceFilter: PRICE_FILTER.ALL
+                  });
+                }}
+                className="selected"
+              >
+                All
+              </button>
+              <button
+                onClick={() => {
+                  setFilter({
+                    ...filter,
+                    priceFilter: PRICE_FILTER.ON_SALE
+                  });
+                }}
+              >
+                <img src="assets/icons/sale.png" alt="" />
+                On Sale
+              </button>
+              <button
+                onClick={() => {
+                  setFilter({
+                    ...filter,
+                    priceFilter: PRICE_FILTER.AFFORDABLE
+                  });
+                }}
+              >
+                Affordable
+              </button>
+            </ButtonBar>
+            <VerticalSeparator />
+            <ButtonBar>
+              <button
+                onClick={() => {
+                  setFilter({
+                    ...filter,
+                    typeFilter: TYPE_FILTER.AVATARS
+                  });
+                }}
+                className="selected"
+              >
+                Avatars
+              </button>
+              <button
+                onClick={() => {
+                  setFilter({
+                    ...filter,
+                    typeFilter: TYPE_FILTER.WALLPAPERS
+                  });
+                }}
+              >
+                Wallpapers
+              </button>
+            </ButtonBar>
+          </div>
+          <Checkbox
+            value={true}
+            checked={(b: boolean) => {
+              setFilter({
+                ...filter,
+                showOwnedItems: b
+              });
+            }}
+            text="Show owned items"
+          />
         </div>
-        <Checkbox
-          value={true}
-          checked={(b: boolean) => {
-            setFilter({
-              ...filter,
-              showOwnedItems: b
-            });
-          }}
-          text="Show owned items"
-        />
-      </div>
+      )}
       {description.length > 0 && <p>{description}</p>}
       <ul>
         {currentItems.map((item, index) => (
