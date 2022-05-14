@@ -68,7 +68,8 @@ export function ShopCollection({
         // Affordable?
         if (
           filter.priceFilter === PRICE_FILTER.AFFORDABLE &&
-          gold! < item.finalPrice
+          gold! < item.finalPrice &&
+          inventory!.indexOf(item.id)! < 0
         )
           return false;
 

@@ -18,12 +18,13 @@ import { doAfterLogin } from './Test';
 export const VERSION: string = '1.0.0';
 
 // eslint-disable-next-line no-restricted-globals
-// export const DEV_MODE: boolean = location.hostname === 'localhost';
-export const DEV_MODE: boolean = false;
-export const url: string = DEV_MODE
-  ? 'http://localhost:8000/'
-  : 'https://dontfall-backend.herokuapp.com/';
+export const DEV_MODE: boolean = location.hostname === 'localhost';
+// export const DEV_MODE: boolean = false;
+// export const url: string = DEV_MODE
+//   ? 'http://localhost:8000/'
+//   : 'https://dontfall-backend.herokuapp.com/';
 
+export const url: string = 'https://dontfall-backend.herokuapp.com/';
 console.log('Development mode?', DEV_MODE);
 console.log('Base-url:', url);
 
