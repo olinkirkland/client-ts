@@ -89,13 +89,11 @@ button {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  // border: 2px solid transparent;
 
-  &:hover {
-    background-color: #00000090;
-  }
-
-  &:active {
-    background-color: #00000095;
+  img {
+    height: 1.6rem;
+    width: 1.6rem;
   }
 
   &.button-close {
@@ -103,6 +101,24 @@ button {
     margin: 0;
     color: currentColor;
     background-color: transparent;
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    cursor: inherit;
+  }
+
+  &:hover:not(.disabled):not(.button-close):not(.selected) {
+    background-color: #00000090;
+  }
+
+  &:active:not(.disabled):not(.button-close):not(.selected) {
+    background-color: #00000095;
+  }
+
+  &.selected {
+    background-color: $primary;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -266,4 +282,12 @@ li {
 
 .text-center {
   text-align: center;
+}
+
+.vertical-separator {
+  height: 100%;
+  margin: 0 1rem;
+  padding: 0;
+  width: 1px;
+  border-right: 1px dashed $dark;
 }

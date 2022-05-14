@@ -38,8 +38,9 @@ export interface ShopData {
 }
 
 export interface ShopItem extends Item {
-  discount: number;
   price: number;
+  discount: number;
+  finalPrice: number;
 }
 
 type State = {
@@ -85,18 +86,22 @@ export class PopupShop extends React.Component<PopupShopProps> {
       const item: ShopItem = {
         ...getItemById(price?.id)!,
         price: price?.price,
-        discount: 0
+        discount: 0,
+        finalPrice: price?.price
       };
+
       // Determine the price
-      if (data.sales.length > 0) {
-        data.sales.forEach((sale: Sale) => {
-          sale.discounts.forEach((discount: Discount) => {
-            if (discount.id === item.id) {
-              item.discount = discount.percent;
-            }
-          });
+      data.sales.forEach((sale: Sale) => {
+        sale.discounts.forEach((discount: Discount) => {
+          if (discount.id === item.id) {
+            item.discount = discount.percent;
+          }
         });
-      }
+      });
+
+      item.finalPrice = Math.floor(
+        item.price - item.price * (item.discount / 100)
+      );
 
       return item;
     });
@@ -132,9 +137,7 @@ export class PopupShop extends React.Component<PopupShopProps> {
             <span>Shop</span>
             <div className="gold-box h-group">
               <img src="assets/icons/coin.png" alt="" />
-              <span className="gold-text">
-                {numberComma(this.state.user.gold!)}
-              </span>
+              <span>{numberComma(this.state.user.gold!)}</span>
             </div>
             <button className="button-close" onClick={onClose}>
               <i className="fas fa-times" />
