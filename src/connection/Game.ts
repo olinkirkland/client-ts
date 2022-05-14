@@ -23,10 +23,10 @@ export enum GameCategory {
   POLITICS = 24,
   ART = 25,
   CELEBRITIES = 26,
-  GADGETS = 27,
-  ANIMALS = 28,
-  VEHICLES = 29,
-  COMICS = 30,
+  ANIMALS = 27,
+  VEHICLES = 28,
+  COMICS = 29,
+  GADGETS = 30,
   ANIME_AND_MANGA = 31,
   CARTOON_AND_ANIMATIONS = 32
 }
@@ -50,10 +50,10 @@ export const gameCategoryNames = [
   { id: GameCategory.POLITICS, name: 'Politics' },
   { id: GameCategory.ART, name: 'Art' },
   { id: GameCategory.CELEBRITIES, name: 'Celebrities' },
-  { id: GameCategory.GADGETS, name: 'Gadgets' },
   { id: GameCategory.ANIMALS, name: 'Animals' },
   { id: GameCategory.VEHICLES, name: 'Vehicles' },
   { id: GameCategory.COMICS, name: 'Comics' },
+  { id: GameCategory.GADGETS, name: 'Gadgets' },
   { id: GameCategory.ANIME_AND_MANGA, name: 'Anime & Manga' },
   { id: GameCategory.CARTOON_AND_ANIMATIONS, name: 'Cartoon & Animations' }
 ];
