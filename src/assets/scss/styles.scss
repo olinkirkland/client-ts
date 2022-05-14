@@ -233,6 +233,10 @@ button.bar-tile {
   gap: 1rem;
   border-right: 1px dashed $text-muted;
 
+  &.bar-tile-end {
+    border-right: none;
+  }
+
   span.chat-unread {
     background-color: $primary;
     color: white;
@@ -242,8 +246,6 @@ button.bar-tile {
   }
 
   &.friends {
-    margin-left: auto;
-    border-right: none;
     border-left: 1px dashed $text-muted;
   }
 

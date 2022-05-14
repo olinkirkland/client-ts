@@ -13,6 +13,7 @@ import {
   experienceNeededFromLevel as experienceNeededForNextLevel,
   numberComma
 } from '../../Util';
+import { PopupAbout } from '../popups/PopupAbout';
 import { PopupSettings } from '../popups/PopupSettings';
 import ProgressBar from './ProgressBar';
 export default function Taskbar() {
@@ -82,25 +83,35 @@ export default function Taskbar() {
         {unread > 0 && <span className="chat-unread">{unread}</span>}
       </button>
 
-      <button
-        className={`bar-tile friends ${!DEV_MODE ? 'hidden' : ''}`}
-        onClick={(event) => {
-          console.log(event.currentTarget as HTMLButtonElement);
-          PopoverMediator.toggle(PopoverType.FRIENDS);
-        }}
-      >
-        <i className="fas fa-user-friends" />
-        <span>{`${connection.me?.friends?.length || 0} Friends`}</span>
-      </button>
+      <div className="h-group no-gap align-right">
+        <button
+          className={`bar-tile friends ${!DEV_MODE ? 'hidden' : ''}`}
+          onClick={(event) => {
+            console.log(event.currentTarget as HTMLButtonElement);
+            PopoverMediator.toggle(PopoverType.FRIENDS);
+          }}
+        >
+          <i className="fas fa-user-friends" />
+          <span>{`${connection.me?.friends?.length || 0} Friends`}</span>
+        </button>
 
-      <button
-        className="bar-tile"
-        onClick={(event) => {
-          PopupMediator.open(PopupSettings);
-        }}
-      >
-        <i className="fas fa-cog" />
-      </button>
+        <button
+          className="bar-tile"
+          onClick={(event) => {
+            PopupMediator.open(PopupSettings);
+          }}
+        >
+          <i className="fas fa-cog" />
+        </button>
+        <button
+          className="bar-tile bar-tile-end"
+          onClick={(event) => {
+            PopupMediator.open(PopupAbout);
+          }}
+        >
+          <i className="fas fa-info-circle" />
+        </button>
+      </div>
     </div>
   );
 }
