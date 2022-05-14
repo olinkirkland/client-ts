@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { PopupManager, PopupProvider } from 'react-popup-manager';
-import Connection, { ConnectionEventType } from '../../connection/Connection';
+import Connection, {
+  ConnectionEventType,
+  DEV_MODE
+} from '../../connection/Connection';
 import PopoverMediator, {
   PopoverMediatorEventType,
   PopoverType
@@ -80,7 +83,7 @@ export default function Taskbar() {
       </button>
 
       <button
-        className="bar-tile friends"
+        className={`bar-tile friends ${!DEV_MODE ? 'hidden' : ''}`}
         onClick={(event) => {
           console.log(event.currentTarget as HTMLButtonElement);
           PopoverMediator.toggle(PopoverType.FRIENDS);

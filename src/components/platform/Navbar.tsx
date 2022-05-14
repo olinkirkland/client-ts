@@ -25,7 +25,7 @@ export default function Navbar() {
             onClick={() => {
               PopupMediator.open(PopupShop);
             }}
-          >
+          > 
             <i className="fas fa-shopping-cart" />
             <span>Shop</span>
           </button>
