@@ -101,18 +101,34 @@ button {
     margin: 0;
     color: currentColor;
     background-color: transparent;
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    &:active {
+      background-color: transparent;
+    }
   }
 
   &.disabled {
     opacity: 0.4;
     cursor: inherit;
+
+    &:hover {
+      background-color: #00000070;
+    }
+
+    &:active {
+      background-color: #00000070;
+    }
   }
 
-  &:hover:not(.disabled):not(.button-close):not(.selected) {
+  &:hover {
     background-color: #00000090;
   }
 
-  &:active:not(.disabled):not(.button-close):not(.selected) {
+  &:active {
     background-color: #00000095;
   }
 

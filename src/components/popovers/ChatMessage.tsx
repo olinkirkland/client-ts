@@ -2,7 +2,7 @@ import Connection from '../../connection/Connection';
 import PopupMediator from '../../controllers/PopupMediator';
 import Chat from '../../models/Chat';
 import { getItemById } from '../../models/Item';
-import { extractUrlsFromString } from '../../Util';
+import { extractUrlsFromString, linkFromString } from '../../Util';
 import { PopupProfile } from '../popups/PopupProfile';
 import { PopupPrompt } from '../popups/PopupPrompt';
 
@@ -68,7 +68,7 @@ export default function ChatMessage({
                     title: 'External link',
                     message: `Following the external link "${part.text}" will open a website in a new tab. Are you sure you want to continue?`,
                     onConfirm: () => {
-                      window.open('//' + part.text, '_blank');
+                      window.open(linkFromString(part.text), '_blank');
                     },
                     onCancel: () => {},
                     confirm: 'Continue',

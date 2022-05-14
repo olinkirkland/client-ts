@@ -50,3 +50,8 @@ function isUrl(str: string) {
   // Ends with any domain extension
   return str.match(/.+\.[A-Za-z]{2,}/);
 }
+
+export function linkFromString(str: string) {
+  if (str.indexOf('//') >= 0) return str;
+  return '//' + str;
+}
