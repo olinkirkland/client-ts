@@ -24,7 +24,8 @@ export const DEV_MODE: boolean = location.hostname === 'localhost';
 //   ? 'http://localhost:8000/'
 //   : 'https://dontfall-backend.herokuapp.com/';
 
-export const url: string = 'https://dontfall-backend.herokuapp.com/';
+// export const url: string = 'https://dontfall-backend.herokuapp.com/';
+export const url: string = 'https://knobel-js-backend-production.up.railway.app/';
 console.log('Development mode?', DEV_MODE);
 console.log('Base-url:', url);
 
